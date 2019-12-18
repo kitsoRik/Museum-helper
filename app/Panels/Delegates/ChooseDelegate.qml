@@ -1,0 +1,49 @@
+import QtQuick 2.0
+import QtQuick.Layouts 1.13
+import RostikObjects 1.0;
+
+Rectangle {
+    color: "black";
+    border {
+        color: "white";
+        width: 5;
+    }
+
+    function onClicked() {
+        mainStackView.push("../PicturePanel.qml", {pictureIndex: index});
+    }
+
+    RowLayout {
+        anchors.fill: parent;
+        Rectangle {
+            visible: !pictureIcon.isNull;
+            Layout.fillHeight: true;
+            Layout.preferredWidth: height;
+
+            PictureIcon {
+                id: pictureIcon;
+                height: parent.height;
+                width: parent.width;
+
+                source: icon; // IconRole
+            }
+        }
+
+        Text {
+            Layout.fillHeight: true;
+            Layout.fillWidth: true;
+            color: "white";
+            font.pixelSize: 30;
+            elide: Text.ElideRight;
+            horizontalAlignment: Qt.AlignHCenter;
+            verticalAlignment: Qt.AlignVCenter;
+            text: title; // TitleRole
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent;
+
+        onClicked: parent.onClicked();
+    }
+}
