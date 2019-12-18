@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Panels/ScannerPanel.qml</file>
+        <file>Panels/StartPanel.qml</file>
+        <file>Panels/ChoosePanel.qml</file>
+        <file>Panels/Delegates/ChooseDelegate.qml</file>
+        <file>Panels/PicturePanel.qml</file>
+        <file>Header.qml</file>
+        <file>Panels/UpdatePanel.qml</file>
+        <file>Panels/DrawerPanel.qml</file>
+    </qresource>
+</RCC>
