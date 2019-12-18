@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '../http.service';
+import { PicturesService } from '../pictures-page/pictures.service';
 
 @Component({
   selector: 'app-picture-page',
@@ -13,13 +14,15 @@ export class PicturePageComponent implements OnInit {
 
   picture : any;
 
-  constructor(private http : HttpService,
+  constructor(private pictures : PicturesService,
      private active : ActivatedRoute) {
-      this.http.getPictureById(active.snapshot.params['id']).subscribe((data) => {
-        this.picture = data;
 
-        this.icon = `url(http://localhost:3000/${this.picture.iconPath});`;
-      });
+      this.picture = pictures.getPictureById(active.snapshot.params['id']);
+      // this.http.getPictureById(active.snapshot.params['id']).subscribe((data) => {
+      //   this.picture = data;
+
+      //   this.icon = `url(http://localhost:3000/${this.picture.iconPath});`;
+      // });
   }
 
   ngOnInit() {

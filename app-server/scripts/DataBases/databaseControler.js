@@ -1,5 +1,5 @@
 const sqlite = require("sqlite3").verbose();
-const db = new sqlite.Database("./nice.db");
+const db = new sqlite.Database("Q:\\museum-helper\\databases\\nice.db");
 
 const columns = [];
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { HttpService } from '../http.service';
 import { Router } from '@angular/router';
+import { PicturesService } from './pictures.service';
 
 @Component({
   selector: 'app-pictures-page',
@@ -12,13 +12,15 @@ export class PicturesPageComponent implements OnInit {
 
   pictures;
 
-  constructor(private http : HttpService, private router : Router) {
-    this.http.getPictures().subscribe((data) => {
-      this.pictures = data;
-    });
+  constructor(private picturesS : PicturesService,
+     private router : Router) {
+      this.pictures = this.picturesS.pictures;
+    this.picturesS.updatePictures.subscribe(() => {
+      this.pictures = this.picturesS.pictures;
+    })
   }
 
   ngOnInit() {
-
+      
   }
 }

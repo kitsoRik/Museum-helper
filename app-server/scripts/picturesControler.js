@@ -1,6 +1,6 @@
 const fs = require("fs");
 const databaseControler = require("./DataBases/databaseControler");
-const currentVersion = 26;
+const currentVersion = 217;
 const picturesData = [];
 
 module.exports.getPicturesByLanguage = function(language) {
@@ -18,23 +18,27 @@ module.exports.getPicturesByLanguage = function(language) {
 
 module.exports.currentVersion = currentVersion;
 
-databaseControler.getAllLanguages((languages) => {
-     languages.forEach((language) => {
-          let pictureData = { };
-          pictureData.language = language;
-          databaseControler.getPicturesByLanguage(language, (result) => {
-               result.forEach((item) => {
-                    item.icon = readFileOnlyData(item.icon);
+module.exports.reset = function() {
+     picturesData = [];
+     databaseControler.getAllLanguages((languages) => {
+          languages.forEach((language) => {
+               let pictureData = { };
+               pictureData.language = language;
+               databaseControler.getPicturesByLanguage(language, (result) => {
+                    result.forEach((item) => {
+                         item.icon = readFileOnlyData(item.icon);
+                    });
+                    pictureData.pictures = result;
+                    picturesData.push(pictureData);
                });
-               pictureData.pictures = result;
-               picturesData.push(pictureData);
           });
-     });
-})
+     })
+}
+
 
 function readFileOnlyData(filePath)
 {
-     let fullFilepath = __dirname + "..\\..\\pictures\\" + filePath;
+     let fullFilepath = __dirname + "/../../icons/" + filePath;
      console.log(fullFilepath);
      if(filePath == undefined || filePath == null || !fs.existsSync(fullFilepath))
           return "";
