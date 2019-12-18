@@ -1,0 +1,6 @@
+<div class="title">{{ picture?.title }}</div>
+<hr>
+<div class="pictureContainer">
+     <div class="icon" [ngStyle]="{ 'background-image' : 'url(http://localhost:3000/' + picture.iconPath + ')' }"></div>
+     <div class="description">{{ picture?.description }}</div>
+</div>

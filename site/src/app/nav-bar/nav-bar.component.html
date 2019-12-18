@@ -1,0 +1,5 @@
+<nav class="nav">
+     <div *ngFor="let tab of tabs" class="nav-item">
+          <a [routerLink]="tab.path">{{ tab.name }}</a>
+     </div>
+</nav>
