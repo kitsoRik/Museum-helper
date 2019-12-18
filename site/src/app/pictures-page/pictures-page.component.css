@@ -1,0 +1,40 @@
+.title {
+     width: 100%;
+     font: 60pt Calibri;
+     text-align: center;
+}
+
+.picturesContainer {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: flex-start;
+}
+
+.pictureItem {
+     padding: 0;
+     display: flex;
+     width: 200px;
+     height: 200px;
+     border: 2px solid black;
+     margin: 5px;
+     flex-direction: column;
+     justify-content: start;
+     align-items: center;
+}
+
+.p-icon {
+     width: 128px;
+     height: 128px;
+     background-color: #0000ff;
+     background-repeat: no-repeat;
+     background-size: 100% 100%;
+}
+
+.p-title {
+     font: 21pt Arial;
+}
+
+.p-description {
+     width: 100%;
+}

@@ -1,0 +1,13 @@
+<div class="title">Pictures</div>
+<hr>
+<div class="picturesContainer">
+     <div 
+     class="pictureItem"
+     [routerLink]="picture.id"
+     *ngFor="let picture of pictures" >
+          <div class="p-icon" 
+          [ngStyle]="{ 'background-image' : 'url(http://localhost:3000/' + picture.iconPath + ')' }"></div>
+          <div class="p-title">{{ picture.title }}</div>
+          <div class="p-description">{{ picture.description }}</div>
+     </div>
+</div>
