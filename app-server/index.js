@@ -16,6 +16,8 @@ server.listen(3001, () => {
      console.log("Listening 3000 port...");
 })
 
+pictures.reset();
+
 function processBody(body)
 {
      let version = body.version;

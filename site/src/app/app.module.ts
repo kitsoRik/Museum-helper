@@ -11,6 +11,7 @@ import { PicturesPageComponent } from './pictures-page/pictures-page.component';
 import { PicturesRoutingModule } from './pictures-page/pictures-routing,module';
 import { PicturePageComponent } from './picture-page/picture-page.component';
 import { HttpService } from './http.service';
+import { PicturesService } from './pictures-page/pictures.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HttpService } from './http.service';
     PicturesRoutingModule,
     HttpClientModule
   ],
-  providers: [HttpService],
+  providers: [HttpService, 
+    PicturesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
