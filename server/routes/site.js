@@ -60,12 +60,20 @@ router.post("/savePicture", (req, res) => {
      });
 });
 
-router .post("/uploadIcon", upload.single("file"), (req, res, next) => {
+router.post("/uploadIcon", upload.single("file"), (req, res, next) => {
      const file = req.file;
      let options = JSON.parse(req.body.options);
      
      databaseController.uploadIcon(options.id, file.filename,  (path) => {
           res.send({result: true, path: path}); 
+          databaseController.save();
+     });
+});
+
+router.post("/deleteIcon", (req, res, next) => {
+     let id = req.body.id;
+     databaseController.deleteIcon(id,  (result) => {
+          res.send({result: result}); 
           databaseController.save();
      });
 });

@@ -1,15 +1,13 @@
 .dev-titles-container {
-     width: 100%;
      display: flex;
      flex-direction: column;
      font: 20pt Arial;
+     margin: 15px 100px;
 }
 
 .dev-title-container {
-     width: 100%;
      display: flex;
      flex-direction: row;
-     font: 20pt Arial;
 }
 
 .dev-pre-title {
@@ -19,19 +17,21 @@
 .dev-title-edit {
      width: 100%;
      padding: 2px;
+     border-bottom: 2px solid green;
+     font-size: 16pt;
 }
 
 .dev-title-edit:focus {
-     outline: red 2px solid;
+     border-bottom-color: #f0f;
+     outline: none;
 }
 
 .start-edit-title-btn {
-     height: 100%;
      font-size: 10pt;
      background: blue;
      cursor: pointer;
      color: yellow;
-     padding: 10px;
+     padding: 16px;
      border: none;
 }
 
@@ -51,14 +51,34 @@
      height: 512px;
      background-size: 100%;
 }
-.uploadIconMask {
+.upload-icon-mask {
      width: 100%;
      height: 100%;
-     background-color: black;
+     background-color: rgb(0,0,0, 0.3);
      background-repeat: no-repeat;
      background-size: 100%;
-     opacity: 0.7;
      display: none;
+     align-items: flex-end;
+}
+
+.upload-icon-mask-container-actions {
+     width: 320px;
+     margin: 15px auto;
+     outline: 2px solid white;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+     align-items: center;
+     padding: 10px;
+}
+
+.upload-icon-mask-action {
+     outline: 2px red solid;
+     width: 60px;
+     height: 60px;
+     margin: 0;
+     padding: 0;
+     background-size: 100%;
 }
 
 .selectLanguages {
@@ -77,40 +97,34 @@
      display: flex;
 }
 
-.title {
-     margin: 0;
-     width: 480px;
-     height: 50px;
-     font-size: 40px;
-     resize: none;
-     text-align: center;
-     border: none;
-     outline: none;
+.title-edit {
+     font-size: 25pt;
 }
 
 .title:focus {
      outline: 2px solid red;
 }
 
-.titleEditBtn {
-     height: 50px;
+.start-edit-button {
+     height: 30px;
      width: 50px;
+     margin-left: 5px;
+     font-size: 10pt;
+     text-align: center;
+     border-radius: 0;
 }
 
-.description {
-     width: 95%;
-     margin: 10px 5%;
+.description-box {
+     margin: 10px 0;
      padding: 10px;
-     resize: none;
      font: 14pt Times;
-     border: 2px orange solid;
+     width: 90%;
 }
 
-.saveButton {
-     padding: 10px 20px;
-     border: 1px black solid;
-     border-radius: 25px;
+.save-button {
      font: 20pt Calibri;
+     margin-bottom: 20px;
+     padding: 2px 10px;
 }
 
 .saveButton:hover {
