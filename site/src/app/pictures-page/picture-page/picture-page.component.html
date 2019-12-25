@@ -1,0 +1,64 @@
+<div *ngIf="pictureInfo"
+tabindex="0" 
+(keydown)="check($event)">
+     <div class="dev-titles-container">
+          <div class="dev-title-container">
+               <div class="dev-pre-title">
+                    Name:
+               </div>
+               <div editPlease #titleName [(ngModel)]="picture.name" class="dev-title-edit"
+                    (blur)="titleName.setAttribute('contenteditable', false)">
+               </div>
+               <div class="start-edit-title-btn"
+                    (click)="titleName.setAttribute('contenteditable', true); titleName.focus()">Edit</div>
+          </div>
+          <div class="dev-title-container">
+               <div class="dev-pre-title">
+                    Description:
+               </div>
+               <div editPlease #titleDescription [(ngModel)]="picture.description" class="dev-title-edit"
+                    (blur)="titleDescription.setAttribute('contenteditable', false)">>
+               </div>
+               <div class="start-edit-title-btn"
+                    (click)="titleDescription.setAttribute('contenteditable', true); titleDescription.focus()"
+               >Edit</div>
+          </div>
+          <div class="dev-title-container">
+               <div class="dev-pre-title">
+                    QRCode:
+               </div>
+               <div editPlease #titleQrcode [(ngModel)]="picture.qrcode" class="dev-title-edit"
+                    (blur)="titleQrcode.setAttribute('contenteditable', false)">
+               </div>
+               <div class="start-edit-title-btn"
+                    (click)="titleQrcode.setAttribute('contenteditable', true); titleQrcode.focus()">
+               Edit</div>
+          </div>
+     </div>
+     <hr>
+     <div class="pictureContainer">
+          <div *ngIf="picture?.iconPath" class="icon"
+               [ngStyle]="{ 'background-image' : 'url('+ http.iconUrl + picture.iconPath + ')' }"
+               (mouseenter)="uploadIconMask.style.display = 'block'"
+               (mouseleave)="uploadIconMask.style.display = 'none'">
+               <div #uploadIconMask class="uploadIconMask" (click)="uploadIconInput.click()" 
+               style="background-image: url('./../../assets/icons/update_icon_mask.png');
+               ">
+                    <input #uploadIconInput type="file" (change)="loadPictures($event)" style="display: none;">
+               </div>
+          </div>
+          <select class="combo-box-default selectLanguages" (change)="changeLanguage($event)">
+               <option *ngFor="let langunage of getLanguages()">{{ langunage }}</option>
+          </select>
+          <button class="action-btn addLanguageBtn" (click)="addLanguage()">Add language</button>
+          <div *ngIf="languageIndex > -1" class="titleBox">
+               <div editPlease class="title" [(ngModel)]="pictureInfo[languageIndex].title" #titleEdit></div>
+               <!--<button class="titleEditBtn" (click)="titleEdit.focus()"></button>-->
+          </div>
+
+          <div *ngIf="languageIndex > -1" editPlease [(ngModel)]="pictureInfo[languageIndex].description"
+               class="description"></div>
+
+          <button class="saveButton" (click)="savePicture()">Зберегти</button>
+     </div>
+</div>

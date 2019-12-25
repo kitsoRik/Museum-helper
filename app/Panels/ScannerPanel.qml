@@ -8,7 +8,9 @@ Rectangle {
     property bool scanner: true;
 
     function onSuccessDecoding(index) {
-        mainStackView.push("PicturePanel.qml", { pictureIndex: index});
+        console.log(index);
+        pictures.setCurrentIndex(index);
+        mainStackView.push("PicturePanel.qml");
     }
 
     function onFailedDecoding(type) {

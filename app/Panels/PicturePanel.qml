@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.13
 import RostikObjects 1.0;
 
 Rectangle {
-    property int pictureIndex;
     color: "lime";
 
     ScrollView {
@@ -32,17 +31,27 @@ Rectangle {
                     height: parent.height;
                     width: parent.width;
 
-                    source: pictures.pictureDataAt(pictureIndex, Pictures.IconRole);
+                    source: currentPicture.icon;
                 }
             }
 
+            ComboBox {
+                Layout.preferredHeight: 50;
+                Layout.fillWidth: true;
+
+                model: currentPicture.languagesSize;
+
+                onCurrentIndexChanged: currentPicture.setLanguageIndex(currentIndex);
+            }
+
             Text {
+                id: title;
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 40;
 
                 horizontalAlignment: Text.AlignHCenter;
 
-                text: pictures.pictureDataAt(pictureIndex, Pictures.TitleRole);
+                text: currentPicture.title;
                 font {
                     family: "Calibri";
                     pixelSize: 24;
@@ -50,6 +59,7 @@ Rectangle {
             }
 
             Text {
+                id: description;
                 Layout.fillWidth: true;
                 Layout.fillHeight: true;
                 Layout.margins: 10;
@@ -62,7 +72,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignJustify;
 
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
-                text: pictures.pictureDataAt(pictureIndex, Pictures.TextRole);
+                text: currentPicture.description;
             }
         }
     }

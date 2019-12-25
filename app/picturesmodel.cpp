@@ -38,14 +38,9 @@ QVariant PicturesModel::data(const QModelIndex &index, int role) const
 
 	switch (role)
 	{
-		case TitleRole:
-			return m_pictures.at(row).title();
-		case TextRole:
-			return m_pictures.at(row).text();
-		case IconRole:
-			return m_pictures.at(row).icon();
-		default:
-			return QVariant();
+		case NameRole: return m_pictures.at(row).languages().first().title();
+		case IconRole: return m_pictures.at(row).icon();
+		default: return QVariant();
 	}
 }
 
@@ -53,8 +48,8 @@ QHash<int, QByteArray> PicturesModel::roleNames() const
 {
 	QHash<int, QByteArray> hash;
 
-	hash[TitleRole] = "title";
-	hash[TextRole] = "text";
+	hash[NameRole] = "name";
+	hash[DescriptionRole] = "description";
 	hash[IconRole] = "icon";
 
 	return hash;

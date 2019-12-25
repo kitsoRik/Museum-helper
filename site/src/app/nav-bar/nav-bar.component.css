@@ -8,5 +8,20 @@
 
 .nav-item {
      display: flex;
+     background: blue;
+     padding: 10px;
+     font: 20px Arial;
+     color: yellow;
+     cursor: pointer;
+     flex-grow: 1;
+     justify-content: center;
+}
+.nav-item:hover {
+     text-decoration: underline;
+     color: blue;
+     background: yellow;
+}
 
+.nav-item:focus {
+     outline: none;
 }

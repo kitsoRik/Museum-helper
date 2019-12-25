@@ -3,6 +3,8 @@
 
 #include "Data/picture.h"
 #include <QAbstractListModel>
+#include <QtDebug>
+#include "Objects/pictureobject.h"
 
 class PicturesModel : public QAbstractListModel
 {
@@ -10,8 +12,8 @@ class PicturesModel : public QAbstractListModel
 public:
 	enum MyRoles
 	{
-		TitleRole = Qt::UserRole + 1,
-		TextRole,
+		NameRole = Qt::UserRole + 1,
+		DescriptionRole,
 		IconRole
 	};
 
@@ -19,12 +21,6 @@ public:
 
 	explicit PicturesModel(QObject *parent = nullptr);
 
-	Q_INVOKABLE inline Picture pictureAt(const int &index) {
-		return m_pictures.at(index);
-	}
-	Q_INVOKABLE inline QVariant pictureDataAt(const int &index, const int &role) {
-		return data(createIndex(index, 0), role);
-	}
 	Q_INVOKABLE int indexPictureAtQRCode(const QString &qrCode);
 
 	inline const QList<Picture> &pictures() {
@@ -45,6 +41,9 @@ public:
 signals:
 
 public slots:
+	void setCurrentIndex(const int &index) {
+		PictureObject::instance()->setPicture(m_pictures[index]);
+	}
 
 private:
 	QList<Picture> m_pictures;
