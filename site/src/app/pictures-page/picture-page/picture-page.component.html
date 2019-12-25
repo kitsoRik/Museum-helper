@@ -9,8 +9,8 @@ tabindex="0"
                <div editPlease #titleName [(ngModel)]="picture.name" class="dev-title-edit"
                     (blur)="titleName.setAttribute('contenteditable', false)">
                </div>
-               <div class="start-edit-title-btn"
-                    (click)="titleName.setAttribute('contenteditable', true); titleName.focus()">Edit</div>
+               <button class="default-style-box start-edit-button"
+                    (click)="titleName.setAttribute('contenteditable', true); titleName.focus()">!</button>
           </div>
           <div class="dev-title-container">
                <div class="dev-pre-title">
@@ -19,9 +19,9 @@ tabindex="0"
                <div editPlease #titleDescription [(ngModel)]="picture.description" class="dev-title-edit"
                     (blur)="titleDescription.setAttribute('contenteditable', false)">>
                </div>
-               <div class="start-edit-title-btn"
+               <button class="default-style-box start-edit-button"
                     (click)="titleDescription.setAttribute('contenteditable', true); titleDescription.focus()"
-               >Edit</div>
+               >!</button>
           </div>
           <div class="dev-title-container">
                <div class="dev-pre-title">
@@ -30,35 +30,53 @@ tabindex="0"
                <div editPlease #titleQrcode [(ngModel)]="picture.qrcode" class="dev-title-edit"
                     (blur)="titleQrcode.setAttribute('contenteditable', false)">
                </div>
-               <div class="start-edit-title-btn"
+               <button class="default-style-box start-edit-button"
                     (click)="titleQrcode.setAttribute('contenteditable', true); titleQrcode.focus()">
-               Edit</div>
+               !</button>
           </div>
      </div>
      <hr>
      <div class="pictureContainer">
-          <div *ngIf="picture?.iconPath" class="icon"
+          <div *ngIf="picture" class="icon"
                [ngStyle]="{ 'background-image' : 'url('+ http.iconUrl + picture.iconPath + ')' }"
-               (mouseenter)="uploadIconMask.style.display = 'block'"
+               (mouseenter)="uploadIconMask.style.display = 'flex'"
                (mouseleave)="uploadIconMask.style.display = 'none'">
-               <div #uploadIconMask class="uploadIconMask" (click)="uploadIconInput.click()" 
-               style="background-image: url('./../../assets/icons/update_icon_mask.png');
-               ">
-                    <input #uploadIconInput type="file" (change)="loadPictures($event)" style="display: none;">
+               <div #uploadIconMask class="upload-icon-mask">
+                    <div class="upload-icon-mask-container-actions">
+                         <button class="upload-icon-mask-action" 
+                         style="background-image: url(assets/icons/action_delete.png);"
+                         (click)="deleteIcon()"
+                         ></button>
+                         <button class="upload-icon-mask-action" 
+                         style="background-image: url(assets/icons/action_update.png);"
+                         (click)="uploadIconInput.click()"></button>
+                         <button class="upload-icon-mask-action" 
+                         style="background-image: url(assets/icons/action_download.png);"
+                         (click)="downloadLink.click()">
+                              <a target="_blank" #downloadLink [href]="http.iconUrl + picture.iconPath" download></a>
+                         </button>
+                    </div>
+                    <input #uploadIconInput type="file" (change)="updateIcon($event)" style="display: none;">
                </div>
           </div>
-          <select class="combo-box-default selectLanguages" (change)="changeLanguage($event)">
+          <select *ngIf="getLanguages().length > 0"
+               class="default-style-box combo-box-default selectLanguages" 
+               (change)="changeLanguage($event)">
                <option *ngFor="let langunage of getLanguages()">{{ langunage }}</option>
           </select>
-          <button class="action-btn addLanguageBtn" (click)="addLanguage()">Add language</button>
+          <button class="default-style-box action-btn addLanguageBtn" (click)="addLanguage()">Add language</button>
           <div *ngIf="languageIndex > -1" class="titleBox">
-               <div editPlease class="title" [(ngModel)]="pictureInfo[languageIndex].title" #titleEdit></div>
-               <!--<button class="titleEditBtn" (click)="titleEdit.focus()"></button>-->
+               <div editPlease class="dev-title-edit title-edit" [(ngModel)]="pictureInfo[languageIndex].title" 
+               #titleEdit (blur)="titleEdit.setAttribute('contenteditable', false)"></div>
+               <button class="default-style-box start-edit-button" 
+               (click)="titleEdit.setAttribute('contenteditable', true); titleEdit.focus()">!</button>
           </div>
 
           <div *ngIf="languageIndex > -1" editPlease [(ngModel)]="pictureInfo[languageIndex].description"
-               class="description"></div>
+               class="default-style-box description-box" contenteditable="true"></div>
 
-          <button class="saveButton" (click)="savePicture()">Зберегти</button>
+          <button *ngIf="getLanguages().length > 0"
+               class="default-style-box save-button" 
+               (click)="savePicture()">Зберегти</button>
      </div>
 </div>

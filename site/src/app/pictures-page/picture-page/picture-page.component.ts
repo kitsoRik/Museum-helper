@@ -57,15 +57,27 @@ export class PicturePageComponent implements AfterViewInit {
 		return this.pictureInfo.map((p) => p.language);
 	}
 
-	loadPictures(event) {
-		this.http.uploadIcon(event.target.files, {id: this.picture['id']}).subscribe((data) => {
+	// updating icon in picture
+	updateIcon(event) {
+		this.http.updateIcon(event.target.files, {id: this.picture['id']}).subscribe((data) => {
 			this.picture.iconPath = data['path'];
+		});
+	}
+
+	deleteIcon() {
+		this.http.deleteIcon(this.picture['id']).subscribe((result) => {
+			if(result)
+			{
+				alert("DELETED");
+				this.picture.iconPath = "null";
+			}else {
+				alert("ERROR DELETED");
+			}
 		});
 	}
 
 	savePicture() {
 		this.http.savePicture(this.picture, this.pictureInfo).subscribe((data) => {
-			console.log(data);
 			alert("SAVED");
 		});
 	}

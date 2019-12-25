@@ -113,6 +113,15 @@ module.exports.uploadIcon = function (id, iconPath, callback) {
      });
 }
 
+module.exports.deleteIcon = function (id, callback) {
+     db.all(`UPDATE pictures SET icon_path=? WHERE id=?`, [
+          null,
+          id
+     ], (err) => {
+          callback(true);
+     });
+}
+
 module.exports.save = function (callback) {
      let id = global.currentUpdate.id + 1;
      let date = new Date().getSeconds();

@@ -3,12 +3,13 @@ body {
      margin: 0;
 }
 
+body:focus {
+     outline: none;
+}
+
 .action-btn {
      background: yellow;
      font: 25pt Arial;
-     border-radius: 25px;
-     border: blue 4px solid;
-     color: blue;
      margin: 5px;
 }
 
@@ -18,10 +19,17 @@ body {
 }
 
 .combo-box-default {
-     background: yellow;
      font: 25pt Arial;
+     padding: 5px 10px;
+}
+
+.default-style-box {
+     background: yellow;
+     color: blue;
      border-radius: 25px;
      border: blue 4px solid;
-     color: blue;
-     padding: 5px 10px;
+}
+
+.default-style-box:hover {
+     border-color: red;
 }

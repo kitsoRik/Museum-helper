@@ -36,10 +36,15 @@ export class HttpService {
     });
   }
 
-  uploadIcon(pictures, options) {
+  updateIcon(pictures, options) {
     let formdata = new FormData();
     formdata.append("file", pictures[0]);
     formdata.append("options", JSON.stringify(options));
 	  return this.http.post(this.url + "uploadIcon", formdata);
+  }
+
+  deleteIcon(id) {
+    console.log(id);
+	  return this.http.post(this.url + "deleteIcon", {id: id});
   }
 }
