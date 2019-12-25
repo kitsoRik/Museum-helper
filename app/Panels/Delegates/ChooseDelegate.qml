@@ -10,7 +10,8 @@ Rectangle {
     }
 
     function onClicked() {
-        mainStackView.push("../PicturePanel.qml", {pictureIndex: index});
+        pictures.setCurrentIndex(index);
+        mainStackView.push("../PicturePanel.qml");
     }
 
     RowLayout {
@@ -37,7 +38,7 @@ Rectangle {
             elide: Text.ElideRight;
             horizontalAlignment: Qt.AlignHCenter;
             verticalAlignment: Qt.AlignVCenter;
-            text: title; // TitleRole
+            text: name; // TitleRole
         }
     }
 

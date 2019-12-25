@@ -15,7 +15,7 @@ void NetworkManager::checkVersion()
 {
 	Settings *settings = Settings::instance();
 
-	QUrl url("http://" + HOST + ":" + QString::number(PORT));
+	QUrl url("http://" + HOST + ":" + QString::number(PORT) + "/app/checkVersion");
 	QNetworkRequest request(url);
 
 	QJsonObject json;
@@ -40,7 +40,7 @@ void NetworkManager::downloadUpdate()
 {
 	Settings *settings = Settings::instance();
 
-	QUrl url("http://" + HOST + ":" + QString::number(PORT));
+	QUrl url("http://" + HOST + ":" + QString::number(PORT) + "/app/get");
 	QNetworkRequest request(url);
 
 	QJsonObject json;
@@ -72,6 +72,7 @@ void NetworkManager::onUpdateFinished()
 	settings->setVersion(json["version"].toInt());
 
 	QJsonArray arrayPictures = json["pictures"].toArray();
+
 	QList<Picture> pictures;
 
 	for(QJsonValueRef arrayPicture : arrayPictures)

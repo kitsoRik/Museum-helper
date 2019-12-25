@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         Data/picture.cpp \
         Objects/networkmanager.cpp \
+        Objects/pictureobject.cpp \
         Objects/qrcodeanalyzerdecoder.cpp \
         Objects/settings.cpp \
         QMLObjects/pictureicon.cpp \
@@ -42,6 +43,7 @@ include(QZXingSource/QZXing.pri)
 HEADERS += \
     Data/picture.h \
     Objects/networkmanager.h \
+    Objects/pictureobject.h \
     Objects/qrcodeanalyzerdecoder.h \
     Objects/settings.h \
     QMLObjects/pictureicon.h \

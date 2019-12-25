@@ -11,6 +11,7 @@
 #include "Objects/networkmanager.h"
 #include "QMLObjects/pictureicon.h"
 #include "Objects/settings.h"
+#include "Objects/pictureobject.h"
 #include <QtCore>
 
 
@@ -34,12 +35,14 @@ int main(int argc, char *argv[])
 	qmlRegisterType<QRCodeAnalyzer>("RostikObjects", 1, 0, "QRCodeAnalyzer");
 
 	qmlRegisterType<PictureIcon>("RostikObjects", 1, 0, "PictureIcon");
+	qmlRegisterType<PictureObject>("RostikObjects", 1, 0, "PictureObject");
 
 	engine.rootContext()->setContextProperty("logic", &logic);
 	engine.rootContext()->setContextProperty("settings", &settings);
 	engine.rootContext()->setContextProperty("qrcodeAnalyzer", &qrcodeAnalyzer);
 	engine.rootContext()->setContextProperty("pictures", &pictureModel);
 	engine.rootContext()->setContextProperty("networkManager", &networkManager);
+	engine.rootContext()->setContextProperty("currentPicture", new PictureObject);
 
 	const QUrl url(QStringLiteral("qrc:/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

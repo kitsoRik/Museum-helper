@@ -42,6 +42,7 @@ Rectangle {
         target: networkManager;
 
         onUpdateRequired: {
+            console.log("R");
             mainStackView.push("./UpdatePanel.qml");
         }
     }

@@ -1,13 +1,41 @@
-<div class="title">Pictures</div>
+<div class="title">Картини</div>
 <hr>
 <div class="picturesContainer">
      <div 
+     *ngFor="let picture of pictures.pictures"
      class="pictureItem"
-     [routerLink]="picture.id"
-     *ngFor="let picture of pictures" >
+     [routerLink]="picture.id">
           <div class="p-icon" 
-          [ngStyle]="{ 'background-image' : 'url(http://localhost:3000/' + picture.iconPath + ')' }"></div>
-          <div class="p-title">{{ picture.title }}</div>
-          <div class="p-description">{{ picture.description | slice:0:10 }}</div>
+          [ngStyle]="{ 'background-image' : 'url(' + http.iconUrl + picture.iconPath + ')' }"></div>
+          <div class="p-title">{{ picture.name }}</div>
+          <!--<div class="p-description">{{ picture.description | slice:0:10 }}</div>-->
+          <div style="display: flex; cursor: pointer;">
+               <div class="p-deletePicture"
+                    (click)="deletePicture(picture.id); $event.stopPropagation();"
+               >Delete</div>
+          </div>
      </div>
+     <div class="pictureItem pictureItemAdd" 
+     (click)="clstate = 'open'">
+          <div class="cross">+</div>
+     </div>
+</div>
+
+<div *ngIf="clstate != 'closed'"
+class="addPictureBg" 
+#addPicturePanel 
+[@openAddPicturePanel]="clstate">
+     <form [formGroup]="addForm" class="addPicturePanel" (ngSubmit)="addPicture()">
+          <div class="close" style="width: 20px; height: 20px;" (click)="clstate = 'closed'">X</div>
+          <div class="title">Додати картину</div>
+          <input type="file">
+          <div class="inputTitle">Заголовок</div>
+          <input type="text" formControlName="title"> 
+          <p *ngIf="addForm.get('title').invalid && addForm.get('title').touched">No valid</p>
+          <div class="inputTitle">Опис</div>
+          <input class="inputDescription" type="text" formControlName="description">
+          <p *ngIf="addForm.get('description').invalid && addForm.get('description').touched">No valid</p>
+          <button class="addPictureBtn"
+          [disabled]="!addForm.valid">Додати</button>
+     </form>
 </div>

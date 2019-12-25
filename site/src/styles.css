@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+     padding: 0;
+     margin: 0;
+}
+
+.action-btn {
+     background: yellow;
+     font: 25pt Arial;
+     border-radius: 25px;
+     border: blue 4px solid;
+     color: blue;
+     margin: 5px;
+}
+
+.action-btn:hover {
+     border-color: red;
+     border-width: 5px;
+}
+
+.combo-box-default {
+     background: yellow;
+     font: 25pt Arial;
+     border-radius: 25px;
+     border: blue 4px solid;
+     color: blue;
+     padding: 5px 10px;
+}

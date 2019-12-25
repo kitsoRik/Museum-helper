@@ -1,0 +1,119 @@
+.dev-titles-container {
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     font: 20pt Arial;
+}
+
+.dev-title-container {
+     width: 100%;
+     display: flex;
+     flex-direction: row;
+     font: 20pt Arial;
+}
+
+.dev-pre-title {
+     margin-right: 5px;
+}
+
+.dev-title-edit {
+     width: 100%;
+     padding: 2px;
+}
+
+.dev-title-edit:focus {
+     outline: red 2px solid;
+}
+
+.start-edit-title-btn {
+     height: 100%;
+     font-size: 10pt;
+     background: blue;
+     cursor: pointer;
+     color: yellow;
+     padding: 10px;
+     border: none;
+}
+
+.start-edit-title-btn:hover {
+     outline: 2px red solid;
+}
+
+.pictureContainer {
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: center;
+}
+
+.icon {
+     width: 512px;
+     height: 512px;
+     background-size: 100%;
+}
+.uploadIconMask {
+     width: 100%;
+     height: 100%;
+     background-color: black;
+     background-repeat: no-repeat;
+     background-size: 100%;
+     opacity: 0.7;
+     display: none;
+}
+
+.selectLanguages {
+     margin: 5px 0;
+     width: 512px;
+}
+
+.addLanguageBtn {
+     width: 512px;
+     height: 70px;
+}
+
+.titleBox {
+     width: 480px;
+     height: 50px;
+     display: flex;
+}
+
+.title {
+     margin: 0;
+     width: 480px;
+     height: 50px;
+     font-size: 40px;
+     resize: none;
+     text-align: center;
+     border: none;
+     outline: none;
+}
+
+.title:focus {
+     outline: 2px solid red;
+}
+
+.titleEditBtn {
+     height: 50px;
+     width: 50px;
+}
+
+.description {
+     width: 95%;
+     margin: 10px 5%;
+     padding: 10px;
+     resize: none;
+     font: 14pt Times;
+     border: 2px orange solid;
+}
+
+.saveButton {
+     padding: 10px 20px;
+     border: 1px black solid;
+     border-radius: 25px;
+     font: 20pt Calibri;
+}
+
+.saveButton:hover {
+     background: black;
+     color: white;     
+}
