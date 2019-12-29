@@ -24,8 +24,10 @@ router.use(/.*/, (req, res, next) => {
      next();
 });
 
-router.post("/addPicture", (req, res) => {
+router.post("/addPicture", upload.single("icon"), (req, res) => {
      let picture = req.body;
+     let file = req.file;
+     picture.iconPath = file ? file.filename : null;
      databaseController.addPicture(picture, (addedPicture) => {
           res.send(addedPicture);
           databaseController.save();

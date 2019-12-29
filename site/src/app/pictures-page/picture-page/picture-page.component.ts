@@ -50,6 +50,7 @@ export class PicturePageComponent implements AfterViewInit {
 		this.picture = this.pictures.getPictureById(id);
 		this.pictures.updatePictures.subscribe(() => {
 			this.picture = this.pictures.getPictureById(id);
+			console.log(this.picture);
 		});
 	}
 
@@ -84,9 +85,10 @@ export class PicturePageComponent implements AfterViewInit {
 
 	addLanguage() {
 		let result = prompt("Input message (ua, en ru): ");
+		if(result.length == 0) return;
 		this.pictureInfo.push({language: result,
-		title: "AA",
-		description: "BB"});
+		title: "Title",
+		description: "Description"});
 		if(this.languageIndex == -1)
 			this.languageIndex = 0;
 	}

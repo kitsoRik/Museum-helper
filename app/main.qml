@@ -3,6 +3,7 @@ import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
 
 import "Panels"
+import "Items"
 
 ApplicationWindow {
 
@@ -19,7 +20,7 @@ ApplicationWindow {
     visible: true
     width: 1000;
     height: 500;
-    title: qsTr("Hello World")
+    title: qsTr("Museum helper")
 
     header: Header { height: 50; }
 

@@ -43,14 +43,16 @@ tabindex="0"
                (mouseleave)="uploadIconMask.style.display = 'none'">
                <div #uploadIconMask class="upload-icon-mask">
                     <div class="upload-icon-mask-container-actions">
-                         <button class="upload-icon-mask-action" 
+                         <button *ngIf="picture.iconPath != null" 
+                         class="upload-icon-mask-action" 
                          style="background-image: url(assets/icons/action_delete.png);"
                          (click)="deleteIcon()"
                          ></button>
                          <button class="upload-icon-mask-action" 
                          style="background-image: url(assets/icons/action_update.png);"
                          (click)="uploadIconInput.click()"></button>
-                         <button class="upload-icon-mask-action" 
+                         <button *ngIf="picture.iconPath != null"
+                         class="upload-icon-mask-action" 
                          style="background-image: url(assets/icons/action_download.png);"
                          (click)="downloadLink.click()">
                               <a target="_blank" #downloadLink [href]="http.iconUrl + picture.iconPath" download></a>
