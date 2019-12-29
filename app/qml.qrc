@@ -9,5 +9,6 @@
         <file>Header.qml</file>
         <file>Panels/UpdatePanel.qml</file>
         <file>Panels/DrawerPanel.qml</file>
+        <file>Items/MenuBackButton.qml</file>
     </qresource>
 </RCC>

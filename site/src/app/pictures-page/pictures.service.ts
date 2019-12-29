@@ -7,6 +7,8 @@ import { EventEmitter } from '@angular/core';
 })
 export class PicturesService {
 
+     pictureAdded : EventEmitter<any> = new EventEmitter();
+
      pictures : any = [];
 
      updatePictures : EventEmitter<any> = new EventEmitter();
@@ -21,6 +23,7 @@ export class PicturesService {
                picture['iconPath'] = picture['icon_path'];
                picture['icon_path'] = undefined;
                this.pictures.push(picture);
+               this.pictureAdded.emit({ ok: true });
           });
      }
 

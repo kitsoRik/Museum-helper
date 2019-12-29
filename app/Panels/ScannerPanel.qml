@@ -78,9 +78,7 @@ Rectangle {
         source: camera;
 
         Camera {
-
             id: camera;
-            cameraState: Camera.UnloadedState;
             captureMode: Camera.CaptureViewfinder;
         }
     }

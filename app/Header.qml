@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 
+import "Items"
+
 Rectangle {
     color: "black";
 
@@ -15,10 +17,9 @@ Rectangle {
     RowLayout {
         anchors.fill: parent;
 
-        Button {
+        MenuBackButton {
             Layout.fillHeight: true;
             Layout.preferredWidth: height;
-
             onClicked: onBackClicked();
         }
     }

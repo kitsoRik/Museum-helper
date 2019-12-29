@@ -6,11 +6,12 @@ const db = new sqlite.Database(path.resolve(__dirname, "../../databases/nice.db"
 
 module.exports.addPicture = function (picture, callback) {
      db.all(`INSERT INTO pictures (name,description,qrcode,icon_path) 
-     VALUES (?, ?, ?, 'unknown.jpg')`,
+     VALUES (?, ?, ?, ?)`,
           [
                picture.title,
                picture.description,
-               picture.qrcode
+               picture.qrcode,
+               picture.iconPath
           ], (err, row) => {
                db.all(`SELECT * FROM pictures ORDER BY id DESC LIMIT 1`, (err, row) => {
                     callback(row[0]);
