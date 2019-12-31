@@ -10,5 +10,9 @@
         <file>Panels/UpdatePanel.qml</file>
         <file>Panels/DrawerPanel.qml</file>
         <file>Items/MenuBackButton.qml</file>
+        <file>Items/ButtonWithIcon.qml</file>
+        <file>Panels/Delegates/DrawerDelegate.qml</file>
+        <file>Panels/SettingsPanel.qml</file>
+        <file>Panels/AboutPanel.qml</file>
     </qresource>
 </RCC>

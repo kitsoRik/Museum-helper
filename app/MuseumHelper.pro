@@ -25,7 +25,8 @@ SOURCES += \
         picturesmodel.cpp \
         qrcodeanalyzer.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    icons.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -58,6 +59,7 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew \
     android/gradlew.bat \
+    android/res/drawable/splash.png \
     android/res/values/libs.xml
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {

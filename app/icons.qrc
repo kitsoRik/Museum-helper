@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/main">
+        <file>icons/SearchIcon.png</file>
+        <file>icons/ScanningIcon.png</file>
+        <file>icons/ScanningIcon_inverse.png</file>
+        <file>icons/SearchIcon_inverse.png</file>
+        <file>icons/ScanningBackground.png</file>
+        <file>icons/ScanningQRCode.png</file>
+        <file>drawericons/SettingsIcon.png</file>
+    </qresource>
+</RCC>

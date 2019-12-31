@@ -20,6 +20,12 @@ ApplicationWindow {
     visible: true
     width: 1000;
     height: 500;
+    visibility: {
+        if(settings.fullScreen)
+            return "FullScreen";
+        return "AutomaticVisibility";
+    }
+
     title: qsTr("Museum helper")
 
     header: Header { height: 50; }
@@ -35,7 +41,10 @@ ApplicationWindow {
         anchors.fill: parent;
         initialItem: StartPanel { }
         onCurrentItemChanged: {
-            if(currentItem.scanner) qrcodeAnalyzer.decoding = true;
+            qrcodeAnalyzer.decoding = (currentItem.scanner !== undefined);
         }
     }
+
+    ScannerPanel { id: scannerPanel; enabled: mainStackView.currentItem.scanner === true; }
+    ChoosePanel { id: choosePanel; }
 }

@@ -7,23 +7,34 @@ import RostikObjects 1.0
 Rectangle {
     property bool scanner: true;
 
+    function push() {
+        mainStackView.push(scannerPanel, {destroyOnPop: false});
+        showTimer.start();
+    }
+
+    function pop() {
+        vo.visible = false;
+        mainStackView.pop();
+    }
+
     function onSuccessDecoding(index) {
         console.log(index);
         pictures.setCurrentIndex(index);
+        //picturePanel.push();
         mainStackView.push("PicturePanel.qml");
     }
 
     function onFailedDecoding(type) {
-        if(type === QRCodeAnalyzer.NotFoundCodeInImage)
-        {
-            errorRect.show(qsTr("Try more"));
-        }else if(type === QRCodeAnalyzer.NotFoundCodeInBase)
-        {
-            errorRect.show(qsTr("Bad code"));
-        }else
-        {
-            throw "Unknown failed decoding type";
-        }
+//        if(type === QRCodeAnalyzer.NotFoundCodeInImage)
+//        {
+//            errorRect.show(qsTr("Try more"));
+//        }else if(type === QRCodeAnalyzer.NotFoundCodeInBase)
+//        {
+//            errorRect.show(qsTr("Bad code"));
+//        }else
+//        {
+//            throw "Unknown failed decoding type";
+//        }
     }
 
     Connections {
@@ -33,53 +44,43 @@ Rectangle {
     }
 
     Rectangle {
-        id: errorRect;
-        z: 1;
-        width: parent.width * 2 / 3;
-        height: 30;
-        visible: false;
+        id: voback;
+        anchors.fill: parent;
 
-        color: "white";
-        opacity: 0.8;
+        color: "red";
 
-        Text {
-            id: innerText;
-        }
+        VideoOutput {
+            id: vo;
+            visible: false;
+            width: parent.width;
+            height: parent.height;
 
-        Timer {
-            id: innerTimer;
-            interval: 1000;
-            running: false;
-            repeat: false;
+            fillMode: VideoOutput.PreserveAspectCrop;
+            autoOrientation: true;
+            source: camera;
 
-            onTriggered: {
-                parent.visible = false;
+
+            Image {
+                anchors.fill: parent;
+                source: "qrc:/main/icons/ScanningBackground.png"
+                fillMode: Image.Stretch;
+
+                Image {
+                    anchors {
+                        fill: parent;
+                        margins: 15;
+                    }
+                    opacity: 0.2;
+
+                    source: "qrc:/main/icons/ScanningQRCode.png"
+                    fillMode: Image.PreserveAspectFit;
+                }
             }
-        }
 
-        function show(text) {
-            if(innerTimer.running)
-                innerTimer.running = false;
-
-            innerTimer.running = true;
-
-            visible = true;
-            innerText.text = text;
-        }
-    }
-
-    VideoOutput {
-        id: vo;
-        width: parent.width;
-        height: parent.height;
-
-        fillMode: VideoOutput.PreserveAspectCrop;
-        autoOrientation: true;
-        source: camera;
-
-        Camera {
-            id: camera;
-            captureMode: Camera.CaptureViewfinder;
+            Camera {
+                id: camera;
+                captureMode: Camera.CaptureViewfinder;
+            }
         }
     }
 
@@ -89,7 +90,18 @@ Rectangle {
     }
 
     Component.onCompleted: {
+        console.log("asssssssssssssssssssssssssssssssssssssssA");
         camera.cameraState = Camera.ActiveState;
         qrcodeAnalyzer.source = camera;
+    }
+
+    Timer {
+        id: showTimer;
+        running: false;
+        onTriggered: {
+            vo.visible = true;
+        }
+        repeat: false;
+        interval: 350;
     }
 }

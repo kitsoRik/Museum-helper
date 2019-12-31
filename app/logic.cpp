@@ -8,7 +8,7 @@ Logic::Logic(QObject *parent)
 	: QObject(parent)
 {
 	if(m_instance)
-		throw std::invalid_argument("Create second logic");
+		throw std::runtime_error("Create second logic");
 
 	m_instance = this;
 

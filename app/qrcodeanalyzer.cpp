@@ -9,7 +9,7 @@ QRCodeAnalyzer::QRCodeAnalyzer(QObject *parent)
 	: QObject(parent), m_decoding(false)
 {
 	if(m_instance)
-		throw std::invalid_argument("Create second qrcodeAnalyzer");
+		throw std::runtime_error("Create second qrcodeAnalyzer");
 	m_instance = this;
 
 	m_probe = new QVideoProbe(this);
@@ -29,7 +29,6 @@ QObject *QRCodeAnalyzer::source() const
 
 bool QRCodeAnalyzer::setSource(QObject *source)
 {
-	m_decoding = true;
 	m_source = source;
 	bool b = m_probe->setSource(qvariant_cast<QMediaObject *>(source->property("mediaObject")));
 	return b;

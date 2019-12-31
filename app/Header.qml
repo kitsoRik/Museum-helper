@@ -9,7 +9,13 @@ Rectangle {
 
     function onBackClicked() {
         if(mainStackView.depth > 1)
-            mainStackView.pop();
+        {
+            if(mainStackView.currentItem.pop)
+                mainStackView.currentItem.pop();
+            else
+                mainStackView.pop();
+        }
+
         else
             mainDrawer.open();
     }
