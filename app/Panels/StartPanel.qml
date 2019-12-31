@@ -3,36 +3,41 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 import QtMultimedia 5.13
 
+import "./../Items"
+
 Rectangle {
     color: "orange";
 
     function onScanClick() {
-        mainStackView.push("ScannerPanel.qml");
+        scannerPanel.push();
     }
 
     function onChooseClick() {
-        mainStackView.push("ChoosePanel.qml");
+        choosePanel.push();
     }
 
     ColumnLayout {
         anchors.fill: parent;
 
-        Button {
+        ButtonWithIcon {
+            id: scanningButton;
             Layout.fillHeight: true;
             Layout.fillWidth: true;
-
             visible: QtMultimedia.availableCameras.length > 0;
 
-            text: qsTr("Scan");
+            source: "qrc:main/icons/ScanningIcon.png";
+            sourceInverse: "qrc:main/icons/ScanningIcon_inverse.png";
 
             onClicked: onScanClick();
         }
 
-        Button {
+        ButtonWithIcon {
+            id: searchButton;
             Layout.fillHeight: true;
             Layout.fillWidth: true;
 
-            text: qsTr("Choose");
+            source: "qrc:/main/icons/SearchIcon.png";
+            sourceInverse: "qrc:/main/icons/SearchIcon_inverse.png";
 
             onClicked: onChooseClick();
         }
@@ -42,7 +47,6 @@ Rectangle {
         target: networkManager;
 
         onUpdateRequired: {
-            console.log("R");
             mainStackView.push("./UpdatePanel.qml");
         }
     }

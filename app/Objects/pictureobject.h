@@ -13,10 +13,15 @@ class PictureObject : public QObject
 	Q_PROPERTY(QImage icon READ icon NOTIFY iconChanged)
 	Q_PROPERTY(QString title READ title NOTIFY titleChanged)
 	Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
+	Q_PROPERTY(bool isNull READ isNull NOTIFY languagesSizeChanged)
 public:
 	explicit PictureObject(QObject *parent = nullptr);
 
 	static PictureObject *instance() { return m_instance; }
+
+	inline bool isNull() const {
+		return m_picture.languages().size() == 0;
+	}
 
 	inline QImage icon() const {
 		return m_picture.icon();

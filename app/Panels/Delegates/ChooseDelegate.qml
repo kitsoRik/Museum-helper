@@ -11,11 +11,16 @@ Rectangle {
 
     function onClicked() {
         pictures.setCurrentIndex(index);
+        //picturePanel.push();
         mainStackView.push("../PicturePanel.qml");
     }
 
     RowLayout {
-        anchors.fill: parent;
+        anchors {
+            fill: parent;
+            margins: parent.border.width;
+        }
+
         Rectangle {
             visible: !pictureIcon.isNull;
             Layout.fillHeight: true;

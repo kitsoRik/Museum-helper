@@ -6,7 +6,7 @@ PicturesModel* PicturesModel::m_instance = nullptr;
 PicturesModel::PicturesModel(QObject *parent) : QAbstractListModel(parent)
 {
 	if(m_instance)
-		throw std::invalid_argument("Created second pictures model");
+		throw std::runtime_error("Created second pictures model");
 
 	m_instance = this;
 }

@@ -6,6 +6,8 @@
 class Settings : public QObject
 {
 	Q_OBJECT
+
+	Q_PROPERTY(bool fullScreen READ fullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
 public:
 	explicit Settings(QObject *parent = nullptr);
 
@@ -17,7 +19,12 @@ public:
 	}
 
 	static Settings *instance() { return m_instance; }
+
+	inline bool fullScreen() const { return m_settigns.value("fullScreen", false).toBool(); }
+	void setFullScreen(const bool &fullScreen);
+
 signals:
+	void fullScreenChanged();
 	void versionChanged();
 
 	void loaded();

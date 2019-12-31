@@ -24,4 +24,6 @@ void PictureObject::setPicture(const Picture &picture)
 	m_languageIndex = 0;
 
 	allChanged();
+
+
 }

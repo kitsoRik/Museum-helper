@@ -6,6 +6,15 @@ import RostikObjects 1.0;
 Rectangle {
     color: "lime";
 
+    function push() {
+        //mainStackView.push("PicturePanel.qml");
+        //mainStackView.push(picturePanel, {destroyOnPop: false});
+    }
+
+    function pop() {
+        mainStackView.pop();
+    }
+
     ScrollView {
         width: parent.width;
         height: parent.height;
@@ -16,12 +25,12 @@ Rectangle {
         }
 
         ColumnLayout {
-            anchors.fill: parent;
+            width: parent.width;
 
             Rectangle {
                 Layout.minimumHeight: width / pictureIcon.correlation;
                 Layout.fillWidth: true;
-                visible: !pictureIcon.isNull;
+                visible: !currentPicture.isNull;
 
                 color: "transparent";
                 clip: true;
@@ -51,7 +60,12 @@ Rectangle {
 
                 horizontalAlignment: Text.AlignHCenter;
 
-                text: currentPicture.title;
+                text: {
+                    if(currentPicture.isNull)
+                        return "";
+                    return currentPicture.title;
+                }
+
                 font {
                     family: "Calibri";
                     pixelSize: 24;
@@ -72,7 +86,11 @@ Rectangle {
                 horizontalAlignment: Text.AlignJustify;
 
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
-                text: currentPicture.description;
+                text: {
+                    if(currentPicture.isNull)
+                        return "";
+                    return currentPicture.description;
+                }
             }
         }
     }

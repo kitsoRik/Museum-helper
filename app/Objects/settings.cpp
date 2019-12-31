@@ -19,6 +19,12 @@ Settings::Settings(QObject *parent)
 	load();
 }
 
+void Settings::setFullScreen(const bool &fullScreen)
+{
+	m_settigns.setValue("fullScreen", fullScreen);
+	emit fullScreenChanged();
+}
+
 void Settings::save()
 {
 	m_settigns.setValue("VERSION", m_version);

@@ -52,6 +52,10 @@ int main(int argc, char *argv[])
 	}, Qt::QueuedConnection);
 	engine.load(url);
 
+	QObject::connect(&app, &QGuiApplication::aboutToQuit, [&]() {
+		settings.save();
+	});
+
 	int exec = app.exec();
 
 	return exec;
