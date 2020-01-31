@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.13
 import "Items"
 
 Rectangle {
+    property string title;
+
     color: "black";
 
     function onBackClicked() {
@@ -27,6 +29,19 @@ Rectangle {
             Layout.fillHeight: true;
             Layout.preferredWidth: height;
             onClicked: onBackClicked();
+        }
+        Text {
+            Layout.fillHeight: true;
+            Layout.fillWidth: true;
+            verticalAlignment: Text.AlignVCenter;
+            horizontalAlignment: Text.AlignHCenter;
+            anchors.centerIn: parent;
+            text: title;
+            color: "white";
+            font {
+                pointSize: 20;
+                family: "PT SANS";
+            }
         }
     }
 }

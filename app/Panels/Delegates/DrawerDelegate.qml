@@ -4,8 +4,11 @@ import QtQuick.Layouts 1.12
 
 
 Rectangle {
+    property string openPanelDevTitle;
     property string source;
     property string title;
+    property string openPanelPath: "";
+    property var openPanelRef: undefined;
 
     signal clicked();
     signal hovered(var hover);
@@ -13,7 +16,7 @@ Rectangle {
 
     color: {
         if(ma.pressed) return "black";
-        if(ma.containsMouse) return "gray";
+        if(mainStackView.currentItem.panelDevTitle === openPanelDevTitle) return "gray";
         return "white";
     }
 
@@ -50,7 +53,26 @@ Rectangle {
         anchors.fill: parent;
         hoverEnabled: true;
 
-        onClicked: parent.clicked();
+        onClicked: {
+            if(mainStackView.currentItem.panelDevTitle === openPanelDevTitle) return;
+
+            mainDrawer.close();
+            if(mainStackView.currentItem.replaceblePanel)
+            {
+                if(openPanelPath == "")
+                    openPanelRef.replace();
+                else mainStackView.replace(openPanelPath);
+            }else
+            {
+                if(openPanelPath == "")
+                    openPanelRef.push();
+                else mainStackView.push(openPanelPath);
+            }
+
+
+            parent.clicked();
+        }
+
         onPressed: parent.pressed();
         onContainsMouseChanged: hovered(containsMouse);
     }

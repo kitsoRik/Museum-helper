@@ -8,6 +8,7 @@ class Settings : public QObject
 	Q_OBJECT
 
 	Q_PROPERTY(bool fullScreen READ fullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
+	Q_PROPERTY(bool preloadedCamera READ preloadedCamera WRITE setPreloadedCamera NOTIFY preloadedCameraChanged)
 public:
 	explicit Settings(QObject *parent = nullptr);
 
@@ -23,14 +24,19 @@ public:
 	inline bool fullScreen() const { return m_settigns.value("fullScreen", false).toBool(); }
 	void setFullScreen(const bool &fullScreen);
 
+	inline bool preloadedCamera() const { return m_settigns.value("preloadedCamera", true).toBool(); }
+	void setPreloadedCamera(const bool &preloadedCamera);
+
 signals:
 	void fullScreenChanged();
+	void preloadedCameraChanged();
+
 	void versionChanged();
 
 	void loaded();
 
 public slots:
-	void save();
+	void save(const bool &savePictures = false);
 	void load();
 
 private slots:

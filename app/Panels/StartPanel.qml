@@ -6,6 +6,10 @@ import QtMultimedia 5.13
 import "./../Items"
 
 Rectangle {
+    property bool replaceblePanel: false;
+    property string panelDevTitle: "StartPanel";
+    property string panelTitle: qsTr("Home");
+
     color: "orange";
 
     function onScanClick() {

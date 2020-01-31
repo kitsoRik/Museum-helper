@@ -11,80 +11,50 @@ Drawer {
         color: "orange";
     }
 
-    ColumnLayout {
+    ScrollView {
         anchors.fill: parent;
-        spacing: 0;
 
-        Rectangle {
-            Layout.fillWidth: true;
-            Layout.preferredHeight: 200;
+        clip: true;
 
-            color: "green";
-        }
+        ColumnLayout {
+            width: parent.parent.width;
+            spacing: 1;
 
-        ScrollView {
-            Layout.fillWidth: true;
-            Layout.fillHeight: true;
-
-            clip: true;
-
-            Rectangle {
-                anchors.fill: parent;
-                color: "black";
+            DrawerDelegate {
+                visible: QtMultimedia.availableCameras.length > 0;
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 60;
+                title: "Scanner";
+                source: "qrc:/main/drawericons/SettingsIcon.png";
+                openPanelDevTitle: "ScannerPanel";
+                openPanelRef: scannerPanel;
             }
 
-            ColumnLayout {
-                width: parent.width;
-                spacing: 1;
+            DrawerDelegate {
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 60;
+                title: "Choose";
+                source: "qrc:/main/drawericons/SettingsIcon.png";
+                openPanelDevTitle: "ChoosePanel";
+                openPanelRef: choosePanel;
+            }
 
-                DrawerDelegate {
-                    visible: QtMultimedia.availableCameras.length > 0;
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    title: "Scanner";
-                    source: "qrc:/main/drawericons/SettingsIcon.png";
+            DrawerDelegate {
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 60;
+                title: "Settings";
+                source: "qrc:/main/drawericons/SettingsIcon.png";
+                openPanelDevTitle: "SettingsPanel";
+                openPanelPath: "qrc:/Panels/SettingsPanel.qml";
+            }
 
-                    onClicked: {
-                        mainDrawer.close();
-                        scannerPanel.push();
-                    }
-                }
-
-                DrawerDelegate {
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    title: "Choose";
-                    source: "qrc:/main/drawericons/SettingsIcon.png";
-
-                    onClicked: {
-                        mainDrawer.close();
-                        choosePanel.push();
-                    }
-                }
-
-                DrawerDelegate {
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    title: "Settings";
-                    source: "qrc:/main/drawericons/SettingsIcon.png";
-
-                    onClicked: {
-                        mainStackView.push("SettingsPanel.qml");
-                        mainDrawer.close();
-                    }
-                }
-
-                DrawerDelegate {
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    title: "About";
-                    source: "qrc:/main/drawericons/SettingsIcon.png";
-
-                    onClicked: {
-                        mainStackView.push("AboutPanel.qml");
-                        mainDrawer.close();
-                    }
-                }
+            DrawerDelegate {
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 60;
+                title: "About";
+                source: "qrc:/main/drawericons/SettingsIcon.png";
+                openPanelDevTitle: "AboutPanel";
+                openPanelPath: "qrc:/Panels/AboutPanel.qml";
             }
         }
     }

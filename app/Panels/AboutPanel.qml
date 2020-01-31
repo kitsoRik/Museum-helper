@@ -4,12 +4,16 @@ import QtQuick.Layouts 1.13
 import RostikObjects 1.0
 
 Rectangle {
-    ScrollView {
+    property bool replaceblePanel: true;
+    property string panelDevTitle: "AboutPanel";
+    property string panelTitle: qsTr("About");
+
+    ListView {
         anchors.fill: parent;
-
-        ColumnLayout {
+        model: [1];
+        delegate: ColumnLayout {
+            spacing: 20
             width: parent.width;
-
             Image {
                 id: aboutImage;
                 Layout.fillWidth: true;
@@ -19,13 +23,18 @@ Rectangle {
                 source: "qrc:/main/drawericons/SettingsIcon.png"
             }
 
-            Item { Layout.minimumHeight: 30; }
+            Item { height: 30; }
 
             Text {
-                Layout.fillHeight: true;
                 Layout.fillWidth: true;
-                text: qsTr("assssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddssssssssssssssssssssssssssssss")
+                text: qsTr("Create by Pidburachynskyi Rostyslav");
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
+                font.pixelSize: {
+                    console.log(width);
+                    return 30;
+                }
+
+                horizontalAlignment: Text.AlignHCenter;
             }
         }
     }

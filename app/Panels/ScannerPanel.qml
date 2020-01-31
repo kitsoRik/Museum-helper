@@ -5,19 +5,27 @@ import QZXing 2.3
 import RostikObjects 1.0
 
 Rectangle {
-    property bool scanner: true;
+    id: root;
+    property bool replaceblePanel: false;
+    property string panelDevTitle: "ScannerPanel";
+    property string panelTitle: qsTr("Scanning");
+
 
     function push() {
         mainStackView.push(scannerPanel, {destroyOnPop: false});
-        showTimer.start();
+    }
+
+    function replace() {
+        mainStackView.replace(scannerPanel, {destroyOnPop: false});
     }
 
     function pop() {
-        vo.visible = false;
         mainStackView.pop();
     }
 
     function onSuccessDecoding(index) {
+        if(mainStackView.currentItem.isPicturePanel)
+            return;
         console.log(index);
         pictures.setCurrentIndex(index);
         //picturePanel.push();
@@ -45,13 +53,13 @@ Rectangle {
 
     Rectangle {
         id: voback;
+        visible: mainStackView.currentItem === root;
         anchors.fill: parent;
 
         color: "red";
 
         VideoOutput {
             id: vo;
-            visible: false;
             width: parent.width;
             height: parent.height;
 
@@ -80,6 +88,11 @@ Rectangle {
             Camera {
                 id: camera;
                 captureMode: Camera.CaptureViewfinder;
+                cameraState: {
+                    if(settings.preloadedCamera || mainStackView.currentItem === scannerPanel)
+                        return Camera.ActiveState;
+                    return Camera.UnloadedState;
+                }
             }
         }
     }
@@ -90,18 +103,6 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        console.log("asssssssssssssssssssssssssssssssssssssssA");
-        camera.cameraState = Camera.ActiveState;
         qrcodeAnalyzer.source = camera;
-    }
-
-    Timer {
-        id: showTimer;
-        running: false;
-        onTriggered: {
-            vo.visible = true;
-        }
-        repeat: false;
-        interval: 350;
     }
 }

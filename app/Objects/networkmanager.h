@@ -3,8 +3,8 @@
 
 #include <QtNetwork>
 
-const QString HOST = "31.131.16.137";
-const quint16 PORT = 3005;
+const QString HOST = "5.45.118.116";
+const quint16 PORT = 3000;
 
 class NetworkManager : public QObject
 {

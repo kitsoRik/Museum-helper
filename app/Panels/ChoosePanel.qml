@@ -5,10 +5,17 @@ import QtQuick.Layouts 1.13
 import "Delegates"
 
 Rectangle {
+    property bool replaceblePanel: false;
+    property string panelDevTitle: "ChoosePanel";
+    property string panelTitle: qsTr("Choose")
     color: "red";
 
     function push() {
         mainStackView.push(choosePanel, {destroyOnPop: false});
+    }
+
+    function replace() {
+        mainStackView.replace(choosePanel, {destroyOnPop: false});
     }
 
     function pop() {

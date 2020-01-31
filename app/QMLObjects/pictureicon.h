@@ -11,6 +11,9 @@ class PictureIcon : public QQuickPaintedItem
 	Q_PROPERTY(QImage source READ source WRITE setSource NOTIFY sourceChanged)
 	Q_PROPERTY(float correlation READ correlation NOTIFY sourceChanged)
 
+	Q_PROPERTY(int iwidth READ iwidth NOTIFY sourceChanged)
+	Q_PROPERTY(int iheight READ iheight NOTIFY sourceChanged)
+
 	Q_PROPERTY(bool isNull READ isNull CONSTANT)
 public:
 	PictureIcon(QQuickItem *parent = nullptr);
@@ -24,6 +27,9 @@ public:
 	float correlation() const {
 		return static_cast<float>(m_source.width()) / m_source.height();
 	}
+
+	inline int iwidth() const { return m_source.width(); }
+	inline int iheight() const { return m_source.height(); }
 
 	inline bool isNull() const { return m_source.isNull(); }
 
