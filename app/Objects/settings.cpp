@@ -25,11 +25,17 @@ void Settings::setFullScreen(const bool &fullScreen)
 	emit fullScreenChanged();
 }
 
-void Settings::save()
+void Settings::setPreloadedCamera(const bool &preloadedCamera)
+{
+	m_settigns.setValue("preloadedCamera", preloadedCamera);
+	emit preloadedCameraChanged();
+}
+
+void Settings::save(const bool &savePictures)
 {
 	m_settigns.setValue("VERSION", m_version);
 
-	savePictures();
+	if(savePictures) this->savePictures();
 
 	m_settigns.sync();
 }

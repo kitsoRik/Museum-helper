@@ -84,6 +84,6 @@ void NetworkManager::onUpdateFinished()
 
 	PicturesModel::instance()->setPictures(pictures);
 
-	Settings::instance()->save();
+	Settings::instance()->save(true);
 	emit installUpdateFinished();
 }

@@ -5,7 +5,9 @@ import QtQuick.Layouts 1.12
 import RostikObjects 1.0
 
 Rectangle {
-
+    property bool replaceblePanel: true;
+    property string panelDevTitle: "UpdatePanel";
+    property string title: qsTr("Update");
     color: "brown";
 
     ColumnLayout {

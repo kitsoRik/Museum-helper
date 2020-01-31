@@ -57,8 +57,8 @@ void QRCodeAnalyzer::onDecodingFinished(const QString &result)
 			m_decoding = true;
 		}else
 		{
-			emit successDecoding(index);
 			m_decoding = false;
+			emit successDecoding(index);
 		}
 	}
 }

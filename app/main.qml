@@ -28,7 +28,17 @@ ApplicationWindow {
 
     title: qsTr("Museum helper")
 
-    header: Header { height: 50; }
+    header: Header { id: mainHeader; title: qsTr("Home"); height: 50; }
+
+    onClosing: {
+        if(mainStackView.depth > 1)
+        {
+            mainHeader.onBackClicked();
+            close.accepted = false;
+        }else {
+            close.accepted = true;
+        }
+    }
 
     DrawerPanel {
         id: mainDrawer;
@@ -41,10 +51,11 @@ ApplicationWindow {
         anchors.fill: parent;
         initialItem: StartPanel { }
         onCurrentItemChanged: {
-            qrcodeAnalyzer.decoding = (currentItem.scanner !== undefined);
+            qrcodeAnalyzer.decoding = (currentItem === scannerPanel);
+            if(currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
         }
     }
 
     ScannerPanel { id: scannerPanel; enabled: mainStackView.currentItem.scanner === true; }
-    ChoosePanel { id: choosePanel; }
+    ChoosePanel { id: choosePanel;  visible: false; }
 }

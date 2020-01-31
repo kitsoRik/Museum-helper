@@ -1,9 +1,12 @@
-import QtQuick 2.0
+import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 import RostikObjects 1.0;
 
 Rectangle {
+    property bool replaceblePanel: false;
+    property string panelDevTitle: "PicturePanel";
+    property string panelTitle: currentPicture.title;
     color: "lime";
 
     function push() {
@@ -24,16 +27,23 @@ Rectangle {
 
         }
 
+
         ColumnLayout {
             width: parent.width;
 
             Rectangle {
+                id: iconR;
                 Layout.minimumHeight: width / pictureIcon.correlation;
                 Layout.fillWidth: true;
-                visible: !currentPicture.isNull;
+//                visible: !currentPicture.isNull;
 
                 color: "transparent";
                 clip: true;
+
+                PinchHandler {
+                    id: ph;
+                    target: pictureIcon;
+                }
 
                 PictureIcon {
                     id: pictureIcon;
@@ -61,8 +71,8 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter;
 
                 text: {
-                    if(currentPicture.isNull)
-                        return "";
+//                    if(currentPicture.isNull)
+//                        return "";
                     return currentPicture.title;
                 }
 
@@ -87,8 +97,8 @@ Rectangle {
 
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
                 text: {
-                    if(currentPicture.isNull)
-                        return "";
+//                    if(currentPicture.isNull)
+//                        return "";
                     return currentPicture.description;
                 }
             }
