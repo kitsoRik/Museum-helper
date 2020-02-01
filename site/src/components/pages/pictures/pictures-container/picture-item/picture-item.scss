@@ -1,0 +1,21 @@
+.picture-item {
+    width: 256px;
+    height: 256px;
+
+    margin: 10px;
+
+    background: black;
+
+    cursor: pointer;
+}
+
+.add-picture-item {
+    color: white;
+    font-size: 250px;
+    text-align: center;
+
+    &:hover {
+        background: white;
+        color: black;
+    }
+}

@@ -27,3 +27,13 @@ export const getRegisterIn = (data) => {
     return Axios.post(`${host}/registerIn`, params, queryParams)
                 .then(({ data }) => data);
 }
+
+export const getPicturesData = () => {
+    const params = {limit: 3};
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/getPicturesData`, params, queryParams)
+                .then(({ data }) => data);
+}
+

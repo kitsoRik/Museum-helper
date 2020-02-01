@@ -10,6 +10,7 @@ const db = new sqlite.Database(path.resolve(__dirname, "../databases/nice.db"));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use("/static/pictureIcons", express.static(path.join(__dirname, "/../icons")));
 
 app.use(/.*/, (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
@@ -18,6 +19,7 @@ app.use(/.*/, (req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+
 
 app.post("/loginIn", (req, res) => {
 
@@ -92,6 +94,24 @@ app.post("/getData", (req, res) => {
                     username: user.username,
                     email: user.email
             })
+    });
+});
+
+app.post("/getPicturesData", (req, res) => {
+    res.send({
+        success: true,
+        pictures: [
+            {
+                id: 0,
+                title: "Mona Liza",
+                iconName: "123.png"
+            },
+            {
+                id: 1,
+                title: "Ded na znegy",
+                iconName: "123.png"
+            }
+        ]
     });
 });
 
