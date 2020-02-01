@@ -5,6 +5,7 @@ import PictureItem from './picture-item'
 import { NOT_LOADED, IS_LOADING, LOADED, ERROR_LOADING } from '../../../../constants';
 
 import "./picture-container.scss";
+import { Link } from 'react-router-dom';
 
 const PicturesContainer = (props) => {
 
@@ -21,9 +22,10 @@ const PicturesContainer = (props) => {
     return ( 
         <div className="picture-container">
             { pictureItems }
-            <div className="picture-item add-picture-item">
-                +
-            </div>
+            <Link 
+                className="picture-item picture-item-add"
+                to="/addpicture"
+            >+</Link>
         </div>
      );
 }

@@ -21,6 +21,20 @@ const loadPicturesError = (state, action) => {
     }
 }
 
+const deletePictureSuccess = (state, action) => {
+    const { pictures } = state.picturesData;
+    const { id } = action;
+    const index = pictures.findIndex((v) => v.id === id);
+    
+    return {
+        loading: LOADED,
+        pictures:
+            pictures.slice(0, index).concat(
+                pictures.slice(index + 1, pictures.length))
+    }
+
+}
+
 const updatePicturesData = (state, action) => {
     if(state === undefined) {
         return {
@@ -33,6 +47,9 @@ const updatePicturesData = (state, action) => {
         case "START_LOAD_PICTURES": return startLoadPictures(state, action);
         case "LOAD_PICTURES_SUCCESS": return loadPicturesSuccess(state, action);
         case "LOAD_PICTURES_ERROR": return loadPicturesError(state, action);
+        
+        case "DELETE_PICTURE_SUCCESS": return deletePictureSuccess(state, action);
+
         default: return state.picturesData;
     }
 }

@@ -5,12 +5,14 @@ import { getLoginIn } from '../../../services/api/api';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import './login.scss';
+
 const Login = (props) => {
 
     const { loginIn } = props;
     
     return ( 
-        <div>
+        <div className="login-page">
             <LoginContainer onLoginIn={loginIn} />
         </div>
      );

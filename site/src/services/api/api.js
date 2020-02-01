@@ -2,6 +2,8 @@ import Axios from "axios"
 
 const host = "http://localhost:3005"
 
+export const apiHost = host;
+
 export const getData = () => {
     return Axios.post(`${host}/getData`, { }, { withCredentials: true})
                     .then(({ data }) => data);
@@ -37,3 +39,46 @@ export const getPicturesData = () => {
                 .then(({ data }) => data);
 }
 
+export const getPictureData = (id) => {
+    const params = {id};
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/getPictureData`, params, queryParams)
+                .then(({ data }) => data);
+}
+
+export const savePictureInfo = (info) => {
+    const params = info;
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/savePictureInfo`, params, queryParams)
+                .then(({ data }) => data);
+}
+
+export const addPicture = (name, description, qrcode, iconFile) => {
+    var formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("qrcode", qrcode);
+    formData.append("icon", iconFile, "icon");
+
+    const queryParams = {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    };
+    return Axios.post(`${host}/addPicture`, formData, queryParams)
+        .then((res) => res.data);
+}
+
+export const deletePicture = (id) => {
+    const params = { id };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/deletePicture`, params, queryParams)
+        .then((res) => res.data);
+}

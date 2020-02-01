@@ -12,9 +12,9 @@ const loginInSuccess = (data) => {
     }
 }
 
-const loginInNotSuccess = (error) => {
+const loginInError = (error) => {
     return {
-        type: "LOGIN_IN_NOT_SUCCESS",
+        type: "LOGIN_IN_ERROR",
         error
     }
 }
@@ -53,6 +53,17 @@ const loadPicturesError = (error) => {
     }
 };
 
+const deletePictureSuccessAction = (id) => {
+    return {
+        type: "DELETE_PICTURE_SUCCESS",
+        id
+    }
+}
+
+export const deletePictureSuccessCreator = (id, dispatch) => {
+    dispatch(deletePictureSuccessAction(id));
+}
+
 export const startLoadPicturesCreator = (dispatch) => {
     dispatch(startLoadPictures());
 }
@@ -82,7 +93,7 @@ export const successLoginIn = (data, dispatch) => {
 }
 
 export const errorLoginIn = (error, dispatch) => {
-    dispatch(loginInNotSuccess(error));
+    dispatch(loginInError(error));
 }
 
 

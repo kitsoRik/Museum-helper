@@ -1,0 +1,39 @@
+.register-container {
+    max-width: 512px;
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+
+    outline: 2px solid black;
+}
+
+.register-title {
+    text-align: center;
+}
+
+.register-container-label {
+    margin: 0;
+    padding: 0;
+
+    text-align: center;
+}
+
+.register-container input {
+    padding: 5px 10px;
+    margin: 5px 0;
+
+    border-radius: 5px;
+}
+
+.register-submit-btn {
+    padding: 5px 10px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+
+    font-size: 16pt;
+}
+
+.register-login-link {
+    text-align: center;
+}

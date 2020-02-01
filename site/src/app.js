@@ -7,6 +7,8 @@ import Login from './components/pages/login/login';
 import { setDataCreator, failDataCreator } from './actions';
 import Register from './components/pages/register/register';
 import Pictures from './components/pages/pictures';
+import Picture from './components/pages/picture';
+import AddPicture from './components/pages/add-picture';
 
 const App = (props) => {
     
@@ -26,7 +28,9 @@ const App = (props) => {
             <Route path="/" render={() => <Home /> } exact/>
             <Route path="/login" render={() => <Login /> } exact/>
             <Route path="/register" render={() => <Register /> } exact/>
-            <Route path="/pictures" render={() => <Pictures /> } exact/>
+            <Route path="/pictures/" render={() => <Pictures /> } exact/>
+            <Route path="/addpicture" render={() => <AddPicture /> } exact/>
+            <Route path="/pictures/:id" render={() => <Picture /> } exact/>
         </Switch>
      );
 }
