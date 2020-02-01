@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import "./home.scss";
 
@@ -15,7 +15,10 @@ const Home = (props) => {
     
     return ( 
         <div className="home-page">
-            <button className="get-started-btn">Get stated</button>
+            <Link 
+                className="get-started-btn"
+                to="/pictures"
+            >Get stated</Link>
         </div>
      );
 }

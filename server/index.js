@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 
 const path = require("path");
+const fs = require("fs");
 const sqlite = require("sqlite3").verbose();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 
 const db = new sqlite.Database(path.resolve(__dirname, "../databases/nice.db"));
 
@@ -13,6 +15,7 @@ app.use(bodyParser.json());
 app.use("/static/pictureIcons", express.static(path.join(__dirname, "/../icons")));
 
 app.use(/.*/, (req, res, next) => {
+    if(req.headers.origin)
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -34,7 +37,7 @@ app.post("/loginIn", (req, res) => {
         if (err || !user) {
             res.send({
                 success: false,
-                error: "Net takogo"
+                error: "UNKNOWN_DATA"
             });
             return;
         }
@@ -86,7 +89,7 @@ app.post("/getData", (req, res) => {
                 if(!user) {
                     return res.send({
                         success: false,
-                        error: "Net takogo"
+                        error: "UNKNOWN_DATA"
                     });
                 }
                 res.send({
@@ -98,20 +101,97 @@ app.post("/getData", (req, res) => {
 });
 
 app.post("/getPicturesData", (req, res) => {
-    res.send({
-        success: true,
-        pictures: [
-            {
-                id: 0,
-                title: "Mona Liza",
-                iconName: "123.png"
-            },
-            {
-                id: 1,
-                title: "Ded na znegy",
-                iconName: "123.png"
-            }
-        ]
+    const { sesid } = req.cookies;
+    getIdBySesid(sesid)
+        .then((id) => {
+            db.all(`SELECT p.id, p.name, p.qrcode, p.icon_name iconName 
+            FROM pictures p 
+            WHERE p.user_id=?`, [id], (err, pictures) => {
+                if(err) return console.log(err);
+                res.send({
+                    success: true,
+                    pictures
+                });
+            });
+        }).catch((err) => {      
+            if(err) return res.send({
+                success: false,
+                error: "Not found"
+            });
+        })
+});
+
+app.post("/getPictureData", (req, res) => {
+    const { sesid } = req.cookies;
+    const { id } = req.body;
+    db.get(`SELECT p.id, p.name, p.qrcode, p.icon_name iconName 
+            FROM pictures p 
+            WHERE p.id=?
+            LIMIT 1`, [id], (err, picture) => {
+        db.all(`SELECT *, picture_id pictureId FROM pictures_info
+            WHERE picture_id=?`, [id], (err, pictureInfo) => {
+            if(err) return console.log(err);
+            res.send({
+                success: true,
+                picture,
+                pictureInfo
+            });
+        });
+    })
+});
+
+app.post("/savePictureInfo", (req, res) => {
+
+    const { id, description } = req.body;
+    
+    db.run(`UPDATE pictures_info
+            SET description=$description
+            WHERE id=$id`, {
+                $description: description,
+                $id: id
+            }, (run, err) => {
+                if(err) return console.log(err);
+                res.send({success: false});
+            });
+});
+
+app.post("/addPicture", multer({dest:"uploads"}).single("icon"), (req, res) => {
+    
+    const { sesid } = req.cookies;
+    const { file, body } = req;
+    const { name, description, qrcode } = body;
+
+    getIdBySesid(sesid)
+    .then((id) => {
+        db.run(`INSERT INTO pictures (user_id, name, description, qrcode, icon_name)
+                VALUES ($userId, $name, $description, $qrcode, $iconName)`,
+                {
+                    $userId: id,
+                    $name: name,
+                    $description: description,
+                    $qrcode: qrcode,
+                    $iconName: file.filename
+                }, (run, err) => {
+                    if(err) return console.log(err);
+                    
+                    const oldPath = path.join(__dirname, "/uploads/", file.filename);
+                    const newPath = path.join(__dirname, "/../icons/", file.filename);
+                    fs.rename(oldPath, newPath, () => {
+                        res.send({
+                            success: true
+                        });
+                    });
+                });
+    });
+});
+
+app.use("/deletePicture", (req, res) => {
+    const { id } = req.body;
+    db.run("DELETE FROM pictures WHERE id=?", [id], (run, err) => {
+        if(err) return console.log(err);
+        res.send({
+            success: true
+        });
     });
 });
 
@@ -134,6 +214,21 @@ const createSesid = (id) => {
             });
 
      return sesid;
+}
+
+const getIdBySesid = (sesid, callback) => {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT id 
+            FROM sesids
+            WHERE sesid=?`, 
+            [sesid], (err, result) => {
+                if(err) {
+                    return console.log(err);
+                }
+                if(!result) return reject("Not found");
+                resolve(result.id);
+            });
+    });
 }
 
 app.listen(3005, () => console.log("LISTENING 3005 port..."));

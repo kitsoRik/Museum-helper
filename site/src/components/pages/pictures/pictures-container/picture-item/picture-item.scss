@@ -5,11 +5,18 @@
     margin: 10px;
 
     background: black;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 
     cursor: pointer;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
-.add-picture-item {
+.picture-item-add {
     color: white;
     font-size: 250px;
     text-align: center;
@@ -19,3 +26,4 @@
         color: black;
     }
 }
+
