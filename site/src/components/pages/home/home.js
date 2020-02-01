@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { triggerTestAction } from '../../../actions';
 import { Redirect } from 'react-router-dom';
 
+import "./home.scss";
 
 const Home = (props) => {
     const { userData: { loggedIn } } = props;
-    console.log(loggedIn);
+    
     if(!loggedIn) {
         return <Redirect to="/login"/>
     } else if(loggedIn === "wait") {
@@ -14,8 +14,8 @@ const Home = (props) => {
     }
     
     return ( 
-        <div>
-            Hello { props.userData.username }
+        <div className="home-page">
+            <button className="get-started-btn">Get stated</button>
         </div>
      );
 }

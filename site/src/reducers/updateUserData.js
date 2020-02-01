@@ -1,6 +1,4 @@
 const loginInStart = (state, action) => {
-    const { email, password } = action;
-
     return state.userData;
 }
 
@@ -16,8 +14,6 @@ const loginInSuccess = (state, action) => {
 }
 
 const loginInError = (state, action) => {
-    const { error } = action;
-
     return {
         ...state.userData,
         loggedIn: false
@@ -54,9 +50,9 @@ const updateUserData = (state, action) => {
 
         case "SET_DATA": return setData(state, action);
         case "FAIL_DATA": return failData(state, action);
-    }
 
-    return state.userData;
+        default: return state.userData;
+    }
 }
 
 export default updateUserData;

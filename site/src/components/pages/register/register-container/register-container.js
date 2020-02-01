@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getRegisterIn } from '../../../../services/api/api';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 const RegisterContainer = (props) => {
 
@@ -53,8 +53,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
         onSubmit: (d) => {
             getRegisterIn(d).then((data) => {
                 if(data.success) {
-                    const { history } = ownProps;
-                    history.push("/login");
+                    ownProps.history.push("/login");
                 }
             });
         }
