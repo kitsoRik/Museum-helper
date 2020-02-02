@@ -140,8 +140,21 @@ app.post("/getPictureData", (req, res) => {
     })
 });
 
-app.post("/savePictureInfo", (req, res) => {
+app.post("/savePictureData", (req, res) => {
+    const { id, qrcode } = req.body;
+    
+    db.run(`UPDATE pictures
+            SET qrcode=$qrcode
+            WHERE id=$id`, {
+                $qrcode: qrcode,
+                $id: id
+            }, (run, err) => {
+                if(err) return console.log(err);
+                res.send({success: true});
+            });
+});
 
+app.post("/savePictureInfo", (req, res) => {
     const { id, description } = req.body;
     
     db.run(`UPDATE pictures_info
@@ -151,7 +164,12 @@ app.post("/savePictureInfo", (req, res) => {
                 $id: id
             }, (run, err) => {
                 if(err) return console.log(err);
-                res.send({success: false});
+                res.send({
+                    success: true,
+                    result: {
+                        description
+                    }
+                });
             });
 });
 
@@ -192,6 +210,30 @@ app.use("/deletePicture", (req, res) => {
         res.send({
             success: true
         });
+    });
+});
+
+app.use("/addPictureInfo", (req, res) => {
+    const { pictureId, language } = req.body;
+    db.run(`INSERT INTO pictures_info 
+                (picture_id, title, description, language)
+            VALUES($pictureId, 'title', 'description', $language)`, 
+            {
+                $pictureId: pictureId,
+                $language: language
+            }, (run, err) => {
+        if(err) return console.log(err);
+        db.get(`SELECT *, picture_id pictureId 
+                FROM pictures_info
+                WHERE picture_id=?
+                ORDER BY id DESC
+                LIMIT 1`, [pictureId], (err, row) => {
+                    if(err) return console.log(err);
+                    res.send({
+                        success: true,
+                        addedPictureInfo: row
+                    });
+                });
     });
 });
 

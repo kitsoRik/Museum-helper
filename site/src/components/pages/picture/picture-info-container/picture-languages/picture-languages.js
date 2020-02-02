@@ -6,7 +6,7 @@ import Language from './language';
 const PictureLanguages = (props) => {
 
     const { pictureInfo, languageIndex, setLanguageIndex } = props;
-
+    const { onLanguageAdded } = props;
     const languageItems = pictureInfo.map((info, index) => {
         return <Language 
             key={info.language} 
@@ -17,7 +17,15 @@ const PictureLanguages = (props) => {
 
     return ( 
         <div className="picture-languages">
-            { languageItems }
+            <div className="picture-languages-container">
+                { languageItems }
+            </div>
+            <div 
+                className="picture-languages-add"
+                onClick={() => onLanguageAdded(prompt("Whick language add? (en, ru, ua):"))}
+            >
+                +
+            </div>
         </div>
      );
 }

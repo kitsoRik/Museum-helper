@@ -13,12 +13,6 @@ const AddPictureContainer = (props) => {
     const [file, setFile] = useState(null);
 
     const onAddPicture = () => {
-        const data = {
-            name,
-            description,
-            qrcode,
-            file
-        };
         addPicture(name, description, qrcode, file)
             .then((data) => {
                 if(data.success) {

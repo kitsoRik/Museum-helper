@@ -48,8 +48,17 @@ export const getPictureData = (id) => {
                 .then(({ data }) => data);
 }
 
-export const savePictureInfo = (info) => {
-    const params = info;
+export const savePictureData = (id, d) => {
+    const params = { id, ...d };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/savePictureData`, params, queryParams)
+                .then(({ data }) => data);
+}
+
+export const savePictureInfo = (id, info) => {
+    const params = { id, ...info };
     const queryParams = {
         withCredentials: true
     };
@@ -80,5 +89,14 @@ export const deletePicture = (id) => {
         withCredentials: true
     };
     return Axios.post(`${host}/deletePicture`, params, queryParams)
+        .then((res) => res.data);
+}
+
+export const addLanguageInfo = (pictureId, language) => {
+    const params = { pictureId, language };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/addPictureInfo`, params, queryParams)
         .then((res) => res.data);
 }

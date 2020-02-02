@@ -1,9 +1,32 @@
 .picture-languages {
-    width: 100%;
+    max-width: 100%;
     display: flex;
-    flex-grow: 1;
+    align-items: center;
     
     cursor: pointer;
+}
+
+.picture-languages-container {
+    display: flex;
+    align-items: center;
 
     overflow: auto;
+}
+
+.picture-languages-add {
+    min-width: 32px;
+    padding: 6px;
+
+    background: black;
+    color: white;
+
+    font-size: 21pt;
+    text-align: center  ;
+
+    transition: all .3s;
+
+    &:hover {    
+        background: white;
+        color: black;
+    }
 }

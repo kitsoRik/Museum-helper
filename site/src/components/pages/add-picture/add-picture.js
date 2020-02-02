@@ -2,6 +2,7 @@ import React from 'react';
 
 import './add-picture.scss';
 import AddPictureContainer from './add-picture-container/add-picture-container';
+import withGuard from '../../withGuard/withGuard';
 
 const AddPicture = (props) => {
     return ( 
@@ -14,4 +15,4 @@ const AddPicture = (props) => {
      );
 }
 
-export default AddPicture;
+export default withGuard(AddPicture);

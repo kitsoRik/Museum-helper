@@ -4,7 +4,7 @@ import './add-picture-icon-loader.scss';
 
 const AddPictureIconLoader = (props) => {
     
-    const { file, setFile } = props;
+    const { setFile } = props;
     const [ progress, setProgress ] = useState(0);
 
     const startLoadIcon = () => {

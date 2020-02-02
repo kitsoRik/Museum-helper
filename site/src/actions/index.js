@@ -60,6 +60,8 @@ const deletePictureSuccessAction = (id) => {
     }
 }
 
+
+
 export const deletePictureSuccessCreator = (id, dispatch) => {
     dispatch(deletePictureSuccessAction(id));
 }

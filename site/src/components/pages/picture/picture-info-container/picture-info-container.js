@@ -10,28 +10,39 @@ const PictureInfoContainer = (props) => {
 
     const [languageIndex, setLanguageIndex] = useState(0);
 
-    const { picture, pictureInfo } = props;
+    const { loaded, picture, pictureInfo } = props;
+    const { onLanguageAdded, onPictureInfoChanged } = props;
 
-    if(pictureInfo.length === 0)
+    if(!loaded)
         return <span>WAIT</span>
+    
+    if(pictureInfo.length === 0) {
+        return (
+            <button 
+                onClick={() => onLanguageAdded(prompt("Which? (ua, en, ru...)"))}
+            >Add your first language info</button>
+        )
+    }
     
     return ( 
         <div className="picture-info-container">
             <PictureLanguages 
                 pictureInfo={pictureInfo}
                 languageIndex={languageIndex}
-                setLanguageIndex={setLanguageIndex}/>
+                setLanguageIndex={setLanguageIndex}
+                onLanguageAdded={onLanguageAdded}/>
             <PictureDescriptionContainer 
                 picture={picture}
                 pictureInfo={pictureInfo} 
-                index={languageIndex} />
+                index={languageIndex}
+                onPictureInfoChanged={onPictureInfoChanged} />
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
     return {
-
+        
     }
 }
 

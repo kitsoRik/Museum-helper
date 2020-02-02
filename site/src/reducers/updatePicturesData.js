@@ -50,6 +50,7 @@ const updatePicturesData = (state, action) => {
         
         case "DELETE_PICTURE_SUCCESS": return deletePictureSuccess(state, action);
 
+
         default: return state.picturesData;
     }
 }

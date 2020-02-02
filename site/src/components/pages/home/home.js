@@ -1,24 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import "./home.scss";
+import withDrawer from '../../withDrawer/';
 
 const Home = (props) => {
     const { userData: { loggedIn } } = props;
     
-    if(!loggedIn) {
-        return <Redirect to="/login"/>
-    } else if(loggedIn === "wait") {
-        return <span>Wait...</span>
-    }
+    const otherActionLink = loggedIn === true ? 
+                        <Link to="/pictures">go to work</Link> : 
+                        <Link to="/login">login</Link>;
     
     return ( 
         <div className="home-page">
-            <Link 
-                className="get-started-btn"
-                to="/pictures"
-            >Get stated</Link>
+            <div className="home-page-main-action-container">
+                <Link 
+                    className="get-started-btn"
+                    to="/documentation"
+                >Get stated</Link>
+            </div>
+            <span className="home-page-other-action-container">
+                or { otherActionLink }
+            </span>
         </div>
      );
 }
@@ -34,4 +38,4 @@ const mapDipatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDipatchToProps)(Home);
+export default connect(mapStateToProps, mapDipatchToProps)((Home));
