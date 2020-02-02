@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import withGuard from '../../withGuard/withGuard';
 
 const Profile = (props) => {
     return ( 
@@ -21,4 +22,4 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(Profile);
+export default connect(mapStateToProps, mapDipatchToProps)(withGuard(Profile));

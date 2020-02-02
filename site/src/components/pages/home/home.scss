@@ -3,8 +3,18 @@
     height: 100%;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.home-page-main-action-container {
+    margin: 0;
+    padding: 0;
+}
+
+.home-page-other-action-container {
+    margin-top: 10px;
 }
 
 .get-started-btn {

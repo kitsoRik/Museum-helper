@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import PictureItem from './picture-item'
-import { NOT_LOADED, IS_LOADING, LOADED, ERROR_LOADING } from '../../../../constants';
+import { NOT_LOADED, IS_LOADING, ERROR_LOADING } from '../../../../constants';
 
 import "./picture-container.scss";
 import { Link } from 'react-router-dom';
@@ -17,7 +17,7 @@ const PicturesContainer = (props) => {
 
     const { pictures } = props;
 
-    const pictureItems = pictures.map(item => <PictureItem  {...item}/>)
+    const pictureItems = pictures.map(item => <PictureItem key={item.id} {...item}/>)
 
     return ( 
         <div className="picture-container">

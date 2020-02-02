@@ -5,6 +5,8 @@ import { startLoadPicturesCreator, loadPicturesSuccesssCreator, loadPicturesErro
 import { getPicturesData } from '../../../services/api/api';
 
 import "./pictures.scss";
+import withGuard from '../../withGuard/withGuard';
+import withDrawer from '../../withDrawer';
 
 const Pictures = (props) => {
 
@@ -45,4 +47,4 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(Pictures);
+export default connect(mapStateToProps, mapDipatchToProps)((withGuard(Pictures)));
