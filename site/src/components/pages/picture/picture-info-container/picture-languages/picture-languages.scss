@@ -1,14 +1,12 @@
 .picture-languages {
     max-width: 100%;
     display: flex;
-    align-items: center;
     
     cursor: pointer;
 }
 
 .picture-languages-container {
     display: flex;
-    align-items: center;
 
     overflow: auto;
 }
@@ -21,7 +19,7 @@
     color: white;
 
     font-size: 21pt;
-    text-align: center  ;
+    text-align: center ;
 
     transition: all .3s;
 

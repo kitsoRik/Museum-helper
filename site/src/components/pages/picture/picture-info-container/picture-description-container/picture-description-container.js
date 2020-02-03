@@ -2,54 +2,42 @@ import React, { useState, useEffect } from 'react';
 
 import './picture-description-container.scss';
 import { connect } from 'react-redux';
+import { savePictureInfo } from '../../../../../services/api/api';
+import { changePictureInfoSuccessCreator } from '../../../../../actions';
+import EditableTextField from '../../../../../simple-components/editable-text-field/editable-text-field';
 
 const PictureDescriptionContainer = (props) => {
 
     const { index } = props;
-    const { onPictureInfoChanged, pictureInfo } = props;
-    const [description, setDescription] = useState("");
-    const [editable, setEditable] = useState(false);
-    
-    useEffect(() => {
-        setDescription(pictureInfo[index].description);
-    }, [index]);
+    const { pictureInfo } = props;
 
-    if(index === -1) {
-        return <span>Select language</span>;
-    }
-    
-    const editButton = editable ? null : <button 
-                        className="picture-descriptipn-edit-button"
-                        onClick={() => setEditable(!editable)}
-                        > Edit </button>
-    const onBlur = (text) => {
-        setDescription(text)
-        onPictureInfoChanged(index, text)
-        setEditable(false);
-    }
+    const { onPictureInfoChanged } = props;
 
     return ( 
-        <div 
-            className="picture-description-container"
-            contentEditable={editable}
-            suppressContentEditableWarning={true}
-            onBlur={(e) => onBlur(e.target.innerText)}
-        >
-            { description } 
-            { editButton }
-        </div>
+        <EditableTextField 
+            classname="picture-description-container"
+            value={pictureInfo[index].description}
+            onSaved={(description) => onPictureInfoChanged(pictureInfo[index].id, { description })}/>
      );
 }
 
 const mapStateToProps = (state) => {
+    const { pictureInfo } = state.pictureInfoData;
     return {
-
+        pictureInfo
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
+        onPictureInfoChanged: (id, changes) => {
+            savePictureInfo(id, changes)
+                .then((data) => {
+                    const { description } = data.result;
 
+                    changePictureInfoSuccessCreator(id, { description }, dispatch);
+                });
+        }
     }
 }
 

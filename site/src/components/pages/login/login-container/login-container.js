@@ -11,7 +11,7 @@ const LoginContainer = (props) => {
     const [password, setPassword] = useState("");
 
     const { error, onSubmit } = props;
-    console.log(error);
+    
     return (
         <div className="login-container">
             <h1 className="login-title">Login</h1>

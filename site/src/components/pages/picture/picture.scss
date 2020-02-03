@@ -1,7 +1,9 @@
 .picture-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
-
+    align-items: stretch;
     flex-grow: 1;
+
+    max-height: 100vh;
+    overflow: hidden;
 }

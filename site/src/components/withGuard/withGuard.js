@@ -7,6 +7,8 @@ function withGuard(WrapperComponent)  {
 
         render() {
             const { userData: { loggedIn } } = this.props;
+            console.log(this.props);
+            if(loggedIn === "wait") return <span>WAIT</span>
             if(loggedIn !== true) return <Redirect to="/login"/> 
 
             return <WrapperComponent {...this.props}/>

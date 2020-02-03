@@ -3,13 +3,16 @@ import LoginContainer from './login-container/login-container';
 import { startLoginIn, successLoginIn, errorLoginIn } from '../../../actions';
 import { getLoginIn } from '../../../services/api/api';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import './login.scss';
 
 const Login = (props) => {
 
-    const { loginIn } = props;
+    const { loginIn, loggedIn } = props;
+    
+    if(loggedIn === 'wait') return <span>"WAIT"</span>;
+    if(loggedIn === true) return <Redirect to="/"/>
     
     return ( 
         <div className="login-page">
@@ -20,7 +23,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-
+        loggedIn: state.userData.loggedIn
     }
 }
 
