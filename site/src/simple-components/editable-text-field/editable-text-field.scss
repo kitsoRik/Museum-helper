@@ -1,0 +1,43 @@
+.editable-text-field {
+
+    padding: 5px 10px;
+
+    border: 2px solid black;
+
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+
+    &[contenteditable=true] {
+        border-color: red;
+
+        .editable-text-field-edit-btn {
+            display: none;
+        }
+    }
+
+    &[contenteditable=false] { 
+        .editable-text-field-save-btn {
+            display: none;
+        }
+    }
+}
+
+.editable-text-field-btn {
+    margin-left: 5px;
+
+    display: inline-block;
+
+    border: 2px solid black;
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+}
+
+.editable-text-field-edit-btn {
+    &:hover {
+        background-color: black;
+        color: white
+    }
+}

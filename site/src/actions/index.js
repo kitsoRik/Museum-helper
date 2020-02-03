@@ -60,7 +60,62 @@ const deletePictureSuccessAction = (id) => {
     }
 }
 
+const startLoadPictureInfoAction = (id) => {
+    return {
+        type: "START_LOAD_PICTURE_INFO"
+    }
+}
 
+const loadPictureInfoSuccessAction = (picture, pictureInfo) => {
+    return {
+        type: "LOAD_PICTURE_INFO_SUCCESS",
+        picture,
+        pictureInfo
+    }
+}
+
+const changePictureInfoSuccessAction = (id, changes) => {
+    return {
+        type: "CHANGE_PICTURE_INFO_SUCCESS",
+        id,
+        changes
+    }
+}
+
+const changePictureSuccessAction = (id, changes) => {
+    return {
+        type: "CHANGE_PICTURE_SUCCESS",
+        id,
+        changes
+    }
+}
+
+const languageInfoAddedAction = (result) => {
+    return {
+        type: "LANGUAGE_INFO_ADDED",
+        pictureInfoPart: result
+    }
+}
+
+export const languageInfoAddedCreator = (result, dispatch) => {
+    dispatch(languageInfoAddedAction(result));
+}
+
+export const changePictureSuccessCreator = (id, changes, dispatch) => {
+    dispatch(changePictureSuccessAction(id, changes));
+}
+
+export const changePictureInfoSuccessCreator = (id, changes, dispatch) => {
+    dispatch(changePictureInfoSuccessAction(id, changes));
+}
+
+export const loadPictureInfoSuccessCreator = (picture, pictureInfo, dispatch) => {
+    dispatch(loadPictureInfoSuccessAction(picture, pictureInfo));
+}
+
+export const startLoadPictureInfoCreator = (id, dispatch) => {
+    dispatch(startLoadPictureInfoAction(id));
+}
 
 export const deletePictureSuccessCreator = (id, dispatch) => {
     dispatch(deletePictureSuccessAction(id));

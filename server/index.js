@@ -124,7 +124,7 @@ app.post("/getPicturesData", (req, res) => {
 app.post("/getPictureData", (req, res) => {
     const { sesid } = req.cookies;
     const { id } = req.body;
-    db.get(`SELECT p.id, p.name, p.qrcode, p.icon_name iconName 
+    db.get(`SELECT p.id, p.name, p.description, p.qrcode, p.icon_name iconName 
             FROM pictures p 
             WHERE p.id=?
             LIMIT 1`, [id], (err, picture) => {
@@ -141,33 +141,25 @@ app.post("/getPictureData", (req, res) => {
 });
 
 app.post("/savePictureData", (req, res) => {
-    const { id, qrcode } = req.body;
-    
+    const { id, changes } = req.body;
     db.run(`UPDATE pictures
-            SET qrcode=$qrcode
-            WHERE id=$id`, {
-                $qrcode: qrcode,
-                $id: id
-            }, (run, err) => {
+            SET ${Object.keys(changes)[0]}=?
+            WHERE id=?`, [changes[Object.keys(changes)[0]], id], (run, err) => {
                 if(err) return console.log(err);
-                res.send({success: true});
+                res.send({success: true, changes });
             });
 });
 
 app.post("/savePictureInfo", (req, res) => {
-    const { id, description } = req.body;
-    
+    const { id, changes } = req.body;
     db.run(`UPDATE pictures_info
-            SET description=$description
-            WHERE id=$id`, {
-                $description: description,
-                $id: id
-            }, (run, err) => {
+            SET ${Object.keys(changes)[0]}=?
+            WHERE id=?`, [changes[Object.keys(changes)[0]], id], (run, err) => {
                 if(err) return console.log(err);
                 res.send({
                     success: true,
                     result: {
-                        description
+                        ...changes
                     }
                 });
             });
@@ -273,4 +265,4 @@ const getIdBySesid = (sesid, callback) => {
     });
 }
 
-app.listen(3005, () => console.log("LISTENING 3005 port..."));
+app.listen(3006, () => console.log("LISTENING 3005 port..."));

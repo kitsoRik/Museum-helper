@@ -1,11 +1,13 @@
 .picture-description-container {
+
     padding: 10px;
-    margin: 10px;
 
-    flex-grow: 1;
-    align-self: stretch;
+    display: block;
 
-    outline: 2px solid black;
+    flex: 1 1 auto;
+    justify-self: start;
+
+    overflow-y: auto;
     word-wrap: break-word;
 
     &[contenteditable=true] {

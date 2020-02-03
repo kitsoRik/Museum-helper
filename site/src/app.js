@@ -28,8 +28,6 @@ const App = (props) => {
     }, [ ]);
 
     return ( 
-        <div className="app">
-            <Drawer />
             <Switch>
                 <Route path="/" render={() => <Home /> } exact/>
                 <Route path="/login" render={() => <Login /> } exact/>
@@ -40,7 +38,6 @@ const App = (props) => {
                 <Route path="/documentation" render={() => <Documentation /> } exact/>
                 <Route render={() => <NotFound />} />
             </Switch>
-        </div>
      );
 }
 

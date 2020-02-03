@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-const host = "http://localhost:3005"
+const host = "http://5.45.118.116:3006"
 
 export const apiHost = host;
 
@@ -48,8 +48,8 @@ export const getPictureData = (id) => {
                 .then(({ data }) => data);
 }
 
-export const savePictureData = (id, d) => {
-    const params = { id, ...d };
+export const savePictureData = (id, changes) => {
+    const params = { id, changes };
     const queryParams = {
         withCredentials: true
     };
@@ -57,11 +57,12 @@ export const savePictureData = (id, d) => {
                 .then(({ data }) => data);
 }
 
-export const savePictureInfo = (id, info) => {
-    const params = { id, ...info };
+export const savePictureInfo = (id, changes) => {
+    const params = { id, changes };
     const queryParams = {
         withCredentials: true
     };
+
     return Axios.post(`${host}/savePictureInfo`, params, queryParams)
                 .then(({ data }) => data);
 }

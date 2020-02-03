@@ -20,7 +20,6 @@ const AddPictureContainer = (props) => {
                 }
             });
     }
-
     return ( 
         <div className="add-picture-container">
             <label 
@@ -36,7 +35,9 @@ const AddPictureContainer = (props) => {
             >QR Code</label>
             <input type="text" onChange={(e) => setQrcode(e.target.value)} />
             <AddPictureIconLoader file={file} setFile={setFile} />
-            <button onClick={() => onAddPicture()}>Add</button>
+            <button 
+                disabled={!(name.length !== 0 && description.length !== 0 && qrcode.length !== 0 && !!file)}
+                onClick={() => onAddPicture()}>Add</button>
         </div>
      );
 }

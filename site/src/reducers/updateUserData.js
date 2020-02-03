@@ -1,11 +1,8 @@
 const loginInStart = (state, action) => {
-    console.log(action);
     return state.userData;
 }
 
 const loginInSuccess = (state, action) => {
-
-    console.log(action);
     const { username, email } = action.data;
 
     return {
@@ -16,7 +13,6 @@ const loginInSuccess = (state, action) => {
 }
 
 const loginInError = (state, action) => {
-    console.log(action);
     return {
         loggedIn: false,
         error: action.error

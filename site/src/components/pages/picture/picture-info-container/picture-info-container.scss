@@ -2,6 +2,21 @@
     display: flex;
 
     flex-direction: column;
-    align-items: center;
-    align-self: stretch;
+    flex-grow: 1;
+
+    overflow-y: auto;
+}
+
+.picture-info-container-title {
+    padding: 10px;
+
+    word-wrap: break-word;
+
+    &[contenteditable=true] {
+        outline-color: red;
+    }
+}
+
+.picture-info-container-upper-part {
+    display: flex;
 }

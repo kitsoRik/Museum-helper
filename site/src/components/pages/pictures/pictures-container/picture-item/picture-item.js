@@ -45,7 +45,6 @@ const mapDipatchToProps = (dispatch, { iconName }) => {
         deletePicture: (id) => {
             deletePicture(id)
                 .then((data) => {
-                    console.log(data);
                     if(data.success) {
                         deletePictureSuccessCreator(id, dispatch);
                     }
