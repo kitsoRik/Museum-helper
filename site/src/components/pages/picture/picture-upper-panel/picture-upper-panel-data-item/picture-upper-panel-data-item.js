@@ -4,7 +4,7 @@ import EditableTextField from '../../../../../simple-components/editable-text-fi
 import "./picture-upper-panel-data-item.scss";
 import { connect } from 'react-redux';
 import { savePictureData } from '../../../../../services/api/api';
-import { changePictureSuccessCreator } from '../../../../../actions';
+import { changePictureCreator } from '../../../../../actions/picturesInfoActions';
 
 const PictureUpperPanelDataItem = (props) => {
 
@@ -26,7 +26,7 @@ const PictureUpperPanelDataItem = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { picture } = state.pictureInfoData;
+    const { picture } = state.pictursInfo;
     return {
         picture
     }
@@ -34,12 +34,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        onPictureChanged: (id, changes) => {
-            savePictureData(id, changes)
-                .then((data) => {
-                    changePictureSuccessCreator(id, changes, dispatch);
-                });
-        }
+        onPictureChanged: (id, changes) => dispatch(changePictureCreator(id, changes, dispatch))
     }
 }
 

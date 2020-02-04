@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import "./picture-item.scss";
 import { withRouter } from 'react-router-dom';
 import PictureIconToolPanel from './picture-icon-tool-panel/picture-icon-tool-panel';
-import { apiHost, deletePicture } from '../../../../../services/api/api';
-import { deletePictureSuccessCreator } from '../../../../../actions'
+import { apiHost } from '../../../../../services/api/api';
+import { deletePictureCreator } from '../../../../../actions/picturesActions'
 
 const PictureItem = (props) => {
 
@@ -42,14 +42,7 @@ const mapStateToProps = (state) => {
 const mapDipatchToProps = (dispatch, { iconName }) => {
     return {
         iconPath: `${apiHost}/static/pictureIcons/${iconName}`,
-        deletePicture: (id) => {
-            deletePicture(id)
-                .then((data) => {
-                    if(data.success) {
-                        deletePictureSuccessCreator(id, dispatch);
-                    }
-                });
-        }
+        deletePicture: (id) => dispatch(deletePictureCreator(id, dispatch))
     }
 }
  

@@ -9,13 +9,4 @@
 
     overflow-y: auto;
     word-wrap: break-word;
-
-    &[contenteditable=true] {
-        outline-color: red;
-    }
-}
-
-.picture-descriptipn-edit-button {
-    display: inline;
-    margin-left: 5px;
 }

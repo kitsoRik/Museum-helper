@@ -37,15 +37,13 @@ const LoginContainer = (props) => {
 const mapStateToProps = (state) => {
     
     return {
-        error: state.userData.error
+        error: state.user.error
     }
 }
 
 const mapDispatchToProps = (dispatch, { onLoginIn }) => {
     return {
-        onSubmit: (login, password) => {
-            onLoginIn(login, password);
-        }
+        onSubmit: (login, password) => onLoginIn(login, password)
     }
 }
 

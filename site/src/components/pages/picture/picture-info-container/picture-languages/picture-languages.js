@@ -2,18 +2,21 @@ import React from 'react';
 
 import "./picture-languages.scss";
 import { connect } from 'react-redux';
-import EditableTextField from '../../../../../simple-components/editable-text-field/editable-text-field';
-import { savePictureInfo, addLanguageInfo } from '../../../../../services/api/api';
-import { changePictureSuccessCreator, changePictureInfoSuccessCreator, languageInfoAddedCreator } from '../../../../../actions';
+import { changePictureInfoCreator, addLanguageInfoCreator } from '../../../../../actions/picturesInfoActions';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const PictureLanguages = (props) => {
 
     const { picture, pictureInfo, languageIndex } = props;
-    const { setLanguageIndex } = props;
     const { changeLanguageName, addLanguage } = props;
 
     const languageItems = pictureInfo.map((info) => {
-        return <option key={info.id}>{info.language}</option>
+        return <MenuItem key={info.id} value={info.id} >{info.language}</MenuItem>
     });
 
     const onAddLanguageClick = () => {
@@ -24,17 +27,22 @@ const PictureLanguages = (props) => {
 
     return (
         <div className="picture-languages">
-            <select
-                onChange={(e) => setLanguageIndex(e.target.selectedIndex)}>
+            <InputLabel id="language-label">Language</InputLabel>
+            <Select 
+                labelId="language-label"
+                onChange={(e) => console.log(e)}>
+                    <MenuItem value="">None</MenuItem>
                 {languageItems}
-            </select>
-            <EditableTextField
+            </Select>
+            <TextField
+                variant="outlined"
                 value={pictureInfo[languageIndex].language}
-                onSaved={(v) => changeLanguageName(pictureInfo[languageIndex].id, v)} />
-            <button
+                onBlur={(e) => changeLanguageName(pictureInfo[languageIndex].id, e.target.value)}
+                onChange={(e) => changeLanguageName(pictureInfo[languageIndex].id, e.target.value)} />
+            <Button
                 onClick={onAddLanguageClick}>
                 ADD
-            </button>
+            </Button>
         </div>
     );
 }
@@ -42,7 +50,7 @@ const PictureLanguages = (props) => {
 
 
 const mapStateToProps = (state) => {
-    const { picture, pictureInfo } = state.pictureInfoData;
+    const { picture, pictureInfo } = state.pictursInfo;
     return {
         picture,
         pictureInfo
@@ -51,20 +59,8 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changeLanguageName: (id, name) => {
-            savePictureInfo(id, { language: name })
-                .then((data) => {
-                    if (data.success) {
-                        changePictureInfoSuccessCreator(id, data.result, dispatch);
-                    }
-                });
-        },
-        addLanguage: (id, language) => {
-            addLanguageInfo(id, language)
-                .then((data) => {
-                    languageInfoAddedCreator(data.addedPictureInfo, dispatch);
-                });
-        }
+        changeLanguageName: (id, name) => dispatch(changePictureInfoCreator(id, { language: name }, dispatch)),
+        addLanguage: (id, language) => dispatch(addLanguageInfoCreator(id, language, dispatch))
     }
 }
 

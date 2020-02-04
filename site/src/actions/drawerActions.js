@@ -1,19 +1,17 @@
-const closeDrawerAction = () => {
+export const changeVisibleDrawerCreator = () => {
+    return {
+        type: "CHANGE_VISIBLE_DRAWER"
+    }
+}
+
+export const closeDrawerCreator = () => {
     return {
         type: "CLOSE_DRAWER"
     }
 }
 
-const openDrawerAction = () => {
+export const openDrawerCreator = () => {
     return {
         type: "OPEN_DRAWER"
     }
-}
-
-export const closeDrawerCreator = (dispatch) => {
-    dispatch(closeDrawerAction());
-}
-
-export const openDrawerCreator = (dispatch) => {
-    dispatch(openDrawerAction());
 }

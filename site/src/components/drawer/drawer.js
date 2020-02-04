@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux'
 
 import './drawer.scss';
-import { closeDrawerCreator, openDrawerCreator } from '../../actions/drawerActions';
+import { changeVisibleDrawerCreator } from '../../actions/drawerActions';
 
 const Drawer = (props) => {
 
@@ -13,14 +13,14 @@ const Drawer = (props) => {
         <div 
             className="drawer" 
             style={{minWidth: `${opened ? 280 : 60}px`}}
-            onClick={() => changeVisibleDrawer(opened)}>
+            onClick={() => changeVisibleDrawer()}>
             DRAWER {opened}
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    const { opened } = state.drawerData;
+    const { opened } = state.drawer;
     return {
         opened
     }
@@ -28,10 +28,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changeVisibleDrawer: (opened) => {
-            if(opened) closeDrawerCreator(dispatch);
-            else openDrawerCreator(dispatch);
-        }
+        changeVisibleDrawer: () => dispatch(changeVisibleDrawerCreator())
     }
 }
  

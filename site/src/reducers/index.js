@@ -1,15 +1,23 @@
-import updateUserData from "./updateUserData";
-import updatePicturesData from "./updatePicturesData";
-import updatePictureInfoData from "./updatePictureInfo";
+import updateUser from "./updateUser";
+import updatePictures from "./updatePictures";
+import updatePictureInfo from "./updatePictureInfo";
 import updateDrawer from "./updateDrawer";
+import { combineReducers } from "redux";
 
-const reducer = (state, action) => {
-    return {
-        drawerData: updateDrawer(state, action),
-        userData: updateUserData(state, action),
-        picturesData: updatePicturesData(state, action),
-        pictureInfoData: updatePictureInfoData(state, action)
-    }
-}
+const reducer = combineReducers({
+    drawer: updateDrawer,
+    user: updateUser,
+    pictures: updatePictures,
+    pictursInfo: updatePictureInfo
+});
+
+// const reducer = (state = {}, action) => {
+//     return {
+//         drawer: updateDrawer(state.drawer, action),
+//         user: updateUser(state.user, action),
+//         pictures: updatePictures(state.pictures, action),
+//         pictursInfo: updatePictureInfo(state.pictursInfo, action)
+//     }
+// }
 
 export default reducer;

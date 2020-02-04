@@ -41,10 +41,10 @@ const PictureUpperPanel = (props) => {
 
 
 const mapStateToProps = (state) => {
-    const { picture } = state.pictureInfoData;
+    const { picture } = state.pictursInfo;
     
     return {
-        picture: state.pictureInfoData.picture
+        picture: state.pictursInfo.picture
     }
 }
 
