@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import './picture-description-container.scss';
 import { connect } from 'react-redux';
 import { savePictureInfo } from '../../../../../services/api/api';
-import { changePictureInfoSuccessCreator } from '../../../../../actions';
+import { changePictureInfoCreator } from '../../../../../actions/picturesInfoActions';
 import EditableTextField from '../../../../../simple-components/editable-text-field/editable-text-field';
+
+import { debounce } from 'debounce'
+import TextField from '@material-ui/core/TextField';
+
 
 const PictureDescriptionContainer = (props) => {
 
@@ -13,16 +17,29 @@ const PictureDescriptionContainer = (props) => {
 
     const { onPictureInfoChanged } = props;
 
-    return ( 
-        <EditableTextField 
-            classname="picture-description-container"
-            value={pictureInfo[index].description}
-            onSaved={(description) => onPictureInfoChanged(pictureInfo[index].id, { description })}/>
-     );
+    const [description, setDescription] = useState(pictureInfo[0].description)
+    
+    // const checkAndWrite = useCallback(debounce(() => 
+    //         onPictureInfoChanged(pictureInfo[index].id, { description }), 2000),
+    //         [ ], );
+
+    //const [s1, setS] = useState(debounce(() => onPictureInfoChanged(pictureInfo[index].id, { description }), 2000));
+    
+    return (
+        <TextField
+            id="filled-basic" 
+            variant="filled"
+            className="picture-description-container"
+            multiline
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            onBlur={() => onPictureInfoChanged(pictureInfo[index].id, { description })}
+        />
+    );
 }
 
 const mapStateToProps = (state) => {
-    const { pictureInfo } = state.pictureInfoData;
+    const { pictureInfo } = state.pictursInfo;
     return {
         pictureInfo
     }
@@ -30,14 +47,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        onPictureInfoChanged: (id, changes) => {
-            savePictureInfo(id, changes)
-                .then((data) => {
-                    const { description } = data.result;
-
-                    changePictureInfoSuccessCreator(id, { description }, dispatch);
-                });
-        }
+        onPictureInfoChanged: (id, changes) => dispatch(changePictureInfoCreator(id, changes, dispatch))
     }
 }
 

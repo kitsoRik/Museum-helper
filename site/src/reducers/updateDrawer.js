@@ -1,31 +1,36 @@
+const initState = {
+    opened: localStorage.getItem("DRAWER_VISIBLE") === "true"
+};
 
-
-
-const updateDrawer = (state, action) => {
-    if(state === undefined) {
-        return {
-            opened: localStorage.getItem("DRAWER_VISIBLE") === "true"
-        }
-    }
-
+const updateDrawer = (state = initState, action) => {   
     switch(action.type) {
-        case "CLOSE_DRAWER": {
-            localStorage.setItem("DRAWER_VISIBLE", false);
-            return {
-                ...state.drawerData,
-                opened: false
-            }
+        case "CHANGE_VISIBLE_DRAWER": {
+            if(state.opened) 
+                return closeDrawer(state, action);
+            
+             return openDrawer(state, action);
         }
-        case "OPEN_DRAWER": {
-            localStorage.setItem("DRAWER_VISIBLE", true);
-            return {
-                ...state.drawerData,
-                opened: true
-            }
-        }
+        case "CLOSE_DRAWER": return closeDrawer();
+        case "OPEN_DRAWER": return openDrawer();
     }
 
-    return state.drawerData;
+    return state;
+}
+
+const closeDrawer = (state, action) => {
+    localStorage.setItem("DRAWER_VISIBLE", false);
+    return {
+        ...state,
+        opened: false
+    }
+}
+
+const openDrawer = (state, action) => {
+    localStorage.setItem("DRAWER_VISIBLE", true);
+    return {
+        ...state,
+        opened: true
+    }
 }
 
 export default updateDrawer;

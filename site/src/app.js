@@ -4,7 +4,6 @@ import Home from './components/pages/home/home';
 import { getData } from './services/api/api';
 import { connect } from 'react-redux';
 import Login from './components/pages/login/login';
-import { setDataCreator, failDataCreator } from './actions';
 import Register from './components/pages/register/register';
 import Pictures from './components/pages/pictures';
 import Picture from './components/pages/picture';
@@ -14,17 +13,12 @@ import NotFound from './components/pages/not-found/not-found';
 import Drawer from './components/drawer';
 
 import './app.scss';
+import { getDataCreator } from './actions/userActions';
 
 const App = (props) => {
     
     useEffect(() => {
-        getData().then((data) => {
-            if(data.success) {
-                props.setData(data);
-            } else {
-                props.failData(data);
-            }
-        });
+        props.getData();
     }, [ ]);
 
     return ( 
@@ -49,8 +43,7 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setData: (data) => setDataCreator(data, dispatch),
-        failData: (data) => failDataCreator(data, dispatch)
+        getData: () => dispatch(getDataCreator(dispatch))
     }
 }
  

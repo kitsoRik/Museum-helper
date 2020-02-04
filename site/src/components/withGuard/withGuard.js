@@ -6,7 +6,7 @@ function withGuard(WrapperComponent)  {
     class HOC extends Component {
 
         render() {
-            const { userData: { loggedIn } } = this.props;
+            const { user: { loggedIn } } = this.props;
             console.log(this.props);
             if(loggedIn === "wait") return <span>WAIT</span>
             if(loggedIn !== true) return <Redirect to="/login"/> 
@@ -18,9 +18,9 @@ function withGuard(WrapperComponent)  {
     return connect(mapStateToProps, mapDipatchToProps)(HOC);
 }
 
-const mapStateToProps = ({ userData }) => {
+const mapStateToProps = ({ user }) => {
     return {
-        userData
+        user
     }
 }
 

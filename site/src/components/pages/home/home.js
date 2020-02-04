@@ -6,7 +6,7 @@ import "./home.scss";
 import withDrawer from '../../withDrawer/';
 
 const Home = (props) => {
-    const { userData: { loggedIn } } = props;
+    const { user: { loggedIn } } = props;
     
     const otherActionLink = loggedIn === true ? 
                         <Link to="/pictures">go to work</Link> : 
@@ -27,9 +27,9 @@ const Home = (props) => {
      );
 }
 
-const mapStateToProps = ({ userData }) => {
+const mapStateToProps = ({ user }) => {
     return {
-        userData
+        user
     }
 }
 

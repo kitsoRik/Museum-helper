@@ -7,7 +7,7 @@ import "./picture.scss"
 import PictureUpperPanel from './picture-upper-panel/picture-upper-panel';
 import PictureInfoContainer from './picture-info-container';
 import withDrawer from '../../withDrawer';
-import { startLoadPictureInfoCreator, loadPictureInfoSuccessCreator } from '../../../actions';
+import { startLoadPictureInfoCreator, loadPictureInfoSuccessCreator } from '../../../actions/picturesInfoActions';
 
 const Picture = (props) => {
     const { match: { params: { id }}} = props;
@@ -31,7 +31,7 @@ const Picture = (props) => {
 
 const mapStateToProps = (state) => {
     
-    const { picture, pictureInfo } = state.pictureInfoData;
+    const { picture, pictureInfo } = state.pictursInfo;
     return {
         picture,
         pictureInfo
@@ -40,20 +40,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        startLoadPictureInfo: (id) => {
-            startLoadPictureInfoCreator(id, dispatch);
-            getPictureData(id)
-                .then((data) => {
-                    if(!data.success) {
-                        console.log("NOT SUCCESS");
-                        return;
-                    }
-                    loadPictureInfoSuccessCreator(
-                        data.picture, 
-                        data.pictureInfo, 
-                        dispatch);
-                });
-        }
+        startLoadPictureInfo: (id) => dispatch(startLoadPictureInfoCreator(id, dispatch))
     }
 }
  

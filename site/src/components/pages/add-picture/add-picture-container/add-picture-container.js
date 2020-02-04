@@ -2,24 +2,21 @@ import React, { useState } from 'react';
 
 import './add-picture-container.scss';
 import AddPictureIconLoader from './add-picture-icon-loader/add-picture-icon-loader';
-import { addPicture } from '../../../../services/api/api';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addPictureCreator } from '../../../../actions/picturesActions';
 
 const AddPictureContainer = (props) => {
+
+    const { addPicture } = props;
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [qrcode, setQrcode] = useState("");
     const [file, setFile] = useState(null);
 
-    const onAddPicture = () => {
-        addPicture(name, description, qrcode, file)
-            .then((data) => {
-                if(data.success) {
-                    props.history.push("/pictures");
-                }
-            });
-    }
+    const onAddPicture = () => addPicture(name, description, qrcode, file, props.history);
+
     return ( 
         <div className="add-picture-container">
             <label 
@@ -42,4 +39,17 @@ const AddPictureContainer = (props) => {
      );
 }
 
-export default withRouter(AddPictureContainer);
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+const mapDipatchToProps = (dispatch, ownProps) => {
+    return {
+        addPicture: (name, description, qrcode, file, history) => 
+            dispatch(addPictureCreator(name, description, qrcode, file, history))
+    }
+}
+
+export default connect(mapStateToProps, mapDipatchToProps)(withRouter(AddPictureContainer));

@@ -1,10 +1,10 @@
 import Axios from "axios"
 
-const host = "http://5.45.118.116:3006"
+const host = "http://localhost:3006"
 
 export const apiHost = host;
 
-export const getData = () => {
+export const getUserData = () => {
     return Axios.post(`${host}/getData`, { }, { withCredentials: true})
                     .then(({ data }) => data);
 }

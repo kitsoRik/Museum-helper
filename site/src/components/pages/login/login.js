@@ -1,7 +1,6 @@
 import React from 'react';
 import LoginContainer from './login-container/login-container';
-import { startLoginIn, successLoginIn, errorLoginIn } from '../../../actions';
-import { getLoginIn } from '../../../services/api/api';
+import { loginInStartCreator } from '../../../actions/userActions';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
@@ -23,26 +22,13 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        loggedIn: state.userData.loggedIn
+        loggedIn: state.user.loggedIn
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        loginIn: (email, password) => {
-            startLoginIn(email, dispatch);
-            getLoginIn(email, password)
-                .then((data) => {
-                    const { success } = data;
-                    if(success) {
-                        successLoginIn(data, dispatch);
-                        ownProps.history.push("/");
-                    } else {
-                        const { error } = data;
-                        errorLoginIn(error, dispatch);
-                    }
-                });
-        }
+        loginIn: (email, password) => dispatch(loginInStartCreator(email, password, ownProps, dispatch))
     }
 }
  

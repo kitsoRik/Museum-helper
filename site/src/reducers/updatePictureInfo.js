@@ -1,21 +1,15 @@
 import { NOT_LOADED, IS_LOADING, LOADED } from "../constants";
+import { getPictureData, savePictureData, savePictureInfo, addLanguageInfo } from "../services/api/api";
+import { loadPictureInfoSuccessCreator, changePictureSuccessCreator, changePictureInfoSuccessCreator, languageInfoAddedCreator } from "../actions/picturesInfoActions";
 
+const initState = {
+    loading: NOT_LOADED,
+    picture: {},
+    pictureInfo: []
+}
 
-const updatePictureInfoData = (state, action) => {
-    if(state === undefined) {
-        return {
-            loading: NOT_LOADED
-        }
-    }
-    
+const updatePictureInfo = (state = initState, action) => {
     switch(action.type) {
-        case "START_LOAD_PICTURE_INFO": {
-            return {
-                loading: IS_LOADING,
-                picture: {},
-                pictureInfo: []
-            }
-        }
         case "LOAD_PICTURE_INFO_SUCCESS": {
             return {
                 loading: LOADED,
@@ -26,8 +20,7 @@ const updatePictureInfoData = (state, action) => {
 
         case "CHANGE_PICTURE_SUCCESS": {
             const { id, changes } = action;
-
-            const picture = { ...state.pictureInfoData.picture };
+            const picture = { ...state.picture };
 
             const keys = Object.keys(changes);
 
@@ -37,7 +30,7 @@ const updatePictureInfoData = (state, action) => {
             }
 
             return {
-                ...state.pictureInfoData,
+                ...state,
                 picture
             }
         }
@@ -45,7 +38,7 @@ const updatePictureInfoData = (state, action) => {
         case "CHANGE_PICTURE_INFO_SUCCESS": {
             const { id, changes } = action;
 
-            const pictureInfo = state.pictureInfoData.pictureInfo;
+            const pictureInfo = state.pictureInfo;
 
             const index = pictureInfo.findIndex(i => i.id == id);
 
@@ -57,7 +50,7 @@ const updatePictureInfoData = (state, action) => {
                 changingPictureInfoPart[key] = changes[key];
             }
             return {
-                ...state.pictureInfoData,
+                ...state,
                 pictureInfo:
                     pictureInfo.slice(0, index)
                         .concat(changingPictureInfoPart)
@@ -66,18 +59,18 @@ const updatePictureInfoData = (state, action) => {
         }
 
         case "LANGUAGE_INFO_ADDED": {
-            const { pictureInfo } = state.pictureInfoData;
+            const { pictureInfo } = state;
             const { pictureInfoPart } = action;
 
             return {
-                ...state.pictureInfoData,
+                ...state,
                 pictureInfo: pictureInfo.concat(
                     pictureInfoPart
                 )
             }
         }
-        default: return state.pictureInfoData;
+        default: return state;
     }
 }
 
-export default updatePictureInfoData;
+export default updatePictureInfo;

@@ -6,8 +6,9 @@ import PictureDescriptionContainer from './picture-description-container/picture
 import './picture-info-container.scss';
 import PictureLanguages from './picture-languages/picture-languages.js';
 import EditableTextField from '../../../../simple-components/editable-text-field/editable-text-field.js';
-import { savePictureInfo, addLanguageInfo } from '../../../../services/api/api.js';
-import { languageInfoAddedCreator } from '../../../../actions/index.js';
+import { changePictureInfoCreator, addLanguageInfoCreator } from '../../../../actions/picturesInfoActions.js';
+
+import TextField from '@material-ui/core/TextField';
 
 const PictureInfoContainer = (props) => {
 
@@ -27,8 +28,7 @@ const PictureInfoContainer = (props) => {
     return ( 
         <div className="picture-info-container">
             <div className="picture-info-container-upper-part">
-                <EditableTextField 
-                        classname="picture-info-container-title" 
+                <TextField  
                         value={ pictureInfo[languageIndex].title }
                         onSaved={(v) => changePictureInfoPartTitle(pictureInfo[languageIndex].id, v)}/>
                 <PictureLanguages 
@@ -41,7 +41,7 @@ const PictureInfoContainer = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { picture, pictureInfo } = state.pictureInfoData;
+    const { picture, pictureInfo } = state.pictursInfo;
     return {
         picture,
         pictureInfo
@@ -50,18 +50,8 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changePictureInfoPartTitle: (id, title) => {
-            savePictureInfo(id, {title})
-                .then((data) => {
-                    
-                });
-        },
-        addLanguage: (id, language) => {
-            addLanguageInfo(id, language)
-                .then((data) => {
-                    languageInfoAddedCreator(data.addedPictureInfo, dispatch);
-                });
-        }
+        changePictureInfoPartTitle:  (id, title) => dispatch(changePictureInfoCreator(id, { title }, dispatch)),
+        addLanguage: (id, language) => dispatch(addLanguageInfoCreator(id, language, dispatch))
     }
 }
  

@@ -1,28 +1,18 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 import PicturesContainer from './pictures-container';
-import { startLoadPicturesCreator, loadPicturesSuccesssCreator, loadPicturesErrorCreator } from '../../../actions';
-import { getPicturesData } from '../../../services/api/api';
+import { startLoadPicturesCreator } from '../../../actions/picturesActions';
+
 
 import "./pictures.scss";
 import withGuard from '../../withGuard/withGuard';
-import withDrawer from '../../withDrawer';
 
 const Pictures = (props) => {
 
-    const { beginLoadPictures,
-            successLoadPictures,
-            errorLoadPictures } = props;
+    const { beginLoadPictures } = props;
 
     useEffect(() => {
         beginLoadPictures();
-        getPicturesData().then((data) => {
-            if(data.success) {
-                successLoadPictures(data.pictures);
-            } else {
-                errorLoadPictures(data.error);
-            }
-        });
     }, [ ])
 
     return ( 
@@ -41,9 +31,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        beginLoadPictures: () => startLoadPicturesCreator(dispatch),
-        successLoadPictures: (data) => loadPicturesSuccesssCreator(data, dispatch),
-        errorLoadPictures: (error) => loadPicturesErrorCreator(error, dispatch)
+        beginLoadPictures: () => dispatch(startLoadPicturesCreator(dispatch))
     }
 }
  
