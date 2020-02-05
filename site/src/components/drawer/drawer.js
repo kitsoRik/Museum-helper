@@ -10,6 +10,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 
@@ -18,7 +20,7 @@ const drawerWidth = 240;
 const Drawer = (props) => {
 
     const { main } = props;
-    const { opened } = props;
+    const { opened, title } = props;
     const { changeVisibleDrawer } = props;
 
     const classes = useStyles();
@@ -33,6 +35,24 @@ const Drawer = (props) => {
                 <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
+        </ListItem>,
+        <ListItem
+            key={-2}
+            button
+            onClick={() => props.history.push("/")}>
+            <ListItemIcon>
+                <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+        </ListItem>,
+        <ListItem
+            key={-2}
+            button
+            onClick={() => props.history.push("/documentation")}>
+            <ListItemIcon>
+                <LibraryBooksIcon />
+            </ListItemIcon>
+            <ListItemText primary="Documentation" />
         </ListItem>
     ].concat(Array.from({length: 20}, () => 1).map((v, i) => {
         return (
@@ -67,7 +87,7 @@ return (
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                    Persistent drawer
+                    { title }
           </Typography>
             </Toolbar>
         </AppBar>
@@ -107,9 +127,10 @@ return (
 }
 
 const mapStateToProps = (state) => {
-    const { opened } = state.drawer;
+    const { opened, title } = state.drawer;
     return {
-        opened
+        opened,
+        title
     }
 }
 

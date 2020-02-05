@@ -15,3 +15,10 @@ export const openDrawerCreator = () => {
         type: "OPEN_DRAWER"
     }
 }
+
+export const changeDrawerTitleCreator = (title) => {
+    return {
+        type: "CHANGE_DRAWER_TITLE",
+        title
+    }
+}

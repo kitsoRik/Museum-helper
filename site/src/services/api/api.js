@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-const host = "http://localhost:3006"
+const host = "http://5.45.118.116:3006"
 
 export const apiHost = host;
 

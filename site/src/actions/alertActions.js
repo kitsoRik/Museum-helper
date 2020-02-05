@@ -1,6 +1,6 @@
 let _id = 0;
 
-export const alertAddNotificationCreator = (text) => {
+export const alertAddNotificationCreator = (text, alertType = "default") => {
     _id++;
     return (dispatch) => {
         const copyId = _id;
@@ -17,7 +17,8 @@ export const alertAddNotificationCreator = (text) => {
             return {
                 type: "ADD_NOTIFICATION",
                 id:_id,
-                text 
+                text,
+                alertType
             }
         })());
     }

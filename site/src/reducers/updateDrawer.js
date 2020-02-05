@@ -1,5 +1,6 @@
 const initState = {
-    opened: localStorage.getItem("DRAWER_VISIBLE") === "true"
+    opened: localStorage.getItem("DRAWER_VISIBLE") === "true",
+    title: "Home"
 };
 
 const updateDrawer = (state = initState, action) => {   
@@ -12,6 +13,14 @@ const updateDrawer = (state = initState, action) => {
         }
         case "CLOSE_DRAWER": return closeDrawer();
         case "OPEN_DRAWER": return openDrawer();
+
+        case "CHANGE_DRAWER_TITLE": {
+            const { title } = action;
+            return {
+                ...state,
+                title
+            }
+        }
     }
 
     return state;

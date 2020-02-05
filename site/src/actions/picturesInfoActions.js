@@ -5,7 +5,8 @@ export const startLoadPictureInfoCreator = (id) => {
     return (dispatch) => {
         getPictureData(id)
                 .then((data) => {
-                    if(!data.success) {
+                    if(!data.success) { 
+                        dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
                         console.log("NOT SUCCESS");
                         return;
                     }
@@ -14,6 +15,9 @@ export const startLoadPictureInfoCreator = (id) => {
                         data.picture, 
                         data.pictureInfo, 
                         dispatch));
+                }).catch(() => {
+                    
+                    dispatch(alertAddNotificationCreator(`Picture info has not been loaded (server problem)`), "error");
                 });
     }
 }
@@ -33,6 +37,8 @@ export const changePictureInfoCreator = (id, changes) => {
                 .then((data) => {
                     dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} info has been changed!`));
                     dispatch(changePictureInfoSuccessCreator(id, changes));
+                }).catch(() => {
+                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} info has been changed (server problem)`), "error");
                 });
     }
 }
@@ -51,6 +57,8 @@ export const changePictureCreator = (id, changes) => {
                 .then((data) => {
                     dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} has been changed!`));
                     dispatch(changePictureSuccessCreator(id, changes, dispatch));
+                }).catch(() => {
+                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} has not been changed! (server problem)`), "error");
                 });
     }
 }
@@ -82,6 +90,8 @@ export const addLanguageInfoCreator = (id, title, description, language) => {
                     dispatch(alertAddNotificationCreator(`Language '${language}' has been added!`));
                     dispatch(languageInfoAddedCreator(data.addedPictureInfo));
                     dispatch(untriggeredAddLanguageInfoCreator());
+                }).catch(() => {
+                    dispatch(alertAddNotificationCreator(`Language '${language}' has not been added! (server problem)`), "error");
                 });
     }
 }

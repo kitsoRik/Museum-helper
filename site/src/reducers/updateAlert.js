@@ -7,7 +7,6 @@ const updateAlert = (state = initState, action) => {
 
         case "DELETE_NOTIFICATION": {
             const { id } = action;
-            console.log(state.notifications.filter((i) => i.id !== id));
             return {
                 ...state,
                 notifications: state.notifications.filter((i) => i.id !== id)
@@ -15,14 +14,15 @@ const updateAlert = (state = initState, action) => {
         }
 
         case "ADD_NOTIFICATION": {
-            const { id, text } = action;
+            const { id, text, alertType = "default" } = action;
 
             return {
                 ...state,
                 notifications: state.notifications.concat(
                     {
                         id,
-                        text
+                        text,
+                        alertType
                     }
                 )
                     
