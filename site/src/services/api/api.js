@@ -6,7 +6,8 @@ export const apiHost = host;
 
 export const getUserData = () => {
     return Axios.post(`${host}/getData`, { }, { withCredentials: true})
-                    .then(({ data }) => data);
+                    .then(({ data }) => data)
+                    .catch((res) => catchProblem);
 }
 
 export const getLoginIn = (email, password) => {
@@ -18,7 +19,8 @@ export const getLoginIn = (email, password) => {
         withCredentials: true
     };
     return Axios.post(`${host}/loginIn`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const getRegisterIn = (data) => {
@@ -27,7 +29,8 @@ export const getRegisterIn = (data) => {
         withCredentials: true
     };
     return Axios.post(`${host}/registerIn`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const getPicturesData = () => {
@@ -36,7 +39,8 @@ export const getPicturesData = () => {
         withCredentials: true
     };
     return Axios.post(`${host}/getPicturesData`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const getPictureData = (id) => {
@@ -45,7 +49,8 @@ export const getPictureData = (id) => {
         withCredentials: true
     };
     return Axios.post(`${host}/getPictureData`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const savePictureData = (id, changes) => {
@@ -54,7 +59,8 @@ export const savePictureData = (id, changes) => {
         withCredentials: true
     };
     return Axios.post(`${host}/savePictureData`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const savePictureInfo = (id, changes) => {
@@ -64,7 +70,8 @@ export const savePictureInfo = (id, changes) => {
     };
 
     return Axios.post(`${host}/savePictureInfo`, params, queryParams)
-                .then(({ data }) => data);
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
 }
 
 export const addPicture = (name, description, qrcode, iconFile) => {
@@ -81,7 +88,8 @@ export const addPicture = (name, description, qrcode, iconFile) => {
         }
     };
     return Axios.post(`${host}/addPicture`, formData, queryParams)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
 }
 
 export const deletePicture = (id) => {
@@ -90,14 +98,20 @@ export const deletePicture = (id) => {
         withCredentials: true
     };
     return Axios.post(`${host}/deletePicture`, params, queryParams)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
 }
 
-export const addLanguageInfo = (pictureId, language) => {
-    const params = { pictureId, language };
+export const addLanguageInfo = (pictureId, title, description, language) => {
+    const params = { pictureId, title, description, language };
     const queryParams = {
         withCredentials: true
     };
     return Axios.post(`${host}/addPictureInfo`, params, queryParams)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+const catchProblem = (res) => {
+    console.log(res);
 }

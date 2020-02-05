@@ -4,7 +4,6 @@ import './picture-description-container.scss';
 import { connect } from 'react-redux';
 import { savePictureInfo } from '../../../../../services/api/api';
 import { changePictureInfoCreator } from '../../../../../actions/picturesInfoActions';
-import EditableTextField from '../../../../../simple-components/editable-text-field/editable-text-field';
 
 import { debounce } from 'debounce'
 import TextField from '@material-ui/core/TextField';
@@ -12,12 +11,20 @@ import TextField from '@material-ui/core/TextField';
 
 const PictureDescriptionContainer = (props) => {
 
-    const { index } = props;
-    const { pictureInfo } = props;
-
+    const { currentIndex, pictureInfo } = props;
     const { onPictureInfoChanged } = props;
 
-    const [description, setDescription] = useState(pictureInfo[0].description)
+    const [description, setDescription] = useState("");
+
+    useEffect(() => {
+        if(currentIndex === -1) return;
+        setDescription(pictureInfo[currentIndex].description);
+    }, [ currentIndex ]);
+
+    useEffect(() => {
+        if(currentIndex === -1) return;
+        onPictureInfoChanged(pictureInfo[currentIndex].id, { description });
+    }, [ description ]);
     
     // const checkAndWrite = useCallback(debounce(() => 
     //         onPictureInfoChanged(pictureInfo[index].id, { description }), 2000),
@@ -25,29 +32,35 @@ const PictureDescriptionContainer = (props) => {
 
     //const [s1, setS] = useState(debounce(() => onPictureInfoChanged(pictureInfo[index].id, { description }), 2000));
     
+    if(currentIndex === -1) return <span>SELECT LANGUAGE</span>
+
     return (
         <TextField
             id="filled-basic" 
             variant="filled"
+            label="Description"
             className="picture-description-container"
             multiline
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            onBlur={() => onPictureInfoChanged(pictureInfo[index].id, { description })}
         />
     );
 }
 
 const mapStateToProps = (state) => {
-    const { pictureInfo } = state.pictursInfo;
+    const { currentIndex, pictureInfo } = state.pictureInfo;
     return {
+        currentIndex,
         pictureInfo
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        onPictureInfoChanged: (id, changes) => dispatch(changePictureInfoCreator(id, changes, dispatch))
+        onPictureInfoChanged: debounce(
+            (id, changes) => 
+                dispatch(changePictureInfoCreator(id, changes, dispatch))
+                ,1000)
     }
 }
 

@@ -7,13 +7,7 @@ const withDrawer = (WrapperComponent) => {
     return class extends Component {
         render() { 
             return ( 
-                <div 
-                    className="app-with-drawer"
-                    style={{minWidth: "10px"}}    
-                >
-                    <Drawer />
-                    <WrapperComponent {...this.props}/>
-                </div>
+                <Drawer main={<WrapperComponent {...this.props}/>}/>
             )
         }
     }

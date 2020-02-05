@@ -33,7 +33,7 @@ const PicturesContainer = (props) => {
 const mapStateToProps = (state) => {
 
     const { loading, pictures } = state.pictures;
-    console.log(state);
+    
     return {
         loadingState: loading,
         pictures
