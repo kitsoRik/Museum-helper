@@ -13,6 +13,8 @@ export const loginInStartCreator = (email, password, ownProps) => {
                         const { error } = data;
                         dispatch(loginInErrorCreator(error, dispatch));
                     }
+                }).catch(() => {
+                    dispatch(alertAddNotificationCreator(`Login error! (server problem)`), "error");
                 });
     }
 }
@@ -39,6 +41,7 @@ export const getDataCreator = (dispatch) => {
                 dispatch(setDataCreator(data));
             } else {
                 dispatch(failDataCreator(data));
+                dispatch(alertAddNotificationCreator(`User data has not been loaded! (server problem)`, 'error'));
             }
         });
     }

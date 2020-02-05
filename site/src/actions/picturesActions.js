@@ -9,7 +9,10 @@ export const startLoadPicturesCreator = () => {
                 dispatch(loadPicturesSuccessCreator(data.pictures));
             } else {
                 dispatch(loadPicturesErrorCreator(data.error));
+                dispatch(alertAddNotificationCreator(`Pictures has not been loaded`), "error");
             }
+        }).catch(() => {
+            dispatch(alertAddNotificationCreator(`Pictures has been loaded (server problem)`), "error");
         });
     }
 };
@@ -29,13 +32,17 @@ export const loadPicturesErrorCreator = (error) => {
 };
 
 export const addPictureCreator = (name, description, qrcode, file, history) => {
-    console.log("A");
     return (dispatch) => {
         addPicture(name, description, qrcode, file)
             .then((data) => {
                 if(data.success) {
+                    dispatch(alertAddNotificationCreator(`Picture has been added`));
                     history.push("/pictures");
+                } else {
+                    dispatch(alertAddNotificationCreator(`Picture has not been added`), "error");
                 }
+            }).catch(() => {
+                dispatch(alertAddNotificationCreator(`Picture has been added (server problem)`), "error");
             });
     }
 }
@@ -49,7 +56,7 @@ export const deletePictureCreator = (id) => {
                     dispatch(deletePictureSuccessCreator(id, dispatch));
                 }
             }).catch((r) => {
-                // to do
+                dispatch(alertAddNotificationCreator(`Picture has not been deleted!`), "error");
             });
     }
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 import "./picture.scss"
@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import { useSnackbar } from 'notistack';
 import withAlert from '../../withAlert/withAlert';
 import { alertAddNotificationCreator } from '../../../actions/alertActions';
+import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
 
 const Picture = (props) => {
     const { match: { params: { id }}} = props;
@@ -20,9 +21,16 @@ const Picture = (props) => {
     const { picture, triggeredAdd, untriggerAddLanguage } = props;
     const { startLoadPictureInfo, addAlert } = props;
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         startLoadPictureInfo(id);
     }, [ ]);
+
+    useEffect(() => {
+        dispatch(changeDrawerTitleCreator(picture.name));
+    }, [ picture.name ]);
+    
 
     if(!picture) return <div>NOT FOUND</div>;
     

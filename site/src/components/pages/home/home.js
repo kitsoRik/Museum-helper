@@ -1,11 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import "./home.scss";
 import withDrawer from '../../withDrawer/';
 import { compose } from 'redux';
 import withAlert from '../../withAlert/withAlert';
+import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
 
 const Home = (props) => {
     const { user: { loggedIn } } = props;
@@ -13,6 +14,12 @@ const Home = (props) => {
     const otherActionLink = loggedIn === true ? 
                         <Link to="/pictures">go to work</Link> : 
                         <Link to="/login">login</Link>;
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(changeDrawerTitleCreator("Home"));
+    }, [])
     
     return ( 
         <div className="home-page">
