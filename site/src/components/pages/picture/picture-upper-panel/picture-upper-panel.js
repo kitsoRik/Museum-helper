@@ -5,6 +5,7 @@ import PictureIconContainer from './picture-icon-container';
 import { apiHost } from '../../../../services/api/api';
 import PictureUpperPanelDataItem from './picture-upper-panel-data-item/picture-upper-panel-data-item';
 import { connect } from 'react-redux';
+import PictureLanguages from '../picture-info-container/picture-languages/picture-languages';
 
 const PictureUpperPanel = (props) => {
 
@@ -25,10 +26,7 @@ const PictureUpperPanel = (props) => {
                 <PictureUpperPanelDataItem 
                     label="QR code"
                     option="qrcode"/>
-                <PictureUpperPanelDataItem label={"Not implemented"}/>
-                <PictureUpperPanelDataItem label={"Not implemented"}/>
-                <PictureUpperPanelDataItem label={"Not implemented"}/>
-                <PictureUpperPanelDataItem label={"Not implemented"}/>
+                <PictureLanguages />
             </div>
             <img 
                 className="picture-qrcode-icon" 
@@ -41,10 +39,10 @@ const PictureUpperPanel = (props) => {
 
 
 const mapStateToProps = (state) => {
-    const { picture } = state.pictursInfo;
+    const { picture } = state.pictureInfo;
     
     return {
-        picture: state.pictursInfo.picture
+        picture
     }
 }
 

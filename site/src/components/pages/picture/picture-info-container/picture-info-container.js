@@ -1,48 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 
 import PictureDescriptionContainer from './picture-description-container/picture-description-container.js';
 
 import './picture-info-container.scss';
 import PictureLanguages from './picture-languages/picture-languages.js';
-import EditableTextField from '../../../../simple-components/editable-text-field/editable-text-field.js';
-import { changePictureInfoCreator, addLanguageInfoCreator } from '../../../../actions/picturesInfoActions.js';
+import { changePictureInfoCreator, addLanguageInfoCreator, triggeredAddLanguageInfoCreator } from '../../../../actions/picturesInfoActions.js';
 
 import TextField from '@material-ui/core/TextField';
+import { Button } from '@material-ui/core';
+import { debounce } from 'debounce';
 
 const PictureInfoContainer = (props) => {
 
-    const [languageIndex, setLanguageIndex] = useState(0);
-
-    const { picture, pictureInfo } = props;
-    const { changePictureInfoPartTitle, addLanguage } = props;
+    const { currentIndex, picture, pictureInfo } = props;
+    const { changePictureInfoPartTitle, triggerAddLanguage } = props;
     
+    const [title, setTitle] = useState("");
+
+    useEffect(() => {
+        if(currentIndex === -1) return;
+        setTitle(pictureInfo[currentIndex].title);
+    }, [ currentIndex ])
+
+    useEffect(() => {
+        if(currentIndex === -1) return;
+        changePictureInfoPartTitle(pictureInfo[currentIndex].id, title);
+    }, [ title ])
+
     if(pictureInfo.length === 0) {
         return (
-            <button 
-                onClick={() => addLanguage(picture.id, prompt("Which? (ua, en, ru...)"))}
-            >Add your first language info</button>
+            <Button 
+                variant="contained"
+                color="primary"
+                style={{flexGrow: "1"}}
+                onClick={() => triggerAddLanguage()}
+            >Add your first language info</Button>
         )
     }
     
     return ( 
         <div className="picture-info-container">
             <div className="picture-info-container-upper-part">
-                <TextField  
-                        value={ pictureInfo[languageIndex].title }
-                        onSaved={(v) => changePictureInfoPartTitle(pictureInfo[languageIndex].id, v)}/>
-                <PictureLanguages 
-                    languageIndex={languageIndex}
-                    setLanguageIndex={(i) => setLanguageIndex(i)}/>
+               { 
+                currentIndex !== -1 && 
+                    <TextField  
+                        style={{flexGrow: "1"}}
+                        label="Title"
+                        variant="filled"
+                        value={ title }
+                        onChange={(e) => setTitle(e.target.value)}/>
+               }
             </div>
-            <PictureDescriptionContainer index={languageIndex}/>
+            <PictureDescriptionContainer />
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    const { picture, pictureInfo } = state.pictursInfo;
+    const { currentIndex, picture, pictureInfo } = state.pictureInfo;
     return {
+        currentIndex,
         picture,
         pictureInfo
     }
@@ -50,8 +68,8 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changePictureInfoPartTitle:  (id, title) => dispatch(changePictureInfoCreator(id, { title }, dispatch)),
-        addLanguage: (id, language) => dispatch(addLanguageInfoCreator(id, language, dispatch))
+        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfoCreator(id, { title }, dispatch)), 1000),
+        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfoCreator())
     }
 }
  

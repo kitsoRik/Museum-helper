@@ -14,6 +14,8 @@ import Drawer from './components/drawer';
 
 import './app.scss';
 import { getDataCreator } from './actions/userActions';
+import { compose } from 'redux';
+import withAlert from './components/withAlert/withAlert';
 
 const App = (props) => {
     
@@ -47,4 +49,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
  
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAlert,
+)(App);

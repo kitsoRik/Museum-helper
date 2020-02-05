@@ -1,10 +1,10 @@
 import React from 'react';
-import EditableTextField from '../../../../../simple-components/editable-text-field/editable-text-field';
 
 import "./picture-upper-panel-data-item.scss";
 import { connect } from 'react-redux';
-import { savePictureData } from '../../../../../services/api/api';
 import { changePictureCreator } from '../../../../../actions/picturesInfoActions';
+
+import TextField from '@material-ui/core/TextField';
 
 const PictureUpperPanelDataItem = (props) => {
 
@@ -12,21 +12,19 @@ const PictureUpperPanelDataItem = (props) => {
     const { onPictureChanged } = props;
     
     const value = picture[option];
-
+    
     return (
-        <div className="picture-upper-panel-data-item">
-            <h4
-                className="picture-upper-panel-data-item-title"
-            >{label}</h4>
-            <EditableTextField
+            <TextField
+                label={option}
                 value={value}
-                onSaved={(v) => onPictureChanged(picture.id, { [option]: v})} />
-        </div>
+                defaultValue=" "
+                variant="outlined"
+                onChange={(e) => onPictureChanged(picture.id, { [option]: e.target.value})} />
     );
 }
 
 const mapStateToProps = (state) => {
-    const { picture } = state.pictursInfo;
+    const { picture } = state.pictureInfo;
     return {
         picture
     }

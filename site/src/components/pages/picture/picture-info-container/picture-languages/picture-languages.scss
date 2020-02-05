@@ -1,7 +1,9 @@
 .picture-languages {
     max-width: 100%;
     display: flex;
-    
+    align-items: center;
+    justify-content: stretch;
+
     cursor: pointer;
 }
 
@@ -27,4 +29,17 @@
         background: white;
         color: black;
     }
+}
+
+.picture-add-language-panel {
+    max-width: 480px;
+    padding: 100px;
+
+    border-radius: 25px;
+    border: 2px solid black;
+
+    display: flex;
+    flex-direction: column;
+
+    background: white;
 }

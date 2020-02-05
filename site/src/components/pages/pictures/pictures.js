@@ -6,6 +6,8 @@ import { startLoadPicturesCreator } from '../../../actions/picturesActions';
 
 import "./pictures.scss";
 import withGuard from '../../withGuard/withGuard';
+import withDrawer from '../../withDrawer';
+import { compose } from 'redux';
 
 const Pictures = (props) => {
 
@@ -35,4 +37,8 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)((withGuard(Pictures)));
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withDrawer,
+    withGuard
+)(Pictures);

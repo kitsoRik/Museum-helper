@@ -1,4 +1,5 @@
 import { getUserData, getLoginIn } from "../services/api/api"
+import { alertAddNotificationCreator } from "./alertActions";
 
 export const loginInStartCreator = (email, password, ownProps) => {
     return (dispatch) => {
@@ -34,6 +35,7 @@ export const getDataCreator = (dispatch) => {
     return (dispatch) => {
         getUserData().then((data) => {
             if(data.success) {
+                dispatch(alertAddNotificationCreator(`User data has been loaded!`));
                 dispatch(setDataCreator(data));
             } else {
                 dispatch(failDataCreator(data));

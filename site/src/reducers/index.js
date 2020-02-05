@@ -2,13 +2,15 @@ import updateUser from "./updateUser";
 import updatePictures from "./updatePictures";
 import updatePictureInfo from "./updatePictureInfo";
 import updateDrawer from "./updateDrawer";
+import updateAlert from "./updateAlert";
 import { combineReducers } from "redux";
 
 const reducer = combineReducers({
+    alert: updateAlert,
     drawer: updateDrawer,
     user: updateUser,
     pictures: updatePictures,
-    pictursInfo: updatePictureInfo
+    pictureInfo: updatePictureInfo
 });
 
 // const reducer = (state = {}, action) => {
@@ -16,7 +18,7 @@ const reducer = combineReducers({
 //         drawer: updateDrawer(state.drawer, action),
 //         user: updateUser(state.user, action),
 //         pictures: updatePictures(state.pictures, action),
-//         pictursInfo: updatePictureInfo(state.pictursInfo, action)
+//         pictureInfo: updatePictureInfo(state.pictureInfo, action)
 //     }
 // }
 

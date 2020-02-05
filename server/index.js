@@ -206,12 +206,14 @@ app.use("/deletePicture", (req, res) => {
 });
 
 app.use("/addPictureInfo", (req, res) => {
-    const { pictureId, language } = req.body;
+    const { pictureId, title, description, language } = req.body;
     db.run(`INSERT INTO pictures_info 
                 (picture_id, title, description, language)
-            VALUES($pictureId, 'title', 'description', $language)`, 
+            VALUES($pictureId, $title, $description, $language)`, 
             {
                 $pictureId: pictureId,
+                $title: title,
+                $description: description,
                 $language: language
             }, (run, err) => {
         if(err) return console.log(err);

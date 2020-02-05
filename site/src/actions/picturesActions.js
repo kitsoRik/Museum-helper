@@ -1,9 +1,11 @@
 import { getPicturesData, deletePicture, addPicture } from "../services/api/api";
+import { alertAddNotificationCreator } from "./alertActions";
 
 export const startLoadPicturesCreator = () => {
     return (dispatch) => {
         getPicturesData().then((data) => {
             if(data.success) {
+                dispatch(alertAddNotificationCreator(`Pictures has been loaded`));
                 dispatch(loadPicturesSuccessCreator(data.pictures));
             } else {
                 dispatch(loadPicturesErrorCreator(data.error));
@@ -43,6 +45,7 @@ export const deletePictureCreator = (id) => {
         deletePicture(id)
             .then((data) => {
                 if(data.success) {
+                    dispatch(alertAddNotificationCreator(`Picture had been deleted!`));
                     dispatch(deletePictureSuccessCreator(id, dispatch));
                 }
             }).catch((r) => {

@@ -5,13 +5,16 @@ import { loadPictureInfoSuccessCreator, changePictureSuccessCreator, changePictu
 const initState = {
     loading: NOT_LOADED,
     picture: {},
-    pictureInfo: []
+    pictureInfo: [],
+    currentIndex: -1,
+    triggeredAdd: false
 }
 
 const updatePictureInfo = (state = initState, action) => {
     switch(action.type) {
         case "LOAD_PICTURE_INFO_SUCCESS": {
             return {
+                currentIndex: -1,
                 loading: LOADED,
                 picture: action.picture,
                 pictureInfo: action.pictureInfo
@@ -69,6 +72,29 @@ const updatePictureInfo = (state = initState, action) => {
                 )
             }
         }
+
+        case "CHANGE_CURRENT_INDEX": {
+            const { index } = action;
+            return {
+                ...state,
+                currentIndex: index
+            }
+        }
+        
+        case "TRIGGERED_ADD_LANGUAGE_INFO": {
+            return {
+                ...state,
+                triggeredAdd: true
+            }
+        }
+
+        case "UNTRIGGERED_ADD_LANGUAGE_INFO": {
+            return {
+                ...state,
+                triggeredAdd: false
+            }
+        }
+
         default: return state;
     }
 }

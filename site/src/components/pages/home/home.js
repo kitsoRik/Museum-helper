@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import "./home.scss";
 import withDrawer from '../../withDrawer/';
+import { compose } from 'redux';
+import withAlert from '../../withAlert/withAlert';
 
 const Home = (props) => {
     const { user: { loggedIn } } = props;
@@ -38,4 +40,7 @@ const mapDipatchToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStateToProps, mapDipatchToProps)((Home));
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withDrawer
+)(Home);
