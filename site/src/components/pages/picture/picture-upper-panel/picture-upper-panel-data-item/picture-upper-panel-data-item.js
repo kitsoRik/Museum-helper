@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { changePictureCreator } from '../../../../../actions/picturesInfoActions';
 
 import TextField from '@material-ui/core/TextField';
+import { InputAdornment } from '@material-ui/core';
+import { AccountCircle } from '@material-ui/icons';
 
 const PictureUpperPanelDataItem = (props) => {
 
@@ -19,6 +21,15 @@ const PictureUpperPanelDataItem = (props) => {
                 value={value}
                 defaultValue=" "
                 variant="outlined"
+                color="primary"
+                style={{marginTop: "8px"}}
+                InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle />
+                      </InputAdornment>
+                    ),
+                  }}
                 onChange={(e) => onPictureChanged(picture.id, { [option]: e.target.value})} />
     );
 }

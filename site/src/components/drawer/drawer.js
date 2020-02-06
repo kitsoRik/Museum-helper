@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import './drawer.scss';
 import { changeVisibleDrawerCreator } from '../../actions/drawerActions';
-import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider } from '@material-ui/core';
-import { Menu as MenuIcon } from '@material-ui/icons';
+import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon } from '@material-ui/core';
+import { Menu as MenuIcon, Delete as DeleteIcon, ExitToApp as ExitToAppIcon } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -14,6 +14,7 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
+import { unloginCreator } from '../../actions/userActions';
 
 const drawerWidth = 240;
 
@@ -35,6 +36,11 @@ const Drawer = (props) => {
                 <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
+            <ListItemSecondaryAction>
+                <IconButton onClick={() => props.unlogin()}>
+                    <ExitToAppIcon/>
+                </IconButton>
+            </ListItemSecondaryAction>
         </ListItem>,
         <ListItem
             key={-2}
@@ -136,7 +142,8 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changeVisibleDrawer: () => dispatch(changeVisibleDrawerCreator())
+        changeVisibleDrawer: () => dispatch(changeVisibleDrawerCreator()),
+        unlogin: () => dispatch(unloginCreator())
     }
 }
 

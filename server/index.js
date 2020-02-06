@@ -50,6 +50,15 @@ app.post("/loginIn", (req, res) => {
     });
 });
 
+app.post("/unlogin", (req, res) => {
+
+    res.clearCookie("sesid");
+
+    res.send({
+        success: true
+    });
+});
+
 app.post("/registerIn", (req, res) => {
 
     const { username, email, password, passwordConfirm } = req.body;

@@ -7,7 +7,7 @@ import PictureUpperPanel from './picture-upper-panel/picture-upper-panel';
 import PictureInfoContainer from './picture-info-container';
 import withDrawer from '../../withDrawer';
 import { startLoadPictureInfoCreator, untriggeredAddLanguageInfoCreator } from '../../../actions/picturesInfoActions';
-import { Modal, Divider, Snackbar } from '@material-ui/core';
+import { Modal, Divider, Snackbar, CircularProgress } from '@material-ui/core';
 import AddLanguageInfo from './add-language-info';
 import { compose } from 'redux';
 import { useSnackbar } from 'notistack';
@@ -28,11 +28,12 @@ const Picture = (props) => {
     }, [ ]);
 
     useEffect(() => {
+        if(!picture) return;
         dispatch(changeDrawerTitleCreator(picture.name));
-    }, [ picture.name ]);
+    }, [ picture ]);
     
 
-    if(!picture) return <div>NOT FOUND</div>;
+    if(!picture) return <CircularProgress />;
     
     return ( 
         <div className="picture-page">
@@ -74,6 +75,5 @@ const mapDipatchToProps = (dispatch, ownProps) => {
 export default compose(
     connect(mapStateToProps, mapDipatchToProps),
     withRouter,
-    withDrawer,
     withAlert
 )(Picture)

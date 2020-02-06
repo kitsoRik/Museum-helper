@@ -59,8 +59,8 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     return {
         onPictureInfoChanged: debounce(
             (id, changes) => 
-                dispatch(changePictureInfoCreator(id, changes, dispatch))
-                ,1000)
+                dispatch(changePictureInfoCreator(id, changes))
+                , 1000)
     }
 }
 

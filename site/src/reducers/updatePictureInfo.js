@@ -4,7 +4,7 @@ import { loadPictureInfoSuccessCreator, changePictureSuccessCreator, changePictu
 
 const initState = {
     loading: NOT_LOADED,
-    picture: {},
+    picture: null,
     pictureInfo: [],
     currentIndex: -1,
     triggeredAdd: false
