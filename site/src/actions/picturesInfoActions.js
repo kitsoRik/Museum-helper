@@ -3,7 +3,8 @@ import { alertAddNotificationCreator } from "./alertActions";
 
 export const startLoadPictureInfoCreator = (id) => {
     return (dispatch) => {
-        getPictureData(id)
+        setTimeout(() => {
+            getPictureData(id)
                 .then((data) => {
                     if(!data.success) { 
                         dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
@@ -19,6 +20,8 @@ export const startLoadPictureInfoCreator = (id) => {
                     
                     dispatch(alertAddNotificationCreator(`Picture info has not been loaded (server problem)`), "error");
                 });
+        }, 1000); // FIXIT
+        
     }
 }
 

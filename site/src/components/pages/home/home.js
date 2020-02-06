@@ -48,6 +48,5 @@ const mapDipatchToProps = (dispatch, props) => {
 }
 
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
-    withDrawer
+    connect(mapStateToProps, mapDipatchToProps)
 )(Home);

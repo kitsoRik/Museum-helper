@@ -42,6 +42,5 @@ const mapDipatchToProps = (dispatch, ownProps) => {
  
 export default compose(
     connect(mapStateToProps, mapDipatchToProps),
-    withDrawer,
     withGuard
 )(Pictures);

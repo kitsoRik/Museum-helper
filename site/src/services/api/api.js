@@ -23,6 +23,16 @@ export const getLoginIn = (email, password) => {
                 .catch((res) => catchProblem);
 }
 
+export const unlogin = () => {
+    const params = {};
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/unlogin`, params, queryParams)
+                .then(({ data }) => data)
+                .catch((res) => catchProblem);
+}
+
 export const getRegisterIn = (data) => {
     const params = data;
     const queryParams = {

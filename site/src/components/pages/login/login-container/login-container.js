@@ -4,28 +4,30 @@ import { connect } from 'react-redux';
 import './login-container.scss';
 import LoginError from './login-error/login-error';
 import { Link } from 'react-router-dom';
+import { TextField, InputLabel, Button } from '@material-ui/core';
 
 const LoginContainer = (props) => {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
-    const { error, onSubmit } = props;
+    const { onSubmit } = props;
     
     return (
         <div className="login-container">
-            <h1 className="login-title">Login</h1>
-            <LoginError error={error}/>
-            <input
+            <InputLabel className="login-title">Login</InputLabel>
+            <TextField
                 placeholder="Login..." 
                 onChange={(e) => setLogin(e.target.value)}/>
-            <input 
+            <TextField 
                 placeholder="Password..."
                 onChange={(e) => setPassword(e.target.value)}/>
-            <button 
+            <Button 
+                variant="contained"
+                color="primary"
                 className="login-submit-btn"
                 onClick={() => onSubmit(login, password)}
-            >Login</button>
+            >Login</Button>
             <Link 
                 className="login-register-link"
                 to="/register"
@@ -35,9 +37,8 @@ const LoginContainer = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    
     return {
-        error: state.user.error
+        
     }
 }
 

@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 import './register-container.scss';
 import RegisterError, { minLength, email as ObsEmail, equals } from './register-error/register-error';
+import { TextField, Button } from '@material-ui/core';
 
 const RegisterContainer = (props) => {
 
@@ -29,42 +30,26 @@ const RegisterContainer = (props) => {
     return ( 
         <div className="register-container">
             <h1 className="register-title">Register</h1>
-            <h4 className="register-container-label"
-                >Username</h4>
-            <input 
+            <TextField 
                 placeholder="Username..." 
                 onChange={(e) => setUsername(e.target.value) }/>
-            <RegisterError 
-                triggered={username.length !== 0}
-                observe={minLength(username.length, 8)} />
-            <h4 className="register-container-label"
-                >Email</h4>
-            <input 
+            <TextField 
                 placeholder="Email..." 
                 onChange={(e) => setEmail(e.target.value) }/>
-            <RegisterError 
-                triggered={email.length !== 0}
-                observe={ObsEmail(email)} />
-            <h4 className="register-container-label"
-                >Password</h4>
-            <input 
+            <TextField 
                 type="password"
+                placeholder="Password..." 
                 onChange={(e) => setPassword(e.target.value) }/>
-            <RegisterError 
-                triggered={password.length !== 0}
-                observe={minLength(password.length, 8)} />
-            <h4 className="register-container-label"
-                >Password confirm</h4>
-            <input 
+            <TextField 
                 type="password"
+                placeholder="Password..." 
                 onChange={(e) => setPasswordConfirm(e.target.value) }/>
-            <RegisterError 
-                triggered={passwordConfirm.length !== 0}
-                observe={equals(password, passwordConfirm)} />
-            <button
+            <Button
+                variant="contained"
+                color="primary"
                 className="register-submit-btn" 
                 onClick={onSubmited}
-            >Register</button>
+            >Register</Button>
             <Link
                 className="register-login-link" 
                 to="/login"

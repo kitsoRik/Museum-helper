@@ -1,4 +1,4 @@
-import { getUserData, getLoginIn } from "../services/api/api"
+import { getUserData, getLoginIn, unlogin } from "../services/api/api"
 import { alertAddNotificationCreator } from "./alertActions";
 
 export const loginInStartCreator = (email, password, ownProps) => {
@@ -29,6 +29,33 @@ export const loginInSuccessCreator = (data) => {
 export const loginInErrorCreator = (error) => {
     return {
         type: "LOGIN_IN_ERROR",
+        error
+    }
+}
+
+export const unloginCreator = () => {
+    return (dispatch) => {
+        unlogin().then((data) => {
+            if(data.success) {
+                dispatch(unloginSuccessCreator());
+                dispatch(alertAddNotificationCreator("Unloginned"));
+            } else {
+                dispatch(unloginSuccessError(data.error));
+                dispatch(alertAddNotificationCreator("Not unloginned"), "error");
+            }
+        });
+    }
+}
+
+export const unloginSuccessCreator = () => {
+    return {
+        type: "UNLOGIN_SUCCESS"
+    }
+}
+
+export const unloginSuccessError = (error) => {
+    return {
+        type: "UNLOGIN_ERROR",
         error
     }
 }
