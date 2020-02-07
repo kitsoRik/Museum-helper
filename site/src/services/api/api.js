@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-const host = "http://5.45.118.116:3006"
+const host = "http://localhost:3006"
 
 export const apiHost = host;
 
@@ -118,6 +118,46 @@ export const addLanguageInfo = (pictureId, title, description, language) => {
         withCredentials: true
     };
     return Axios.post(`${host}/addPictureInfo`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+export const getFavotires = () => {
+    const params = {};
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/getFavorites`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+export const saveFavotires = (groups) => {
+    const params = { groups };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/saveFavorites`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+export const addPictureToFavorites = (id) => {
+    const params = { id };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/addPictureToFavorites`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+export const deletePictureFromFavorites = (id) => {
+    const params = { id };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/deletePictureFromFavorites`, params, queryParams)
         .then((res) => res.data)
         .catch((res) => catchProblem);
 }

@@ -17,6 +17,7 @@ import { getDataCreator } from './actions/userActions';
 import { compose } from 'redux';
 import withAlert from './components/withAlert/withAlert';
 import withDrawer from './components/withDrawer';
+import Favorites from './components/pages/favotires/favorites';
 
 const App = (props) => {
     
@@ -31,6 +32,7 @@ const App = (props) => {
                 <Route path="/register" render={() => <Register /> } exact/>
                 <Route path="/pictures/" render={() => <Pictures /> } exact/>
                 <Route path="/pictures/:id" render={() => <Picture /> } exact/>
+                <Route path="/favorites" render={() => <Favorites /> } exact/>
                 <Route path="/addpicture" render={() => <AddPicture /> } exact/>
                 <Route path="/documentation" render={() => <Documentation /> } exact/>
                 <Route render={() => <NotFound />} />

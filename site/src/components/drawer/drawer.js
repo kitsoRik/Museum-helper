@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import './drawer.scss';
 import { changeVisibleDrawerCreator } from '../../actions/drawerActions';
 import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon } from '@material-ui/core';
-import { Menu as MenuIcon, Delete as DeleteIcon, ExitToApp as ExitToAppIcon } from '@material-ui/icons';
+import { Menu as MenuIcon, 
+        Delete as DeleteIcon, 
+        ExitToApp as ExitToAppIcon,
+        Favorite as FavotireIcon } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -52,26 +55,32 @@ const Drawer = (props) => {
             <ListItemText primary="Home" />
         </ListItem>,
         <ListItem
-            key={-2}
+            key={-3}
             button
             onClick={() => props.history.push("/documentation")}>
             <ListItemIcon>
                 <LibraryBooksIcon />
             </ListItemIcon>
             <ListItemText primary="Documentation" />
+        </ListItem>,
+        <ListItem 
+        key={-4}
+        button
+        onClick={() => props.history.push("/pictures")}    
+        >
+            <ListItemIcon><MenuIcon /></ListItemIcon>
+            <ListItemText primary={"Pictures"} />
+        </ListItem>,
+        
+        <ListItem 
+        key={-4}
+        button
+        onClick={() => props.history.push("/favorites")}    
+        >
+            <ListItemIcon><FavotireIcon /></ListItemIcon>
+            <ListItemText primary={"Favorites"} />
         </ListItem>
-    ].concat(Array.from({length: 20}, () => 1).map((v, i) => {
-        return (
-            <ListItem 
-                key={i}
-                button
-                onClick={() => props.history.push("/pictures")}    
-            >
-                <ListItemIcon><MenuIcon /></ListItemIcon>
-                <ListItemText primary={"Pictures"} />
-            </ListItem>
-        )
-    }));
+    ];
 
 return (
     <div className={classes.root}>
@@ -191,6 +200,7 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'flex-end',
     },
     content: {
+        //maxWidth: `calc(100% - ${drawerWidth}px)`,
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {

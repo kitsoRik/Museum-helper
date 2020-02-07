@@ -1,0 +1,39 @@
+.picture-item {
+    width: 250px;
+    height: 250px;
+
+    margin: 10px;
+
+    background-size: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+
+    transition: all .3s;
+
+    &[scaling=true]:hover {
+        transform: scale(1.1);
+    }
+}
+
+.picture-item-header {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.picture-item-title {
+    max-width: 100%;
+    
+    margin: 15px;
+
+    color: white;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
