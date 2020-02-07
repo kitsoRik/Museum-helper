@@ -1,0 +1,24 @@
+.container-item {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.container-item-droppable {
+    min-width: 200px;
+    max-width: 100%;
+    min-height: 10px;
+
+    display: flex;
+    
+    border: 2px solid black;
+
+    overflow: auto;
+}
+
+.container-item-draggable {
+    min-width: 200px;
+    min-height: 200px;
+    
+    border: 2px solid black;
+}

@@ -1,4 +1,4 @@
-import { getPicturesData, deletePicture, addPicture } from "../services/api/api";
+import { getPicturesData, deletePicture, addPicture, addPictureToFavorites, deletePictureFromFavorites } from "../services/api/api";
 import { alertAddNotificationCreator } from "./alertActions";
 
 export const startLoadPicturesCreator = () => {
@@ -64,6 +64,52 @@ export const deletePictureCreator = (id) => {
 export const deletePictureSuccessCreator = (id) => {
     return {
         type: "DELETE_PICTURE_SUCCESS",
+        id
+    }
+}
+
+export const addToFavorite = (id) => {
+    return (dispatch) => {
+        addPictureToFavorites(id)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(pictureToFavotiresAdded(id));
+                    dispatch(alertAddNotificationCreator("ADDED"));
+                } else {
+                    dispatch(alertAddNotificationCreator("NOT ADDED", "error"));
+                }
+            }).catch(() => {
+                dispatch(alertAddNotificationCreator("NOT ADDED (server problem)", "error"))
+            });
+    }
+}
+
+export const pictureToFavotiresAdded = (id) => {
+    return {
+        type: "PICTURE_TO_FAVOTIRES_ADDED",
+        id
+    }
+}
+
+export const deleteFromFavorite = (id) => {
+    return (dispatch) => {
+        deletePictureFromFavorites(id)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(pictureFromFavotiresDelete(id));
+                    dispatch(alertAddNotificationCreator("DELETED"));
+                } else {
+                    dispatch(alertAddNotificationCreator("NOT DELETED", "error"));
+                }
+            }).catch(() => {
+                dispatch(alertAddNotificationCreator("NOT DELETED (server problem)", "error"))
+            });
+    }
+}
+
+export const pictureFromFavotiresDelete = (id) => {
+    return {
+        type: "PICTURE_FROM_FAVOTIRES_DELETED",
         id
     }
 }

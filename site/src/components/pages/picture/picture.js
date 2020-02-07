@@ -3,25 +3,18 @@ import { connect, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 import "./picture.scss"
-import PictureUpperPanel from './picture-upper-panel/picture-upper-panel';
-import PictureInfoContainer from './picture-info-container';
-import withDrawer from '../../withDrawer';
 import { startLoadPictureInfoCreator, untriggeredAddLanguageInfoCreator } from '../../../actions/picturesInfoActions';
-import { Modal, Divider, Snackbar, CircularProgress } from '@material-ui/core';
-import AddLanguageInfo from './add-language-info';
+import { CircularProgress } from '@material-ui/core';
 import { compose } from 'redux';
-import { useSnackbar } from 'notistack';
 import withAlert from '../../withAlert/withAlert';
-import { alertAddNotificationCreator } from '../../../actions/alertActions';
 import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
+import PictureContainer from './picture-container/picture-container';
 
 const Picture = (props) => {
     const { match: { params: { id }}} = props;
-
-    const { picture, triggeredAdd, untriggerAddLanguage } = props;
-    const { startLoadPictureInfo, addAlert } = props;
-
+    const { picture } = props;
     const dispatch = useDispatch();
+    const { startLoadPictureInfo } = props;
 
     useEffect(() => {
         startLoadPictureInfo(id);
@@ -37,38 +30,22 @@ const Picture = (props) => {
     
     return ( 
         <div className="picture-page">
-            <Modal
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
-                open={triggeredAdd}
-                onClose={() => untriggerAddLanguage()}
-            >
-                <AddLanguageInfo />
-            </Modal>
-            <PictureUpperPanel />
-            <PictureInfoContainer />
-            
+            <PictureContainer />
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    
-    const { picture, triggeredAdd } = state.pictureInfo;
+    const { picture } = state.pictureInfo;
     return {
-        picture,
-        triggeredAdd
+        picture
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
         startLoadPictureInfo: (id) => dispatch(startLoadPictureInfoCreator(id, dispatch)),
-        untriggerAddLanguage: () => dispatch(untriggeredAddLanguageInfoCreator()),
-        
+
     }
 }
  

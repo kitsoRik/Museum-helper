@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import PictureItem from './picture-item'
 import { NOT_LOADED, IS_LOADING, ERROR_LOADING } from '../../../../constants';
 
 import "./picture-container.scss";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import PictureItem from '../../../picture-item';
+
+import SpeedDial from '@material-ui/lab/SpeedDial';
+import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import EditIcon from '@material-ui/icons/Edit';
+import { compose } from 'redux';
 
 const PicturesContainer = (props) => {
 
@@ -17,15 +22,22 @@ const PicturesContainer = (props) => {
 
     const { pictures } = props;
 
-    const pictureItems = pictures.map(item => <PictureItem key={item.id} {...item}/>)
+    const pictureItems = pictures.map(item => (
+            <PictureItem key={item.id} picture={item} onClick={() => props.history.push(`/pictures/${item.id}`)}/>
+    ));
 
     return ( 
         <div className="picture-container">
             { pictureItems }
-            <Link 
-                className="picture-item picture-item-add"
-                to="/addpicture"
-            >+</Link>
+
+            <SpeedDial
+                ariaLabel=""
+                style={{position: "absolute", bottom: "30px", right: "30px"}}
+                hidden={false}
+                icon={<SpeedDialIcon openIcon={<EditIcon />} />}
+                onClick={() => props.history.push("/addPicture")}
+            >
+            </SpeedDial>
         </div>
      );
 }
@@ -46,4 +58,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(PicturesContainer);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withRouter
+)(PicturesContainer);

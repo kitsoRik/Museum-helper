@@ -1,4 +1,5 @@
 import { NOT_LOADED, LOADED, ERROR_LOADING } from "../constants";
+import { addToFavorite } from "../actions/picturesActions";
 
 const initState = {
     loading: NOT_LOADED,
@@ -12,6 +13,8 @@ const updatePictures = (state = initState, action) => {
         
         case "DELETE_PICTURE_SUCCESS": return deletePictureSuccess(state, action);
 
+        case "PICTURE_TO_FAVOTIRES_ADDED": return addDeletePictureInFavorites(state, action, true);
+        case "PICTURE_FROM_FAVOTIRES_DELETED": return addDeletePictureInFavorites(state, action, false);
 
         default: return state;
     }
@@ -43,6 +46,17 @@ const deletePictureSuccess = (state, action) => {
                 pictures.slice(index + 1, pictures.length))
     }
 
+}
+
+const addDeletePictureInFavorites = (state, action, isAdded) => {
+    const { id } = action;
+            let newPictures = state.pictures.filter(() => true);
+            let index = newPictures.findIndex(i => i.id === id);
+            newPictures[index].favorite = isAdded;
+            return {
+                ...state,
+                newPictures
+            }
 }
 
 export default updatePictures;
