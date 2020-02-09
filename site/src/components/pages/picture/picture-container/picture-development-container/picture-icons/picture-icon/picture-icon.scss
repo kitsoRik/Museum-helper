@@ -1,0 +1,17 @@
+.picture-icon {
+    margin: 0 5px;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    position: relative;
+}
+
+.picture-icon-image {
+    max-height: 100%;
+    flex-grow: 1;
+
+    margin: 0 10px;
+}

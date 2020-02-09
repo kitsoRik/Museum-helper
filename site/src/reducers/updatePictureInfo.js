@@ -95,6 +95,31 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
+        case "ICON_TO_PICTURE_ADDED": {
+            const { picture } = state;
+            const { addedIcon } = action;
+
+            return {
+                ...state,
+                picture: {
+                    ...picture,
+                    icons: picture.icons.concat([addedIcon])
+                }
+            }
+        }
+
+        case "ICON_FROM_PICTURE_DELETED": {
+            const { id } = action;
+
+            return {
+                ...state,
+                picture: {
+                    ...state.picture,
+                    icons: state.picture.icons.filter(i => i.id !== id)
+                }
+            }
+        }
+
         default: return state;
     }
 }

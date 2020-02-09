@@ -1,4 +1,4 @@
-import { getFavotires, saveFavotires } from "../services/api/api";
+import API, { getFavotires, saveFavotires } from "../services/api/api";
 import { alertAddNotificationCreator } from './alertActions';
 
 export const loadFavotires = () => {
@@ -15,18 +15,14 @@ export const loadFavotires = () => {
     }
 }
 
-export const loadFavotiresStarted = () => {
-    return {
-        type: "LOAD_FAVORITES_STARTED"
-    }
-}
+export const loadFavotiresStarted = () => ({
+    type: "LOAD_FAVORITES_STARTED"
+});
 
-export const loadFavotiresSuccess = (groups) => {
-    return {
-        type: "LOAD_FAVORITES_SUCCESS",
-        groups
-    }
-}
+export const loadFavotiresSuccess = (groups) => ({
+    type: "LOAD_FAVORITES_SUCCESS",
+    groups
+});
 
 export const loadFavotiresFailed = (error) => {
     return {
@@ -69,14 +65,43 @@ const setEditable = (editable) => {
     }
 }
 
-export const addPictureToFavorites = (id) => {
+export const addFavoriteGroup = (name, description) => {
     return (dispatch) => {
         
+        API.addFavoriteGroup(name, description)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(favoriteGroupAdded(data.addedGroup));
+                    dispatch(alertAddNotificationCreator("Added"));
+                }
+            });
+    }
+};
+
+export const deleteFavoriteGroup = (id) => {
+    return (dispatch) => {
+        API.deleteFavoriteGroup(id)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(alertAddNotificationCreator("Deleted"));
+                    dispatch(favoriteGroupDeleted(id));
+                }
+            })
     }
 }
 
-const addPictureToFavoritesSuccess = (item) => {
-    return (dispatch) => {
-        
-    }
-}
+export const moveGroup = (id, direction) => ({
+    type: "MOVE_GROUP",
+    id,
+    direction
+});
+
+const favoriteGroupAdded = (group) => ({
+    type: "FAVORITE_GROUP_ADDED",
+    group
+});
+
+const favoriteGroupDeleted = (id) => ({
+    type: "FAVORITE_GROUP_DELETED",
+    id
+});

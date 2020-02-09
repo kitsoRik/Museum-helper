@@ -1,9 +1,10 @@
 import { getPicturesData, deletePicture, addPicture, addPictureToFavorites, deletePictureFromFavorites } from "../services/api/api";
 import { alertAddNotificationCreator } from "./alertActions";
 
-export const startLoadPicturesCreator = () => {
+export const startLoadPicturesCreator = (params) => {
     return (dispatch) => {
-        getPicturesData().then((data) => {
+        dispatch(loadPicturesStart());
+        getPicturesData(params).then((data) => {
             if(data.success) {
                 dispatch(alertAddNotificationCreator(`Pictures has been loaded`));
                 dispatch(loadPicturesSuccessCreator(data.pictures));
@@ -14,6 +15,12 @@ export const startLoadPicturesCreator = () => {
         }).catch(() => {
             dispatch(alertAddNotificationCreator(`Pictures has been loaded (server problem)`), "error");
         });
+    }
+};
+
+export const loadPicturesStart = (data) => {
+    return {
+        type: "LOAD_PICTURES_START"
     }
 };
 
@@ -31,13 +38,12 @@ export const loadPicturesErrorCreator = (error) => {
     }
 };
 
-export const addPictureCreator = (name, description, qrcode, file, history) => {
+export const addPictureCreator = (name, description, qrcode) => {
     return (dispatch) => {
-        addPicture(name, description, qrcode, file)
+        addPicture(name, description, qrcode)
             .then((data) => {
                 if(data.success) {
                     dispatch(alertAddNotificationCreator(`Picture has been added`));
-                    history.push("/pictures");
                 } else {
                     dispatch(alertAddNotificationCreator(`Picture has not been added`), "error");
                 }
@@ -111,5 +117,14 @@ export const pictureFromFavotiresDelete = (id) => {
     return {
         type: "PICTURE_FROM_FAVOTIRES_DELETED",
         id
+    }
+}
+
+export const setSearchParams = (params) => {
+    return {
+        type: "SET_SEARCH_PARAMS",
+        searchParams: {
+            ...params
+        }
     }
 }

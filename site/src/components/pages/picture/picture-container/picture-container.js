@@ -7,27 +7,29 @@ import { startLoadPictureInfoCreator, untriggeredAddLanguageInfoCreator } from '
 
 import './picture-container.scss';
 import PictureDevelopmentContainer from './picture-development-container';
-import PictureProdactionContainer from './picture-info-container/picture-prodaction-container';
+import PictureProductionContainer from './picture-production-container/picture-production-container';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import qs from 'qs';
 
 const PictureContainer = (props) => {
 
     const { picture, triggeredAdd, untriggerAddLanguage } = props;
     
-    const [tabIndex, setTabIndex] = useState(0);
-    
+    const prod = qs.parse(props.location.search.slice(1)).v === "prod";
     return ( 
         <div className="picture-container">
             <AppBar position="static">
                 <Tabs 
-                    value={tabIndex}
-                    onChange={(e, v) => setTabIndex(v)} 
+                    value={prod ? 1 : 0}
+                    onChange={(e, v) => props.history.push(v === 1 ? '?v=prod' : '?v=dev')} 
                     variant="fullWidth">
-                    <Tab label="Development"  />
+                    <Tab label="Development" />
                     <Tab label="Prodaction" />
                 </Tabs>
                 </AppBar> 
-                { tabIndex === 0 && <PictureDevelopmentContainer /> }    
-                { tabIndex === 1 && <PictureProdactionContainer /> }
+                { !prod && <PictureDevelopmentContainer /> }    
+                { prod && <PictureProductionContainer /> }
             <Modal
                 style={{
                     display: "flex",
@@ -59,4 +61,8 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(PictureContainer);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withRouter
+)
+(PictureContainer);

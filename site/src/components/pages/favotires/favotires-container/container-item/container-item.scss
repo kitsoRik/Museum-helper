@@ -4,6 +4,30 @@
 
 }
 
+.container-item-header {
+    width: 100%;
+
+    display: flex;
+}
+
+.container-item-header-name {
+    margin-right: 5px;
+
+    font-size: 14px;
+}
+
+.container-item-header-description {
+
+    display: flex;
+    align-items: center;
+    flex-grow: 2;
+    font-size: 11px;
+
+    & * {
+        width: 90%;   
+    }
+}
+
 .container-item-droppable {
     min-width: 200px;
     max-width: 100%;

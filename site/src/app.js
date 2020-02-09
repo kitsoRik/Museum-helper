@@ -10,7 +10,6 @@ import Picture from './components/pages/picture';
 import AddPicture from './components/pages/add-picture';
 import Documentation from './components/pages/documentation/documentation';
 import NotFound from './components/pages/not-found/not-found';
-import Drawer from './components/drawer';
 
 import './app.scss';
 import { getDataCreator } from './actions/userActions';

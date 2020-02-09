@@ -1,3 +1,11 @@
-.app-with-drawer {
-    display: flex;
+.main {
+    width: 100%; 
+    height: calc(100% - 64px);
+
+    margin-top: 64px;
+}
+
+.main-shift {
+    width: calc(100% - 240px);
+    margin-left: 240px;
 }

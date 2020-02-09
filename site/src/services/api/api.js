@@ -43,8 +43,8 @@ export const getRegisterIn = (data) => {
                 .catch((res) => catchProblem);
 }
 
-export const getPicturesData = () => {
-    const params = {limit: 3};
+export const getPicturesData = (searchParams) => {
+    const params = { searchParams };
     const queryParams = {
         withCredentials: true
     };
@@ -84,20 +84,15 @@ export const savePictureInfo = (id, changes) => {
                 .catch((res) => catchProblem);
 }
 
-export const addPicture = (name, description, qrcode, iconFile) => {
-    var formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("qrcode", qrcode);
-    formData.append("icon", iconFile, "icon");
+export const addPicture = (name, description, qrcode) => {
+    const params = {
+        name, description, qrcode
+    }
 
     const queryParams = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+        withCredentials: true
     };
-    return Axios.post(`${host}/addPicture`, formData, queryParams)
+    return Axios.post(`${host}/addPicture`, params, queryParams)
         .then((res) => res.data)
         .catch((res) => catchProblem);
 }
@@ -161,6 +156,59 @@ export const deletePictureFromFavorites = (id) => {
         .then((res) => res.data)
         .catch((res) => catchProblem);
 }
+
+const addFavoriteGroup = (name, description) => {
+    const params = { name, description };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/addFavoriteGroup`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+const deleteFavoriteGroup = (id) => {
+    const params = { id };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/deleteFavoriteGroup`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+const addIconToPicture = (id, iconFile) => {
+    var formData = new FormData();
+    formData.append("id", id);
+    formData.append("icon", iconFile, "icon");
+
+    const queryParams = {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    };
+    return Axios.post(`${host}/addIconToPicture`, formData, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+const deleteIconFromPicture = (id) => {
+    const params = { id };
+    const queryParams = {
+        withCredentials: true
+    };
+    return Axios.post(`${host}/deleteIconFromPicture`, params, queryParams)
+        .then((res) => res.data)
+        .catch((res) => catchProblem);
+}
+
+export default {
+    addFavoriteGroup,
+    deleteFavoriteGroup,
+    addIconToPicture,
+    deleteIconFromPicture
+};
 
 const catchProblem = (res) => {
     console.log(res);
