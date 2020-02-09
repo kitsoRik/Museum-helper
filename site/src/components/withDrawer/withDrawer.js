@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Drawer from '../drawer';
+import MainDrawer from '../MainDrawer';
 
 import './withDrawer.scss';
 
@@ -7,7 +7,7 @@ const withDrawer = (WrapperComponent) => {
     return class extends Component {
         render() { 
             return ( 
-                <Drawer main={<WrapperComponent {...this.props}/>}/>
+                <MainDrawer main={<WrapperComponent {...this.props}/>}/>
             )
         }
     }

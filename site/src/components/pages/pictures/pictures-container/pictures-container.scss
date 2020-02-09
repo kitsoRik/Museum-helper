@@ -1,9 +1,10 @@
-.picture-container {
+.pictures-container {
     width: 100%;
 
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     flex-grow: 1;
-    justify-content: space-between;
+    justify-content: start;
+    align-content: flex-start
 }

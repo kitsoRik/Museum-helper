@@ -108,9 +108,9 @@ app.post("/getData", (req, res) => {
 
 app.post("/getPicturesData", (req, res) => {
     const { sesid } = req.cookies;
-
+    const { searchParams: { searchText, sortedField, sortedType }} = req.body;
     dbc.getIdBySesid(sesid)
-        .then(dbc.getPictures)
+        .then(id => dbc.getPictures(id, searchText, sortedField, sortedType))
         .then(pictures => {
             res.send({
                 success: true,
@@ -180,16 +180,14 @@ app.post("/savePictureInfo", (req, res) => {
         });
 });
 
-app.post("/addPicture", multer({dest:"uploads"}).single("icon"), (req, res) => {
+app.post("/addPicture", (req, res) => {
     
     const { sesid } = req.cookies;
-    const { file, body } = req;
-    const { name, description, qrcode } = body;
+    const { name, description, qrcode } = req.body;
 
     dbc.getIdBySesid(sesid)
         .then(userId => {
-            utils.processFileToFilename(file)
-                .then(filename => dbc.addPicture(userId, name, description, qrcode, filename))
+                dbc.addPicture(userId, name, description, qrcode)
                 .then(() => {
                     res.send({
                         success: true
@@ -201,6 +199,46 @@ app.post("/addPicture", multer({dest:"uploads"}).single("icon"), (req, res) => {
                 success: false,
                 error
             })
+        });
+});
+
+app.post("/addIconToPicture", multer({dest:"uploads"}).single("icon"), (req, res) => {
+    
+    const { id } = req.body;
+    
+    utils.processFileToFilename(req.file)
+    .then((filename) => dbc.addIconToPicture(id, filename))
+    .then((addedIcon) => {
+        res.send({
+            success: true,
+            addedIcon
+        })
+    })
+    .catch(({ error }) => {
+        if(!error) error = SCRIPT_ERROR;
+        res.send({
+            success: false,
+            error
+        });
+    });
+});
+
+app.post("/deleteIconFromPicture", multer({dest:"uploads"}).single("icon"), (req, res) => {
+    
+    const { id } = req.body;
+    
+    dbc.deleteIconFromPictureById(id)
+        .then((id) => {
+            res.send({
+                success: true,
+                id
+            });
+        }).catch(({ error }) => {
+            if(!error) error = SCRIPT_ERROR;
+            res.send({
+                success: false,
+                error
+            });
         });
 });
 
@@ -242,7 +280,7 @@ app.post("/getFavorites", (req, res) => {
     dbc.getIdBySesid(sesid)
         .then((id) => {
             dbc.getFavorites(id)
-                .then(({ groups }) => {
+                .then((groups) => {
                     res.send({ 
                         success: true,
                         groups
@@ -314,6 +352,42 @@ app.post("/deletePictureFromFavorites", (req, res) => {
             res.send({
                 success: true
             });
+        }).catch(({ error }) => {
+            res.send({
+                success: false,
+                error
+            });
+        });
+});
+
+app.post("/addFavoriteGroup", (req, res) => {
+    const { sesid } = req.cookies;
+    const { name, description } = req.body;
+    
+    dbc.getIdBySesid(sesid)
+        .then(id => dbc.addFavotireGroup(id, name, description))
+        .then(addedGroup => {
+            res.send({
+                success: true,
+                addedGroup
+            })
+        }).catch(({ error }) => {
+            res.send({
+                success: false,
+                error
+            });
+        });
+});
+
+app.post("/deleteFavoriteGroup", (req, res) => {
+    const { sesid } = req.cookies;
+    const { id } = req.body;
+    
+    dbc.deleteFavotireGroup(id)
+        .then(() => {
+            res.send({
+                success: true
+            })
         }).catch(({ error }) => {
             res.send({
                 success: false,

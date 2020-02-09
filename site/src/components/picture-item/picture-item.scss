@@ -10,13 +10,14 @@
     flex-direction: column;
 
     border-radius: 5px;
+    border: 2px solid blue;
 
     overflow: hidden;
 
     transition: all .3s;
 
-    &[scaling=true]:hover {
-        transform: scale(1.1);
+    &[editing=false]:hover {
+        border-color: red;
     }
 }
 
@@ -36,4 +37,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+
+    flex-grow: 2;
 }

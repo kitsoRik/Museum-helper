@@ -4,14 +4,14 @@ import { connect } from 'react-redux'
 import PictureDescriptionContainer from './picture-description-container/picture-description-container.js';
 
 import './picture-prodaction-container.scss';
-import PictureLanguages from '../picture-info-container/picture-languages/picture-languages';
+import PictureLanguages from './picture-languages';
 import { changePictureInfoCreator, triggeredAddLanguageInfoCreator } from '../../../../../actions/picturesInfoActions.js';
 
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { debounce } from 'debounce';
 
-const PictureProdactionContainer = (props) => {
+const PictureProductionContainer = (props) => {
 
     const { currentIndex, picture, pictureInfo } = props;
     const { changePictureInfoPartTitle, triggerAddLanguage } = props;
@@ -74,4 +74,4 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(PictureProdactionContainer);
+export default connect(mapStateToProps, mapDipatchToProps)(PictureProductionContainer);

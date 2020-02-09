@@ -7,6 +7,7 @@ import './favorites-container.scss';
 import ContainerItem from './container-item/container-item';
 import { changeFavoritesGroups, changeEditable } from '../../../../actions/favoritesActions';
 import { FormControlLabel, Switch } from '@material-ui/core';
+import EditButton from './edit-button/edit-button';
 
 const onDragEnd = (result, groups, setGroups) => {
     if (!result.destination) return;
@@ -49,11 +50,16 @@ const onDragEnd = (result, groups, setGroups) => {
 const FavotiresContainer = (props) => {
     const { editable, groups, setGroups } = props;
     const { setEditable } = props; 
-
-    const containerItems = groups.map((group) => {
+    const containerItems = groups.map((group, index) => {
+        const onGroupNameChanged = (name) => {
+            let newGroups = groups.filter(() => true);
+            newGroups[index].name = name;
+            setGroups(newGroups);
+        }
         return <ContainerItem 
             key={group.id.toString()} 
-            group={group} />
+            group={group}
+            onGroupNameChanged={onGroupNameChanged} />
     });
 
     const switchEditable = (value) => {
@@ -66,18 +72,14 @@ const FavotiresContainer = (props) => {
 
     return (
         <div className="favorites-container">
-            <div className="favotires-container-tools">
-                <FormControlLabel
-                    control={<Switch color="primary" checked={editable} onChange={(e) => switchEditable(e.target.checked)} />}
-                    label="Edit"
-                    labelPlacement="end"
-                    />
-            </div>
             <DragDropContext onDragEnd={(result) => onDragEnd(result, groups, setGroups)}>
                 <div className="favorites-items-container">
                     { containerItems }
                 </div>
             </DragDropContext>
+            <EditButton 
+                editable={editable}
+                switchEditable={switchEditable}/>
         </div>
     );
 }

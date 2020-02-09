@@ -1,6 +1,8 @@
-.picture-upper-panel {
+.picture-development-container {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
+    flex-grow: 1;
 }
 
 .picture-upper-panel-info {

@@ -1,27 +1,24 @@
-import { getPictureData, savePictureInfo, savePictureData, addLanguageInfo } from "../services/api/api";
+import api, { getPictureData, savePictureInfo, savePictureData, addLanguageInfo, addIconToPicture } from "../services/api/api";
 import { alertAddNotificationCreator } from "./alertActions";
 
 export const startLoadPictureInfoCreator = (id) => {
     return (dispatch) => {
-        setTimeout(() => {
-            getPictureData(id)
-                .then((data) => {
-                    if(!data.success) { 
-                        dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
-                        console.log("NOT SUCCESS");
-                        return;
-                    }
-                    dispatch(alertAddNotificationCreator("Picture info has been loaded!"));
-                    dispatch(loadPictureInfoSuccessCreator(
-                        data.picture, 
-                        data.pictureInfo, 
-                        dispatch));
-                }).catch(() => {
-                    
-                    dispatch(alertAddNotificationCreator(`Picture info has not been loaded (server problem)`), "error");
-                });
-        }, 1000); // FIXIT
-        
+        getPictureData(id)
+        .then((data) => {
+            if(!data.success) { 
+                dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
+                console.log("NOT SUCCESS");
+                return;
+            }
+            dispatch(alertAddNotificationCreator("Picture info has been loaded!"));
+            dispatch(loadPictureInfoSuccessCreator(
+                data.picture, 
+                data.pictureInfo, 
+                dispatch));
+        }).catch(() => {
+            
+            dispatch(alertAddNotificationCreator(`Picture info has not been loaded (server problem)`), "error");
+        });
     }
 }
 
@@ -113,3 +110,39 @@ export const changeCurrentIndexCreator = (index) => {
     }
 }
 
+export const addIcon = (id, iconFile) => {
+    return (dispatch) => {
+        api.addIconToPicture(id, iconFile)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(iconToPictureAdded(data.addedIcon));
+                    dispatch(alertAddNotificationCreator("ADDED"));
+                } else {
+                    dispatch(alertAddNotificationCreator("NOT ADDED", "error"));
+                }
+            })
+    }
+}
+
+export const deleteIcon = (id) => {
+    return (dispatch) => {
+        api.deleteIconFromPicture(id)
+            .then((data) => {
+                if(data.success) {
+                    dispatch(iconfromPictureDeleted(data.id));
+                } else {
+                    dispatch(alertAddNotificationCreator("NOT DELETED", "error"));
+                }
+            });
+    }
+}
+
+const iconToPictureAdded = (addedIcon) => ({
+    type: "ICON_TO_PICTURE_ADDED",
+    addedIcon
+});
+
+const iconfromPictureDeleted = (id) => ({
+    type: "ICON_FROM_PICTURE_DELETED",
+    id
+});

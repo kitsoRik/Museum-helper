@@ -7,9 +7,12 @@ import { changePictureInfoCreator } from '../../../../../../actions/picturesInfo
 
 import { debounce } from 'debounce'
 import TextField from '@material-ui/core/TextField';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
 
 const PictureDescriptionContainer = (props) => {
+
 
     const { currentIndex, pictureInfo } = props;
     const { onPictureInfoChanged } = props;
@@ -26,24 +29,13 @@ const PictureDescriptionContainer = (props) => {
         onPictureInfoChanged(pictureInfo[currentIndex].id, { description });
     }, [ description ]);
     
-    // const checkAndWrite = useCallback(debounce(() => 
-    //         onPictureInfoChanged(pictureInfo[index].id, { description }), 2000),
-    //         [ ], );
-
-    //const [s1, setS] = useState(debounce(() => onPictureInfoChanged(pictureInfo[index].id, { description }), 2000));
-    
     if(currentIndex === -1) return <span>SELECT LANGUAGE</span>
 
     return (
-        <TextField
-            id="filled-basic" 
-            variant="filled"
-            label="Description"
-            className="picture-description-container"
-            multiline
-            value={description}
+        <textarea 
+            value={description} 
             onChange={(e) => setDescription(e.target.value)}
-        />
+            className="picture-description-container" />
     );
 }
 
@@ -64,4 +56,8 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDipatchToProps)(PictureDescriptionContainer);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withRouter
+)
+(PictureDescriptionContainer);

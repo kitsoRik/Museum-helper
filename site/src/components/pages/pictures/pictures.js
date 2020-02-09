@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import PicturesContainer from './pictures-container';
 import { startLoadPicturesCreator } from '../../../actions/picturesActions';
@@ -6,54 +6,48 @@ import { startLoadPicturesCreator } from '../../../actions/picturesActions';
 
 import "./pictures.scss";
 import withGuard from '../../withGuard/withGuard';
-import withDrawer from '../../withDrawer';
 import { compose } from 'redux';
 import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
 
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import EditIcon from '@material-ui/icons/Edit';
+import PictureSettingsSearch from './pictures-container/pictures-settings-search';
+import { debounce } from 'debounce';
 
 
 const Pictures = (props) => {
-
     const { beginLoadPictures } = props;
     const dispatch = useDispatch();
+    const { searchParams } = props;
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
-        beginLoadPictures();
         dispatch(changeDrawerTitleCreator("Pictures"));
     }, [ ])
+
+    useEffect(() => {
+        beginLoadPictures(searchParams);
+    }, [searchParams]);
 
     return ( 
         <div className="pictures-page">
             <h1>Pictures</h1>
+            <PictureSettingsSearch 
+                searchText={searchText}
+                setSearchText={setSearchText}/>
             <PicturesContainer />
         </div>
      );
 }
 
-const AddButton = (props) => {
-    return (
-    <SpeedDial
-        ariaLabel=""
-        style={{position: "absolute", bottom: "15px", right: "15px"}}
-        hidden={false}
-        icon={<SpeedDialIcon openIcon={<EditIcon />} />}
-      >
-      </SpeedDial>
-    );
-}
-
 const mapStateToProps = (state) => {
+    const { searchParams } = state.pictures;
     return {
-
+        searchParams
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        beginLoadPictures: () => dispatch(startLoadPicturesCreator(dispatch))
+        beginLoadPictures: (params) => dispatch(startLoadPicturesCreator(params))
     }
 }
  

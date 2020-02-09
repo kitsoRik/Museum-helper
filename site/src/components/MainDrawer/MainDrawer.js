@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 
-import './drawer.scss';
+import './MainDrawer.scss';
 import { changeVisibleDrawerCreator } from '../../actions/drawerActions';
 import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon } from '@material-ui/core';
 import { Menu as MenuIcon, 
@@ -21,7 +21,7 @@ import { unloginCreator } from '../../actions/userActions';
 
 const drawerWidth = 240;
 
-const Drawer = (props) => {
+const MainDrawer = (props) => {
 
     const { main } = props;
     const { opened, title } = props;
@@ -158,7 +158,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
 
 
 
-export default connect(mapStateToProps, mapDipatchToProps)(withRouter(Drawer));
+export default connect(mapStateToProps, mapDipatchToProps)(withRouter(MainDrawer));
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -200,7 +200,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'flex-end',
     },
     content: {
-        //maxWidth: `calc(100% - ${drawerWidth}px)`,
+        maxWidth: `100%`,
+        maxHeight: `calc(100% - 64px)`,
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
@@ -210,6 +211,7 @@ const useStyles = makeStyles(theme => ({
         marginRight: -drawerWidth,
     },
     contentShift: {
+        maxWidth: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
@@ -217,4 +219,3 @@ const useStyles = makeStyles(theme => ({
         marginLeft: drawerWidth,
     },
 }));
-
