@@ -1,5 +1,4 @@
 import { NOT_LOADED, LOADED, ERROR_LOADING, IS_LOADING } from "../constants";
-import { addToFavorite } from "../actions/picturesActions";
 
 const initState = {
     loading: NOT_LOADED,
@@ -17,6 +16,14 @@ const updatePictures = (state = initState, action) => {
         case "LOAD_PICTURES_SUCCESS": return loadPicturesSuccess(state, action);
         case "LOAD_PICTURES_ERROR": return loadPicturesError(state, action);
         
+        case "ADD_PICTURE_SUCCESS": {
+            const { picture } = action;
+            const { pictures } = state;
+            return {
+                ...state,
+                pictures: pictures.concat([picture])
+            }
+        }
         case "DELETE_PICTURE_SUCCESS": return deletePictureSuccess(state, action);
 
         case "PICTURE_TO_FAVOTIRES_ADDED": return addDeletePictureInFavorites(state, action, true);
@@ -54,27 +61,25 @@ const loadPicturesError = (state, action) => {
 const deletePictureSuccess = (state, action) => {
     const { pictures } = state;
     const { id } = action;
-    const index = pictures.findIndex((v) => v.id === id);
-    
+    const newPictures = pictures.filter(v => v.id !== id);
+
     return {
         ...state,
         loading: LOADED,
-        pictures:
-            pictures.slice(0, index).concat(
-                pictures.slice(index + 1, pictures.length))
+        pictures: newPictures
     }
-
 }
 
 const addDeletePictureInFavorites = (state, action, isAdded) => {
     const { id } = action;
-            let newPictures = state.pictures.filter(() => true);
-            let index = newPictures.findIndex(i => i.id === id);
-            newPictures[index].favorite = isAdded;
-            return {
-                ...state,
-                newPictures
-            }
+    let newPictures = state.pictures.filter(() => true);
+    let index = newPictures.findIndex(i => i.id === id);
+    console.log(action);
+    newPictures[index].favorite = isAdded ? 1 : 0;
+    return {
+        ...state,
+        pictures: newPictures
+    }
 }
 
 const setSearchParam = (state, action) => {

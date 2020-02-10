@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-exports.parseJStoSQLQ = (obj) => {
+exports.parseJStoSQLQ = (obj, prefix = '') => {
     let keys = Object.keys(obj);
 
     let resultKeys = "";
@@ -9,10 +9,10 @@ exports.parseJStoSQLQ = (obj) => {
 
     for(let i = 0; i < keys.length; i++) {
         let key = keys[i];
-        resultKeys += ` ${key}=?`;
+        resultKeys += ` ${prefix ? `${prefix}.` : ''}${key}=?`;
         resultValues.push(obj[key]);
 
-        if(i !== keys.length - 1) resultKeys += ', '
+        if(i !== keys.length - 1) resultKeys += ' AND '
     }
     
     return { resultKeys, resultValues };

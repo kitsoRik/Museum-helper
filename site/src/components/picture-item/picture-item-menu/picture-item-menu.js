@@ -34,7 +34,7 @@ const PictureItemMenu = (props) => {
         e.stopPropagation();
         deletePicture(id);
     }
-
+    console.log(isFavorite);
     return (
         <IconButton onClick={onClick}>
             <MoreVertIcon />

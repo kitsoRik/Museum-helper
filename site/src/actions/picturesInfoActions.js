@@ -7,7 +7,6 @@ export const startLoadPictureInfoCreator = (id) => {
         .then((data) => {
             if(!data.success) { 
                 dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
-                console.log("NOT SUCCESS");
                 return;
             }
             dispatch(alertAddNotificationCreator("Picture info has been loaded!"));

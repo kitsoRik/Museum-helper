@@ -1,130 +1,75 @@
 import { getPicturesData, deletePicture, addPicture, addPictureToFavorites, deletePictureFromFavorites } from "../services/api/api";
 import { alertAddNotificationCreator } from "./alertActions";
+import { actionFactory } from "./helpers";
 
-export const startLoadPicturesCreator = (params) => {
-    return (dispatch) => {
-        dispatch(loadPicturesStart());
-        getPicturesData(params).then((data) => {
-            if(data.success) {
-                dispatch(alertAddNotificationCreator(`Pictures has been loaded`));
-                dispatch(loadPicturesSuccessCreator(data.pictures));
-            } else {
-                dispatch(loadPicturesErrorCreator(data.error));
-                dispatch(alertAddNotificationCreator(`Pictures has not been loaded`), "error");
-            }
-        }).catch(() => {
-            dispatch(alertAddNotificationCreator(`Pictures has been loaded (server problem)`), "error");
-        });
-    }
-};
+export const loadPicturesStart = () => ({
+    type: "LOAD_PICTURES_START"
+});
 
-export const loadPicturesStart = (data) => {
-    return {
-        type: "LOAD_PICTURES_START"
-    }
-};
+export const loadPicturesSuccessCreator = ({ pictures }) => ({
+    type: "LOAD_PICTURES_SUCCESS",
+    data: pictures
+});
 
-export const loadPicturesSuccessCreator = (data) => {
-    return {
-        type: "LOAD_PICTURES_SUCCESS",
-        data
-    }
-};
+export const loadPicturesErrorCreator = (error) => ({
+    type: "LOAD_PICTURES_ERROR",
+    error
+});
 
-export const loadPicturesErrorCreator = (error) => {
-    return {
-        type: "LOAD_PICTURES_ERROR",
-        error
-    }
-};
+export const startLoadPicturesCreator = actionFactory(
+    getPicturesData, 
+    loadPicturesStart, 
+    loadPicturesSuccessCreator, 
+    loadPicturesErrorCreator
+);
 
-export const addPictureCreator = (name, description, qrcode) => {
-    return (dispatch) => {
-        addPicture(name, description, qrcode)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(alertAddNotificationCreator(`Picture has been added`));
-                } else {
-                    dispatch(alertAddNotificationCreator(`Picture has not been added`), "error");
-                }
-            }).catch(() => {
-                dispatch(alertAddNotificationCreator(`Picture has been added (server problem)`), "error");
-            });
-    }
-}
+export const addPictureSuccess = ({ picture }, id) => ({
+    type: "ADD_PICTURE_SUCCESS",
+    picture
+})
 
-export const deletePictureCreator = (id) => {
-    return (dispatch) => {
-        deletePicture(id)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(alertAddNotificationCreator(`Picture had been deleted!`));
-                    dispatch(deletePictureSuccessCreator(id, dispatch));
-                }
-            }).catch((r) => {
-                dispatch(alertAddNotificationCreator(`Picture has not been deleted!`), "error");
-            });
-    }
-}
+export const addPictureCreator = actionFactory(
+    addPicture,
+    null,
+    addPictureSuccess
+);
 
-export const deletePictureSuccessCreator = (id) => {
-    return {
-        type: "DELETE_PICTURE_SUCCESS",
-        id
-    }
-}
+export const deletePictureSuccessCreator = (data, id) => ({
+    type: "DELETE_PICTURE_SUCCESS",
+    id
+})
 
-export const addToFavorite = (id) => {
-    return (dispatch) => {
-        addPictureToFavorites(id)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(pictureToFavotiresAdded(id));
-                    dispatch(alertAddNotificationCreator("ADDED"));
-                } else {
-                    dispatch(alertAddNotificationCreator("NOT ADDED", "error"));
-                }
-            }).catch(() => {
-                dispatch(alertAddNotificationCreator("NOT ADDED (server problem)", "error"))
-            });
-    }
-}
+export const deletePictureCreator = actionFactory(
+    deletePicture,
+    null,
+    deletePictureSuccessCreator
+);
 
-export const pictureToFavotiresAdded = (id) => {
-    return {
-        type: "PICTURE_TO_FAVOTIRES_ADDED",
-        id
-    }
-}
+export const pictureToFavotiresAdded = (data, id) => ({
+    type: "PICTURE_TO_FAVOTIRES_ADDED",
+    id
+});
 
-export const deleteFromFavorite = (id) => {
-    return (dispatch) => {
-        deletePictureFromFavorites(id)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(pictureFromFavotiresDelete(id));
-                    dispatch(alertAddNotificationCreator("DELETED"));
-                } else {
-                    dispatch(alertAddNotificationCreator("NOT DELETED", "error"));
-                }
-            }).catch(() => {
-                dispatch(alertAddNotificationCreator("NOT DELETED (server problem)", "error"))
-            });
-    }
-}
+export const addToFavorite = actionFactory(
+    addPictureToFavorites,
+    null,
+    pictureToFavotiresAdded
+);
 
-export const pictureFromFavotiresDelete = (id) => {
-    return {
-        type: "PICTURE_FROM_FAVOTIRES_DELETED",
-        id
-    }
-}
+export const pictureFromFavotiresDelete = (data, id) => ({
+    type: "PICTURE_FROM_FAVOTIRES_DELETED",
+    id
+});
 
-export const setSearchParams = (params) => {
-    return {
-        type: "SET_SEARCH_PARAMS",
-        searchParams: {
-            ...params
-        }
+export const deleteFromFavorite = actionFactory(
+    deletePictureFromFavorites,
+    null,
+    pictureFromFavotiresDelete
+);
+
+export const setSearchParams = (params) => ({
+    type: "SET_SEARCH_PARAMS",
+    searchParams: {
+        ...params
     }
-}
+})
