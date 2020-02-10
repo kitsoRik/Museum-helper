@@ -1,4 +1,7 @@
+const SERVER_ERROR = "SERVER_ERROR";
+
 const db = require("../statics").db;
+const PicHelp = require("./picture-helper");
 
 exports.getFavoritesGroups = (id) => new Promise((resolve, reject) => {
     db.all(`SELECT id, name, description 
@@ -7,7 +10,7 @@ exports.getFavoritesGroups = (id) => new Promise((resolve, reject) => {
     ORDER BY _index ASC
     `, [id], (err, groups) => {
         if(err) return reject({ error: SERVER_ERROR });
-        result = [...groups];
+        groups.push({id: -1, name: "Other", description: "" });
         resolve(groups);
     });
 });
@@ -33,17 +36,16 @@ exports.getItemsInGroups = (groups) => new Promise((resolve, reject) => {
 
 exports.getPictureForItems = ({items, groups}) => new Promise((resolve, reject) => {
     let _index = 0;
+    if(items.length === 0) return resolve(groups);
     items.forEach(i => {
-        db.get(`SELECT id, name, description, icon_name iconName 
-                FROM pictures
-                WHERE id=?`, 
-        [i.pictureId], (err, picture) => {
-            if(err) return reject({ error: SERVER_ERROR });
-            i.picture = picture;
-
-            if(++_index === items.length) {
-                resolve(groups);
-            }
+        PicHelp.getPictureById(i.pictureId)
+            .then(picture => {
+                i.picture = picture;
+                if(++_index === items.length) {
+                    resolve(groups);
+                }
+            }).catch(({ error }) => {
+                reject(error);
+            });
         });
-    });
 });

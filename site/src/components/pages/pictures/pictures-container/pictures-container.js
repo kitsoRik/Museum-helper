@@ -46,6 +46,7 @@ const PicturesContainer = (props) => {
                 ariaLabel=""
                 style={{position: "fixed", bottom: "30px", right: "30px"}}
                 hidden={false}
+                open={false}
                 icon={<SpeedDialIcon openIcon={<EditIcon />} />}
                 onClick={() => setAddDialogVisible(true)}
             >
@@ -83,7 +84,8 @@ const PicturesContainer = (props) => {
                 <DialogActions>
                     <Button 
                         color="primary"
-                        onClick={() => addPicture(name, description, qrcode)}    
+                        onClick={() => { setAddDialogVisible(false); addPicture(name, description, qrcode); }}    
+                        
                     >
                         Add
                     </Button>

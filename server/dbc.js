@@ -133,7 +133,14 @@ exports.addPicture = (userId, name, description, qrcode) => {
                 }, (run, err) => {
                     if(err) return reject({ error: SERVER_ERROR });
                     
-                    resolve({});
+                    PicHelp.getPictureByAll(
+                        userId,
+                        name,
+                        description,
+                        qrcode
+                    )
+                    .then(resolve)
+                    .catch(reject)
                 });
     });
 }

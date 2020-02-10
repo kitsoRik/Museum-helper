@@ -73,7 +73,7 @@ const MainDrawer = (props) => {
         </ListItem>,
         
         <ListItem 
-        key={-4}
+        key={-5}
         button
         onClick={() => props.history.push("/favorites")}    
         >

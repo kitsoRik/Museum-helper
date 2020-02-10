@@ -188,9 +188,10 @@ app.post("/addPicture", (req, res) => {
     dbc.getIdBySesid(sesid)
         .then(userId => {
                 dbc.addPicture(userId, name, description, qrcode)
-                .then(() => {
+                .then(picture => {
                     res.send({
-                        success: true
+                        success: true,
+                        picture
                     });
                 });
         }).catch(({ error }) => {

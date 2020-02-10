@@ -23,8 +23,14 @@
 
 .picture-item-header {
     display: flex;
-
     justify-content: space-between;
+
+    background-color: rgba(75, 75, 75, 0.5);
+    border-radius: 5px;
+
+    & path {
+        color: white;
+    }
 }
 
 .picture-item-title {
