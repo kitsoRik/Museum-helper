@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-const host = "http://5.45.118.116:3006"
+const host = "http://localhost:3006"
 
 export const apiHost = host;
 
@@ -43,8 +43,8 @@ export const getRegisterIn = (data) => {
                 .catch((res) => catchProblem);
 }
 
-export const getPicturesData = (searchParams) => {
-    const params = { searchParams };
+export const getPicturesData = (searchParams, limit, pageNumber) => {
+    const params = { searchParams, limit, pageNumber };
     const queryParams = {
         withCredentials: true
     };
@@ -97,8 +97,8 @@ export const addPicture = (name, description, qrcode) => {
         .catch((res) => catchProblem);
 }
 
-export const deletePicture = (id) => {
-    const params = { id };
+export const deletePicture = (id, { searchParams, pageNumber, limit}) => {
+    const params = { id, searchParams, pageNumber, limit };
     const queryParams = {
         withCredentials: true
     };

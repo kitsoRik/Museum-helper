@@ -3,6 +3,9 @@ import { NOT_LOADED, LOADED, ERROR_LOADING, IS_LOADING } from "../constants";
 const initState = {
     loading: NOT_LOADED,
     pictures: [],
+    pagesCount: 0,
+    pageNumber: 1,
+    limit: 10,
     searchParams: {
         searchText: '',
         sortedField: 'none',
@@ -35,18 +38,23 @@ const updatePictures = (state = initState, action) => {
     }
 }
 
-const loadPicturesStart = (state, action) => {
+const loadPicturesStart = (state, { searchParams, pageNumber }) => {
     return {
         ...state,
-        loading: IS_LOADING
+        loading: IS_LOADING,
+        searchParams,
+        pageNumber
     }
 }
 
 const loadPicturesSuccess = (state, action) => {
+    const { pictures, pagesCount, pageNumber } = action;
     return {
         ...state,
         loading: LOADED,
-        pictures: action.data
+        pictures,
+        pagesCount,
+        pageNumber
     }
 }
 
@@ -59,14 +67,13 @@ const loadPicturesError = (state, action) => {
 }
 
 const deletePictureSuccess = (state, action) => {
-    const { pictures } = state;
-    const { id } = action;
-    const newPictures = pictures.filter(v => v.id !== id);
+    const { pictures, pagesData: { pagesCount } } = action;
 
     return {
         ...state,
         loading: LOADED,
-        pictures: newPictures
+        pictures,
+        pagesCount
     }
 }
 
@@ -74,7 +81,6 @@ const addDeletePictureInFavorites = (state, action, isAdded) => {
     const { id } = action;
     let newPictures = state.pictures.filter(() => true);
     let index = newPictures.findIndex(i => i.id === id);
-    console.log(action);
     newPictures[index].favorite = isAdded ? 1 : 0;
     return {
         ...state,

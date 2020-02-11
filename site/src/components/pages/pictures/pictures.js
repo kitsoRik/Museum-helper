@@ -3,20 +3,20 @@ import { connect, useDispatch } from 'react-redux'
 import PicturesContainer from './pictures-container';
 import { startLoadPicturesCreator } from '../../../actions/picturesActions';
 
-
 import "./pictures.scss";
 import withGuard from '../../withGuard/withGuard';
 import { compose } from 'redux';
 import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
 
 import PictureSettingsSearch from './pictures-container/pictures-settings-search';
-import { debounce } from 'debounce';
+import PicturesPages from './PicturesPages/PicturesPages';
 
 
 const Pictures = (props) => {
     const { beginLoadPictures } = props;
     const dispatch = useDispatch();
-    const { searchParams } = props;
+    const { searchParams, limit } = props;
+    const [pageNumber, setPageNumber] = useState(1);
     const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
@@ -24,8 +24,8 @@ const Pictures = (props) => {
     }, [ ])
 
     useEffect(() => {
-        beginLoadPictures(searchParams);
-    }, [searchParams]);
+        beginLoadPictures(searchParams, limit, pageNumber);
+    }, [searchParams, pageNumber, limit]);
 
     return ( 
         <div className="pictures-page">
@@ -34,20 +34,23 @@ const Pictures = (props) => {
                 searchText={searchText}
                 setSearchText={setSearchText}/>
             <PicturesContainer />
+            <PicturesPages 
+                pageNumber={pageNumber}
+                setPageNumber={setPageNumber}/>
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    const { searchParams } = state.pictures;
+    const { searchParams, limit, pageNumber } = state.pictures;
     return {
-        searchParams
+        searchParams, limit, pageNumber
     }
 }
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        beginLoadPictures: (params) => dispatch(startLoadPicturesCreator(params))
+        beginLoadPictures: (params, limit, pageNumber) => dispatch(startLoadPicturesCreator(params, limit, pageNumber))
     }
 }
  

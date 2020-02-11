@@ -163,7 +163,8 @@ export default connect(mapStateToProps, mapDipatchToProps)(withRouter(MainDrawer
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        flexGrow: "1"
+        flexGrow: "1",
+        overflow: "hidden"
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
@@ -204,7 +205,7 @@ const useStyles = makeStyles(theme => ({
         maxHeight: `calc(100% - 64px)`,
         flexGrow: 1,
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -212,7 +213,7 @@ const useStyles = makeStyles(theme => ({
     },
     contentShift: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
