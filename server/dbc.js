@@ -5,6 +5,7 @@ const utils = require("./utils");
 
 const FavHelp = require("./dbhelpers/favorites-helper");
 const PicHelp = require("./dbhelpers/picture-helper");
+const PicsHelp = require("./dbhelpers/pictures-helper");
 const PicIcoHelp = require("./dbhelpers/pictures-icons-helper");
 
 exports.registerUser = (username, email, password) => {
@@ -82,36 +83,14 @@ exports.getUser = (sesid) => {
     });
 }
 
-exports.getPictures = (id, searchText, sortedField, sortedType) => {
-    
-    const sortedFieldsTransform = (field) => {
-        switch(field) {
-            case 'created': return 'created_date';
-            case 'changed': return 'changed_date';
-            default: return field;
-        }
-    }
-
-    return new Promise((resolve, reject) => {
-        const sortedQuery = sortedField === 'none' ? "" : 
-            `ORDER BY ${sortedFieldsTransform(sortedField)} ${sortedType}`;
-
-        db.all(`SELECT p.id, p.name, p.qrcode,
-                EXISTS (
-                    SELECT f.id 
-                    FROM favorites_items f 
-                    WHERE f.picture_id=p.id
-                    ) as favorite,
-                    ( SELECT icon_name FROM pictures_icons pi WHERE pi.picture_id=p.id ) as iconName
-                FROM pictures p 
-                WHERE p.user_id=? AND p.name LIKE ?
-                ${sortedQuery}`,
-            [id, `%${searchText}%`], (err, pictures) => {
-                if (err) return reject({ error: SERVER_ERROR });
-                resolve(pictures);
-            });
-    });
-}
+exports.getPictures = (id, searchText, sortedField, sortedType, limit, pageNumber) => new Promise((resolve, reject) => {
+    let pictures;
+    PicsHelp.getPictures(id, searchText, sortedField, sortedType, limit, pageNumber)
+    .then(ps => pictures = ps)
+    .then(() => PicsHelp.getPicturesPagesDataByRequest(id, searchText, limit, pageNumber))
+    .then(pagesData => resolve({ pictures, pagesData }))
+    .catch(reject);
+});
 
 exports.getPictureInfo = (id) => new Promise((resolve, reject) => {
     PicHelp.getPictureById(id)

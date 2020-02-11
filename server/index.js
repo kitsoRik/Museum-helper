@@ -108,13 +108,15 @@ app.post("/getData", (req, res) => {
 
 app.post("/getPicturesData", (req, res) => {
     const { sesid } = req.cookies;
-    const { searchParams: { searchText, sortedField, sortedType }} = req.body;
+    const { searchParams: { searchText, sortedField, sortedType }, pageNumber = 1, limit = 5} = req.body;
+
     dbc.getIdBySesid(sesid)
-        .then(id => dbc.getPictures(id, searchText, sortedField, sortedType))
-        .then(pictures => {
+        .then(id => dbc.getPictures(id, searchText, sortedField, sortedType, limit, pageNumber))
+        .then(({ pictures, pagesData }) => {
             res.send({
                 success: true,
-                pictures
+                pictures,
+                pagesData
             });
         })
         .catch(({ error }) => {
@@ -243,12 +245,20 @@ app.post("/deleteIconFromPicture", multer({dest:"uploads"}).single("icon"), (req
         });
 });
 
-app.use("/deletePicture", (req, res) => {
-    const { id } = req.body;
+app.post("/deletePicture", (req, res) => {
+    const { sesid } = req.cookies;
+    console.log(req.body)
+    const { id, searchParams: { searchText, sortedField, sortedType},
+            pageNumber,
+        limit } = req.body;
     dbc.deletePicture(id)
-        .then(() => {
+        .then(() => dbc.getIdBySesid(sesid))
+        .then((userId) => dbc.getPictures(userId, searchText, sortedField, sortedType, limit, pageNumber))
+        .then(({ pictures, pagesData })  => {
             res.send({
-                success: true
+                success: true,
+                pictures, 
+                pagesData
             });
         }).catch(({ error }) => {
             if(!error) error = SCRIPT_ERROR;

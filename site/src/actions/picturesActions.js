@@ -2,13 +2,15 @@ import { getPicturesData, deletePicture, addPicture, addPictureToFavorites, dele
 import { alertAddNotificationCreator } from "./alertActions";
 import { actionFactory } from "./helpers";
 
-export const loadPicturesStart = () => ({
-    type: "LOAD_PICTURES_START"
+export const loadPicturesStart = (searchParams) => ({
+    type: "LOAD_PICTURES_START",
+    searchParams,
 });
 
-export const loadPicturesSuccessCreator = ({ pictures }) => ({
+export const loadPicturesSuccessCreator = ({ pictures, pagesData: { pagesCount }}) => ({
     type: "LOAD_PICTURES_SUCCESS",
-    data: pictures
+    pictures,
+    pagesCount
 });
 
 export const loadPicturesErrorCreator = (error) => ({
@@ -23,7 +25,7 @@ export const startLoadPicturesCreator = actionFactory(
     loadPicturesErrorCreator
 );
 
-export const addPictureSuccess = ({ picture }, id) => ({
+export const addPictureSuccess = ({ picture }) => ({
     type: "ADD_PICTURE_SUCCESS",
     picture
 })
@@ -34,15 +36,18 @@ export const addPictureCreator = actionFactory(
     addPictureSuccess
 );
 
-export const deletePictureSuccessCreator = (data, id) => ({
+export const deletePictureSuccessCreator = (data) => ({
     type: "DELETE_PICTURE_SUCCESS",
-    id
+    ...data
 })
 
 export const deletePictureCreator = actionFactory(
     deletePicture,
     null,
-    deletePictureSuccessCreator
+    deletePictureSuccessCreator,
+    null,
+    ({ pictures: { searchParams, pageNumber = 1, limit }}) => 
+        ({ searchParams, pageNumber, limit })
 );
 
 export const pictureToFavotiresAdded = (data, id) => ({

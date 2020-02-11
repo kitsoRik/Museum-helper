@@ -15,7 +15,6 @@ exports.getPictureById = (id) => new Promise((resolve, reject) => {
             WHERE p.id=?
             LIMIT 1`,
         [id], (err, picture) => {
-            console.log(id);
             if (err) return reject({ error: SERVER_ERROR });
             if (!picture) return reject({ error: SERVER_ERROR });
             resolve(picture);
