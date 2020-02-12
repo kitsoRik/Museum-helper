@@ -4,9 +4,8 @@ import { Redirect } from 'react-router-dom';
 
 function withGuard(WrapperComponent)  {
     class HOC extends Component {
-
         render() {
-            const { user: { loggedIn } } = this.props;
+            const { loggedIn } = this.props;
             if(loggedIn === "wait") return <span>WAIT</span>
             if(loggedIn !== true) return <Redirect to="/login"/> 
 
@@ -14,21 +13,7 @@ function withGuard(WrapperComponent)  {
         }
     }
 
-    return connect(mapStateToProps, mapDipatchToProps)(HOC);
+    return connect(({ user: { loggedIn } }) => ({ loggedIn }))(HOC);
 }
-
-const mapStateToProps = ({ user }) => {
-    return {
-        user
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
-
-
 
 export default withGuard;

@@ -31,32 +31,10 @@ const PictureItem = (props) => {
                 />
             </CardActionArea>
         </Card>
-        // <div 
-        //     className="picture-item"
-        //     editing={(editing).toString()}
-        //     style={{backgroundImage: iconPath}}
-        //     onClick={() => { if(!editing) onClick() }}>
-        //     <div className="picture-item-header">
-        //         <h2 className="picture-item-title">{ name }</h2>
-        //         <PictureItemMenu id={id} isFavorite={!!favorite}/>
-        //     </div>
-        // </div>
      );
 }
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }   
-}
  
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
     withRouter
 )(PictureItem);

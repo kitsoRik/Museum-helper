@@ -3,26 +3,27 @@ import { connect, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 import "./picture.scss"
-import { startLoadPictureInfoCreator, untriggeredAddLanguageInfoCreator } from '../../../actions/picturesInfoActions';
+import { loadPictureInfo, untriggeredAddLanguageInfo } from '../../../actions/picturesInfoActions';
 import { CircularProgress } from '@material-ui/core';
 import { compose } from 'redux';
 import withAlert from '../../withAlert/withAlert';
-import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
 import PictureContainer from './picture-container/picture-container';
+import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 const Picture = (props) => {
     const { match: { params: { id }}} = props;
     const { picture } = props;
     const dispatch = useDispatch();
-    const { startLoadPictureInfo } = props;
+    const { loadPictureInfo } = props;
 
     useEffect(() => {
-        startLoadPictureInfo(id);
+        loadPictureInfo(id);
     }, [ ]);
 
     useEffect(() => {
         if(!picture) return;
-        dispatch(changeDrawerTitleCreator(picture.name));
+        dispatch(changeDrawerTitle(picture.name));
     }, [ picture ]);
     
 
@@ -42,15 +43,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        startLoadPictureInfo: (id) => dispatch(startLoadPictureInfoCreator(id, dispatch)),
-
-    }
-}
- 
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps, { loadPictureInfo }),
     withRouter,
-    withAlert
+    withFadeIn
 )(Picture)

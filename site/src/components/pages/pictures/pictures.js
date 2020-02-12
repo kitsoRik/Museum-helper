@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import PicturesContainer from './pictures-container';
-import { startLoadPicturesCreator } from '../../../actions/picturesActions';
+import { startLoadPictures } from '../../../actions/picturesActions';
 
 import "./pictures.scss";
-import withGuard from '../../withGuard/withGuard';
+import withGuard from '../../hocs/withGuard';
 import { compose } from 'redux';
-import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
 
 import PictureSettingsSearch from './pictures-container/pictures-settings-search';
 import PicturesPages from './PicturesPages/PicturesPages';
+import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 
 const Pictures = (props) => {
-    const { beginLoadPictures } = props;
+    const { startLoadPictures } = props;
     const dispatch = useDispatch();
     const { searchParams, limit } = props;
     const [pageNumber, setPageNumber] = useState(1);
-    const [searchText, setSearchText] = useState("");
+    const [searchText, setSearchText] = useState(searchParams.searchText);
 
     useEffect(() => {
-        dispatch(changeDrawerTitleCreator("Pictures"));
+        dispatch(changeDrawerTitle("Pictures"));
     }, [ ])
 
     useEffect(() => {
-        beginLoadPictures(searchParams, limit, pageNumber);
+        startLoadPictures(searchParams, limit, pageNumber);
     }, [searchParams, pageNumber, limit]);
 
     return ( 
@@ -47,14 +48,9 @@ const mapStateToProps = (state) => {
         searchParams, limit, pageNumber
     }
 }
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        beginLoadPictures: (params, limit, pageNumber) => dispatch(startLoadPicturesCreator(params, limit, pageNumber))
-    }
-}
  
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
-    withGuard
+    connect(mapStateToProps, { startLoadPictures }),
+    withGuard,
+    withFadeIn
 )(Pictures);

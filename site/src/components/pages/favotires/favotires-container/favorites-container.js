@@ -48,13 +48,13 @@ const onDragEnd = (result, groups, setGroups) => {
   };
 
 const FavotiresContainer = (props) => {
-    const { editable, groups, setGroups } = props;
-    const { setEditable } = props; 
+    const { editable, groups, changeFavoritesGroups } = props;
+    const { changeEditable } = props; 
     const containerItems = groups.map((group, index) => {
         const onGroupNameChanged = (name) => {
             let newGroups = groups.filter(() => true);
             newGroups[index].name = name;
-            setGroups(newGroups);
+            changeFavoritesGroups(newGroups);
         }
         return <ContainerItem 
             key={group.id.toString()} 
@@ -64,15 +64,15 @@ const FavotiresContainer = (props) => {
 
     const switchEditable = (value) => {
         if(value) {
-            setEditable(true);
+            changeEditable(true);
         } else {
-            setEditable(false, groups);
+            changeEditable(false, groups);
         }
     }
 
     return (
         <div className="favorites-container">
-            <DragDropContext onDragEnd={(result) => onDragEnd(result, groups, setGroups)}>
+            <DragDropContext onDragEnd={(result) => onDragEnd(result, groups, changeFavoritesGroups)}>
                 <div className="favorites-items-container">
                     { containerItems }
                 </div>
@@ -91,11 +91,4 @@ const mapStateToProps = ({ favorites: { editable, groups }}) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        setEditable: (editable, groups) => dispatch(changeEditable(editable, groups)),
-        setGroups: (groups) => dispatch(changeFavoritesGroups(groups))
-    }
-}
-
-export default connect(mapStateToProps, mapDipatchToProps)(FavotiresContainer);
+export default connect(mapStateToProps, { changeEditable, changeFavoritesGroups})(FavotiresContainer);

@@ -12,7 +12,7 @@ import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import EditIcon from '@material-ui/icons/Edit';
 import { compose } from 'redux';
 import { CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from '@material-ui/core';
-import { addPictureCreator } from '../../../../actions/picturesActions';
+import { addPicture } from '../../../../actions/picturesActions';
 
 const PicturesContainer = (props) => {
 
@@ -104,15 +104,8 @@ const mapStateToProps = (state) => {
         pictures
     }
 }
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        addPicture: (name, description, qrcode) => 
-            dispatch(addPictureCreator(name, description, qrcode))
-    }
-}
  
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps, { addPicture }),
     withRouter
 )(PicturesContainer);

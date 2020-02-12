@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import './picture-description-container.scss';
 import { connect } from 'react-redux';
-import { savePictureInfo } from '../../../../../../services/api/api';
-import { changePictureInfoCreator } from '../../../../../../actions/picturesInfoActions';
+import { changePictureInfo } from '../../../../../../actions/picturesInfoActions';
 
 import { debounce } from 'debounce'
-import TextField from '@material-ui/core/TextField';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
@@ -51,7 +49,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     return {
         onPictureInfoChanged: debounce(
             (id, changes) => 
-                dispatch(changePictureInfoCreator(id, changes))
+                dispatch(changePictureInfo(id, changes))
                 , 1000)
     }
 }

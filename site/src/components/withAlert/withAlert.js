@@ -22,7 +22,7 @@ const withAlert = (WrapperComponent) => {
             )
         }
     }
-    return connect(mapStateToProps, mapDipatchToProps)(HOC);
+    return connect(mapStateToProps, null)(HOC);
 }
 
 function Alert(props) {
@@ -35,9 +35,4 @@ const mapStateToProps = ({ alert }) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
 export default withAlert;

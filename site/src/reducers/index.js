@@ -15,13 +15,4 @@ const reducer = combineReducers({
     pictureInfo: updatePictureInfo
 });
 
-// const reducer = (state = {}, action) => {
-//     return {
-//         drawer: updateDrawer(state.drawer, action),
-//         user: updateUser(state.user, action),
-//         pictures: updatePictures(state.pictures, action),
-//         pictureInfo: updatePictureInfo(state.pictureInfo, action)
-//     }
-// }
-
 export default reducer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import withGuard from '../../withGuard/withGuard';
+import withGuard from '../../hocs/withGuard/hocs/withGuard';
 
 const Profile = (props) => {
     return ( 
@@ -9,17 +9,5 @@ const Profile = (props) => {
         </div>
      );
 }
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
  
-export default connect(mapStateToProps, mapDipatchToProps)(withGuard(Profile));
+export default withGuard(Profile);

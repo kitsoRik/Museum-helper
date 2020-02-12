@@ -5,7 +5,7 @@ import PictureDescriptionContainer from './picture-description-container/picture
 
 import './picture-prodaction-container.scss';
 import PictureLanguages from './picture-languages';
-import { changePictureInfoCreator, triggeredAddLanguageInfoCreator } from '../../../../../actions/picturesInfoActions.js';
+import { changePictureInfo, triggeredAddLanguageInfo } from '../../../../../actions/picturesInfoActions.js';
 
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
@@ -69,8 +69,8 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfoCreator(id, { title }, dispatch)), 1000),
-        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfoCreator())
+        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfo(id, { title })), 1000),
+        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfo())
     }
 }
  

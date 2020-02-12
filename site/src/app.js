@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/pages/home/home';
-import { getData } from './services/api/api';
 import { connect } from 'react-redux';
 import Login from './components/pages/login/login';
 import Register from './components/pages/register/register';
 import Pictures from './components/pages/pictures';
 import Picture from './components/pages/picture';
-import AddPicture from './components/pages/add-picture';
 import Documentation from './components/pages/documentation/documentation';
 import NotFound from './components/pages/not-found/not-found';
 
 import './app.scss';
-import { getDataCreator } from './actions/userActions';
+import { getData } from './actions/userActions';
 import { compose } from 'redux';
 import withAlert from './components/withAlert/withAlert';
-import withDrawer from './components/withDrawer';
 import Favorites from './components/pages/favotires/favorites';
+import withFadeIn from './components/hocs/withFadeIn/withFadeIn';
+import MainDrawer from './components/MainDrawer';
 
 const App = (props) => {
     
@@ -25,6 +24,7 @@ const App = (props) => {
     }, [ ]);
 
     return ( 
+        <MainDrawer>
             <Switch>
                 <Route path="/" render={() => <Home /> } exact/>
                 <Route path="/login" render={() => <Login /> } exact/>
@@ -32,10 +32,10 @@ const App = (props) => {
                 <Route path="/pictures/" render={() => <Pictures /> } exact/>
                 <Route path="/pictures/:id" render={() => <Picture /> } exact/>
                 <Route path="/favorites" render={() => <Favorites /> } exact/>
-                <Route path="/addpicture" render={() => <AddPicture /> } exact/>
                 <Route path="/documentation" render={() => <Documentation /> } exact/>
                 <Route render={() => <NotFound />} />
             </Switch>
+        </MainDrawer>
      );
 }
 
@@ -47,12 +47,12 @@ const mapStateToProps = () => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getData: () => dispatch(getDataCreator(dispatch))
+        getData: () => dispatch(getData())
     }
 }
  
 export default compose(
+    withFadeIn,
     connect(mapStateToProps, mapDispatchToProps),
     withAlert,
-    withDrawer
 )(App);

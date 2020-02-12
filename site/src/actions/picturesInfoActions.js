@@ -1,147 +1,110 @@
-import api, { getPictureData, savePictureInfo, savePictureData, addLanguageInfo, addIconToPicture } from "../services/api/api";
-import { alertAddNotificationCreator } from "./alertActions";
+import api from "../services/api/api";
+import { actionFactory } from './helpers';
 
-export const startLoadPictureInfoCreator = (id) => {
-    return (dispatch) => {
-        getPictureData(id)
-        .then((data) => {
-            if(!data.success) { 
-                dispatch(alertAddNotificationCreator(`Picture info has not been loaded`), "error");
-                return;
-            }
-            dispatch(alertAddNotificationCreator("Picture info has been loaded!"));
-            dispatch(loadPictureInfoSuccessCreator(
-                data.picture, 
-                data.pictureInfo, 
-                dispatch));
-        }).catch(() => {
-            
-            dispatch(alertAddNotificationCreator(`Picture info has not been loaded (server problem)`), "error");
-        });
-    }
-}
+export const 
+    LOAD_PICTURE_INFO_SUCCESS = "LOAD_PICTURE_INFO_SUCCESS",
+    CHANGE_PICTURE_INFO_SUCCESS = "CHANGE_PICTURE_INFO_SUCCESS",
+    CHANGE_PICTURE_SUCCESS = "CHANGE_PICTURE_SUCCESS",
+    TRIGGERED_ADD_LANGUAGE_INFO = "TRIGGERED_ADD_LANGUAGE_INFO",
+    UNTRIGGERED_ADD_LANGUAGE_INFO = "UNTRIGGERED_ADD_LANGUAGE_INFO",
+    LANGUAGE_INFO_ADDED = "LANGUAGE_INFO_ADDED",
+    CHANGE_CURRENT_INDEX = "CHANGE_CURRENT_INDEX",
+    ICON_TO_PICTURE_ADDED = "ICON_TO_PICTURE_ADDED",
+    ICON_FROM_PICTURE_DELETED = "ICON_FROM_PICTURE_DELETED";
 
-export const loadPictureInfoSuccessCreator = (picture, pictureInfo) => {
+
+export const loadPictureInfoSuccess = ({ picture, pictureInfo }) => {
     return {
-        type: "LOAD_PICTURE_INFO_SUCCESS",
+        type: LOAD_PICTURE_INFO_SUCCESS,
         picture,
         pictureInfo
     }
 }
 
-export const changePictureInfoCreator = (id, changes) => {
-    
-    return (dispatch) => {
-        savePictureInfo(id, changes)
-                .then((data) => {
-                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} info has been changed!`));
-                    dispatch(changePictureInfoSuccessCreator(id, changes));
-                }).catch(() => {
-                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} info has been changed (server problem)`), "error");
-                });
-    }
-}
+export const loadPictureInfo = actionFactory(
+    api.getPictureData,
+    null,
+    loadPictureInfoSuccess
+)
 
-export const changePictureInfoSuccessCreator = (id, changes) => {
+export const changePictureInfoSuccess = (id, changes) => {
     return {
-        type: "CHANGE_PICTURE_INFO_SUCCESS",
+        type: CHANGE_PICTURE_INFO_SUCCESS,
         id,
         changes
     }
 }
 
-export const changePictureCreator = (id, changes) => {
-    return (dispatch) => {
-        savePictureData(id, changes)
-                .then((data) => {
-                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} has been changed!`));
-                    dispatch(changePictureSuccessCreator(id, changes, dispatch));
-                }).catch(() => {
-                    dispatch(alertAddNotificationCreator(`${Object.keys(changes)[0]} has not been changed! (server problem)`), "error");
-                });
-    }
-}
+export const changePictureInfo = actionFactory(
+    api.savePictureInfo,
+    null,
+    changePictureInfoSuccess
+);
 
-export const changePictureSuccessCreator = (id, changes) => {
+export const changePictureSuccess = (id, changes) => {
     return {
-        type: "CHANGE_PICTURE_SUCCESS",
+        type: CHANGE_PICTURE_SUCCESS,
         id,
         changes
     }
 }
 
-export const triggeredAddLanguageInfoCreator = () => {
+export const changePicture = actionFactory(
+    api.savePictureData,
+    null,
+    changePictureSuccess
+);
+
+export const triggeredAddLanguageInfo = () => {
     return {
-        type: "TRIGGERED_ADD_LANGUAGE_INFO"
+        type: TRIGGERED_ADD_LANGUAGE_INFO
     }
 }
 
-export const untriggeredAddLanguageInfoCreator = () => {
+export const untriggeredAddLanguageInfo = () => {
     return {
-        type: "UNTRIGGERED_ADD_LANGUAGE_INFO"
+        type: UNTRIGGERED_ADD_LANGUAGE_INFO
     }
 }
 
-export const addLanguageInfoCreator = (id, title, description, language) => {
-    return (dispatch) => {
-        addLanguageInfo(id, title, description, language)
-                .then((data) => {
-                    dispatch(alertAddNotificationCreator(`Language '${language}' has been added!`));
-                    dispatch(languageInfoAddedCreator(data.addedPictureInfo));
-                    dispatch(untriggeredAddLanguageInfoCreator());
-                }).catch(() => {
-                    dispatch(alertAddNotificationCreator(`Language '${language}' has not been added! (server problem)`), "error");
-                });
-    }
-}
-
-export const languageInfoAddedCreator = (result) => {
+export const addLanguageInfoSuccess = (result) => {
     return {
-        type: "LANGUAGE_INFO_ADDED",
+        type: LANGUAGE_INFO_ADDED,
         pictureInfoPart: result
     }
 }
 
-export const changeCurrentIndexCreator = (index) => {
+export const addLanguageInfo = actionFactory(
+    api.addLanguageInfo,
+    null,
+    addLanguageInfoSuccess
+);
+
+export const changeCurrentIndex = (index) => {
     return {
-        type: "CHANGE_CURRENT_INDEX",
+        type: CHANGE_CURRENT_INDEX,
         index
     }
 }
 
-export const addIcon = (id, iconFile) => {
-    return (dispatch) => {
-        api.addIconToPicture(id, iconFile)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(iconToPictureAdded(data.addedIcon));
-                    dispatch(alertAddNotificationCreator("ADDED"));
-                } else {
-                    dispatch(alertAddNotificationCreator("NOT ADDED", "error"));
-                }
-            })
-    }
-}
-
-export const deleteIcon = (id) => {
-    return (dispatch) => {
-        api.deleteIconFromPicture(id)
-            .then((data) => {
-                if(data.success) {
-                    dispatch(iconfromPictureDeleted(data.id));
-                } else {
-                    dispatch(alertAddNotificationCreator("NOT DELETED", "error"));
-                }
-            });
-    }
-}
-
-const iconToPictureAdded = (addedIcon) => ({
-    type: "ICON_TO_PICTURE_ADDED",
+const addIconSuccess = ({ addedIcon }) => ({
+    type: ICON_TO_PICTURE_ADDED,
     addedIcon
 });
 
-const iconfromPictureDeleted = (id) => ({
-    type: "ICON_FROM_PICTURE_DELETED",
+export const addIcon = actionFactory(
+    api.addIconToPicture,
+    null,
+    addIconSuccess
+);
+
+const deleteIconSuccess = ({ id }) => ({
+    type: ICON_FROM_PICTURE_DELETED,
     id
 });
+
+export const deleteIcon = actionFactory(
+    api.deleteIconFromPicture,
+    null,
+    deleteIconSuccess
+);

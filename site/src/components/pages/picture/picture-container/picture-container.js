@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Modal, AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
 import AddLanguageInfo from './add-language-info';
 
-import { startLoadPictureInfoCreator, untriggeredAddLanguageInfoCreator } from '../../../../actions/picturesInfoActions';
+import { startLoadPictureInfo, untriggeredAddLanguageInfo } from '../../../../actions/picturesInfoActions';
 
 import './picture-container.scss';
 import PictureDevelopmentContainer from './picture-development-container';
@@ -14,7 +14,7 @@ import qs from 'qs';
 
 const PictureContainer = (props) => {
 
-    const { picture, triggeredAdd, untriggerAddLanguage } = props;
+    const { picture, triggeredAdd, untriggeredAddLanguageInfo } = props;
     
     const prod = qs.parse(props.location.search.slice(1)).v === "prod";
     return ( 
@@ -37,7 +37,7 @@ const PictureContainer = (props) => {
                     alignItems: "center"
                 }}
                 open={triggeredAdd}
-                onClose={() => untriggerAddLanguage()}
+                onClose={() => untriggeredAddLanguageInfo()}
             >
                 <AddLanguageInfo />
             </Modal>
@@ -52,17 +52,9 @@ const mapStateToProps = (state) => {
         triggeredAdd
     }
 }
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        untriggerAddLanguage: () => dispatch(untriggeredAddLanguageInfoCreator()),
-        
-
-    }
-}
  
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps, { untriggeredAddLanguageInfo }),
     withRouter
 )
 (PictureContainer);

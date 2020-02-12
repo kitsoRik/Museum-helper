@@ -9,6 +9,8 @@ const PicturesPages = (props) => {
 
     const { pageNumber, setPageNumber } = props;
     const { pagesCount } = props;
+
+    console.log(pagesCount);
     
     const buttonsElements = new Array(pagesCount).fill(1).map((e, index) => {
         return (

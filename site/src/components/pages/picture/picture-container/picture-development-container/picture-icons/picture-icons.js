@@ -51,8 +51,6 @@ const PictureIconsContainer = (props) => {
      );
 }
 
-
-
 const mapStateToProps = (state) => {
     const { picture } = state.pictureInfo;
     return {
@@ -60,12 +58,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        addIcon: (id, iconFile) => dispatch(addIcon(id, iconFile))
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps)
+    connect(mapStateToProps, { addIcon })
 )(PictureIconsContainer);

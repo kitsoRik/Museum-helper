@@ -18,11 +18,10 @@ const PicturesSettingsSearch = (props) => {
                 placeholder="Search..."
                 defaultValue={searchText}
                 onChange={(e) => setSearchParam({ searchText: e.target.value })}/>
-                <IconButton onClick={() => setSearchParamImmediate({ sortedType: ( sortedType === "DESC" ? "ASC" : "DESC" )})}>
+                <IconButton disabled={sortedField === 'none'} onClick={() => setSearchParamImmediate({ sortedType: ( sortedType === "DESC" ? "ASC" : "DESC" )})}>
                     <SortIcon style={{transform:`scale(1, ${sortedType === "ASC" ? 1 : -1})`}}/>
                 </IconButton>
             <FormControl style={{flexGrow: "1"}}>
-                
                 <InputLabel id="sort-label">Sort field</InputLabel>
                 <Select value={ sortedField } 
                         labelId="sort-label" 

@@ -66,17 +66,5 @@ const EditButton = (props) => {
         </div>
      );
 }
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        addFavoriteGroup: (name, description) => dispatch(addFavoriteGroup(name, description))
-    }
-}
  
-export default connect(mapStateToProps, mapDipatchToProps)(EditButton);
+export default connect(null, { addFavoriteGroup })(EditButton);

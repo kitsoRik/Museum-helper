@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import './picture-development-container.scss';
 import PictureIcons from './picture-icons';
-import { apiHost } from '../../../../../services/api/api';
 import { connect } from 'react-redux';
 import { InputAdornment, TextField, FormControl, ListItemSecondaryAction, IconButton, Tooltip } from '@material-ui/core';
-import { AccountCircle, Delete, GetApp } from '@material-ui/icons';
-import { changePictureCreator } from '../../../../../actions/picturesInfoActions';
+import { AccountCircle, GetApp } from '@material-ui/icons';
+import { changePicture } from '../../../../../actions/picturesInfoActions';
 import { debounce } from 'debounce';
 import CropFreeIcon from '@material-ui/icons/CropFree';
 
@@ -145,7 +144,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     return {
         onPictureChanged: debounce(
             (id, changes) =>
-                dispatch(changePictureCreator(id, changes))
+                dispatch(changePicture(id, changes))
             , 1000)
     }
 }
