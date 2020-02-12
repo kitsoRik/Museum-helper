@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { getRegisterIn } from '../../../../services/api/api';
 import { withRouter, Link } from 'react-router-dom';
 
 import './register-container.scss';
-import RegisterError, { minLength, email as ObsEmail, equals } from './register-error/register-error';
 import { TextField, Button } from '@material-ui/core';
+import { registerIn } from '../../../../actions/registerActions';
 
 const RegisterContainer = (props) => {
 
@@ -14,18 +13,7 @@ const RegisterContainer = (props) => {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
-    const { onSubmit } = props;
-
-    const onSubmited = () => {
-        const data = {
-            username,
-            email,
-            password,
-            passwordConfirm
-        }
-
-        onSubmit(data);
-    }
+    const { registerIn } = props;
 
     return ( 
         <div className="register-container">
@@ -48,7 +36,7 @@ const RegisterContainer = (props) => {
                 variant="contained"
                 color="primary"
                 className="register-submit-btn" 
-                onClick={onSubmited}
+                onClick={() => registerIn(username, email, password, passwordConfirm)}
             >Register</Button>
             <Link
                 className="register-login-link" 
@@ -57,24 +45,6 @@ const RegisterContainer = (props) => {
         </div>
      );
 }
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        onSubmit: (d) => {
-            getRegisterIn(d).then((data) => {
-                if(data.success) {
-                    ownProps.history.push("/login");
-                }
-            });
-        }
-    }
-}
  
 export default withRouter(
-    connect(mapStateToProps, mapDipatchToProps)(RegisterContainer));
+    connect(null, { registerIn })(RegisterContainer));

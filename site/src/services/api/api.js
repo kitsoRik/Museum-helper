@@ -1,215 +1,101 @@
 import Axios from "axios"
+export const apiHost = `http://5.45.118.116:3006`;
 
-const host = "http://localhost:3006"
+Axios.defaults.baseURL = apiHost;
+Axios.defaults.withCredentials = true;
 
-export const apiHost = host;
-
-export const getUserData = () => {
-    return Axios.post(`${host}/getData`, { }, { withCredentials: true})
-                    .then(({ data }) => data)
-                    .catch((res) => catchProblem);
-}
-
-export const getLoginIn = (email, password) => {
-    const params = {
-        email,
-        password
-    };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/loginIn`, params, queryParams)
+const AxiosPost = (url, params = {}) => 
+            Axios.post(url, params)
                 .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+                .catch((res) => console.log);
 
-export const unlogin = () => {
-    const params = {};
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/unlogin`, params, queryParams)
+const AxiosPostMultipart = (url, params = {}) => 
+            Axios.post(url, params, { headers: {'Content-Type': 'multipart/form-data' }})
                 .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+                .catch((res) => console.log);
 
-export const getRegisterIn = (data) => {
-    const params = data;
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/registerIn`, params, queryParams)
-                .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
 
-export const getPicturesData = (searchParams, limit, pageNumber) => {
-    const params = { searchParams, limit, pageNumber };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/getPicturesData`, params, queryParams)
-                .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+const getUserData = () =>
+    AxiosPost(`/getData`);
 
-export const getPictureData = (id) => {
-    const params = {id};
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/getPictureData`, params, queryParams)
-                .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+const getLoginIn = (email, password) => 
+    AxiosPost(`/loginIn`, { email, password });
 
-export const savePictureData = (id, changes) => {
-    const params = { id, changes };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/savePictureData`, params, queryParams)
-                .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+const unlogin = () => 
+    AxiosPost(`/unlogin`);
 
-export const savePictureInfo = (id, changes) => {
-    const params = { id, changes };
-    const queryParams = {
-        withCredentials: true
-    };
+const getRegisterIn = (username, email, password, passwordConfirm) => 
+    AxiosPost(`/registerIn`, { username, email, password, passwordConfirm });
 
-    return Axios.post(`${host}/savePictureInfo`, params, queryParams)
-                .then(({ data }) => data)
-                .catch((res) => catchProblem);
-}
+const getPicturesData = (searchParams, limit, pageNumber) => 
+    AxiosPost(`/getPicturesData`, { searchParams, limit, pageNumber })
 
-export const addPicture = (name, description, qrcode) => {
-    const params = {
-        name, description, qrcode
-    }
+const getPictureData = (id) => 
+    AxiosPost(`/getPictureData`, { id });
 
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/addPicture`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+ const savePictureData = (id, changes) =>
+    AxiosPost(`/savePictureData`, { id, changes });
 
-export const deletePicture = (id, { searchParams, pageNumber, limit}) => {
-    const params = { id, searchParams, pageNumber, limit };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/deletePicture`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const savePictureInfo = (id, changes) => 
+    AxiosPost(`/savePictureInfo`, { id, changes });
 
-export const addLanguageInfo = (pictureId, title, description, language) => {
-    const params = { pictureId, title, description, language };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/addPictureInfo`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const addPicture = (name, description, qrcode) => 
+    AxiosPost(`/addPicture`, { name, description, qrcode });
 
-export const getFavotires = () => {
-    const params = {};
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/getFavorites`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const deletePicture = (id, { searchParams, pageNumber, limit}) => 
+    AxiosPost(`/deletePicture`, { id, searchParams, pageNumber, limit });
 
-export const saveFavotires = (groups) => {
-    const params = { groups };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/saveFavorites`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const addLanguageInfo = (pictureId, title, description, language) =>
+    AxiosPost(`/addPictureInfo`, { pictureId, title, description, language });
 
-export const addPictureToFavorites = (id) => {
-    const params = { id };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/addPictureToFavorites`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const getFavotires = () => 
+    AxiosPost(`/getFavorites`);
 
-export const deletePictureFromFavorites = (id) => {
-    const params = { id };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/deletePictureFromFavorites`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const saveFavotires = (groups) => 
+    AxiosPost(`/saveFavorites`, { groups });
 
-const addFavoriteGroup = (name, description) => {
-    const params = { name, description };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/addFavoriteGroup`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const addPictureToFavorites = (id) => 
+    AxiosPost(`/addPictureToFavorites`, { id });
 
-const deleteFavoriteGroup = (id) => {
-    const params = { id };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/deleteFavoriteGroup`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const deletePictureFromFavorites = (id) => 
+    AxiosPost(`/deletePictureFromFavorites`, { id });
+
+const addFavoriteGroup = (name, description) => 
+    AxiosPost(`/addFavoriteGroup`, { name, description });
+
+const deleteFavoriteGroup = (id) => 
+    AxiosPost(`/deleteFavoriteGroup`, { id });
 
 const addIconToPicture = (id, iconFile) => {
     var formData = new FormData();
     formData.append("id", id);
     formData.append("icon", iconFile, "icon");
 
-    const queryParams = {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    };
-    return Axios.post(`${host}/addIconToPicture`, formData, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
+    return AxiosPostMultipart(`/addIconToPicture`, formData);
 }
 
-const deleteIconFromPicture = (id) => {
-    const params = { id };
-    const queryParams = {
-        withCredentials: true
-    };
-    return Axios.post(`${host}/deleteIconFromPicture`, params, queryParams)
-        .then((res) => res.data)
-        .catch((res) => catchProblem);
-}
+const deleteIconFromPicture = (id) => 
+    AxiosPost(`/deleteIconFromPicture`, { id });
 
 export default {
+    getUserData,
+    getLoginIn,
+    unlogin,
+    getRegisterIn,
+    getPicturesData,
+    getPictureData,
+    savePictureData,
+    savePictureInfo,
+    addPicture,
+    deletePicture,
+    addLanguageInfo,
+    getFavotires,
+    saveFavotires,
+    addPictureToFavorites,
+    deletePictureFromFavorites,
     addFavoriteGroup,
     deleteFavoriteGroup,
     addIconToPicture,
-    deleteIconFromPicture
+    deleteIconFromPicture,
+    
 };
-
-const catchProblem = (res) => {
-    console.log(res);
-}

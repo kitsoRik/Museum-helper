@@ -1,89 +1,75 @@
-import { getUserData, getLoginIn, unlogin } from "../services/api/api"
-import { alertAddNotificationCreator } from "./alertActions";
+import api from "../services/api/api"
+import { actionFactory } from "./helpers";
 
-export const loginInStartCreator = (email, password, ownProps) => {
-    return (dispatch) => {
-        getLoginIn(email, password)
-                .then((data) => {
-                    const { success } = data;
-                    if(success) {
-                        dispatch(loginInSuccessCreator(data, dispatch));
-                        ownProps.history.push("/");
-                    } else {
-                        const { error } = data;
-                        dispatch(loginInErrorCreator(error, dispatch));
-                    }
-                }).catch(() => {
-                    dispatch(alertAddNotificationCreator(`Login error! (server problem)`), "error");
-                });
-    }
-}
+export const 
+    LOGIN_IN_SUCCESS = "LOGIN_IN_SUCCESS",
+    LOGIN_IN_ERROR = "LOGIN_IN_ERROR",
 
-export const loginInSuccessCreator = (data) => {
+    UNLOGIN_SUCCESS = "UNLOGIN_SUCCESS",
+    UNLOGIN_ERROR = "UNLOGIN_ERROR",
+
+    SET_DATA = "SET_DATA",
+    FAIL_DATA = "FAIL_DATA";
+
+
+export const loginInSuccess = (data) => {
     return {
-        type: "LOGIN_IN_SUCCESS",
+        type: LOGIN_IN_SUCCESS,
         data
     }
 }
 
-export const loginInErrorCreator = (error) => {
+export const loginInError = (error) => {
     return {
-        type: "LOGIN_IN_ERROR",
+        type: LOGIN_IN_ERROR,
         error
     }
 }
 
-export const unloginCreator = () => {
-    return (dispatch) => {
-        unlogin().then((data) => {
-            if(data.success) {
-                dispatch(unloginSuccessCreator());
-                dispatch(alertAddNotificationCreator("Unloginned"));
-            } else {
-                dispatch(unloginSuccessError(data.error));
-                dispatch(alertAddNotificationCreator("Not unloginned"), "error");
-            }
-        });
+export const loginIn = actionFactory(
+    api.getLoginIn,
+    null,
+    loginInSuccess,
+    loginInError
+)
+
+export const unloginSuccess = () => {
+    return {
+        type: UNLOGIN_SUCCESS
     }
 }
 
-export const unloginSuccessCreator = () => {
+export const unloginError = ({ error }) => {
     return {
-        type: "UNLOGIN_SUCCESS"
-    }
-}
-
-export const unloginSuccessError = (error) => {
-    return {
-        type: "UNLOGIN_ERROR",
+        type: UNLOGIN_ERROR,
         error
     }
 }
 
-export const getDataCreator = (dispatch) => {
-    return (dispatch) => {
-        getUserData().then((data) => {
-            if(data.success) {
-                dispatch(alertAddNotificationCreator(`User data has been loaded!`));
-                dispatch(setDataCreator(data));
-            } else {
-                dispatch(failDataCreator(data));
-                dispatch(alertAddNotificationCreator(`User data has not been loaded! (server problem)`, 'error'));
-            }
-        });
-    }
-}
+export const unlogin = actionFactory(
+    api.unlogin,
+    null,
+    unloginSuccess,
+    unloginSuccess
+);
 
-export const setDataCreator = (data) => {
+export const setData = (data) => {
     return {
-        type: "SET_DATA",
+        type: SET_DATA,
         data
     }
 }
 
-export const failDataCreator = (data) => {
+export const failData = (data) => {
     return {
-        type: "FAIL_DATA",
+        type: FAIL_DATA,
         data
     }
 }
+
+export const getData = actionFactory(
+    api.getUserData,
+    null,
+    setData,
+    failData
+);

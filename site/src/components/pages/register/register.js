@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import RegisterContainer from './register-container/register-container';
 
 import './register.scss';
+import { compose } from 'redux';
+import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 const Register = (props) => {
     return ( 
@@ -12,17 +14,7 @@ const Register = (props) => {
         </div>
      );
 }
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
  
-export default connect(mapStateToProps, mapDipatchToProps)(Register);
+export default compose(
+    withFadeIn
+)(Register)

@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
-import withDrawer from '../../withDrawer';
 import { useDispatch } from 'react-redux';
-import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
+import DocumentationContainer from './documentation-container/documentation-container';
 
 const Documentation = (props) => {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changeDrawerTitleCreator("Documentation"));
+        dispatch(changeDrawerTitle("Documentation"));
     }, [ ])
 
     return ( 
         <div>
-            Documentation
+            <DocumentationContainer />
         </div>
      );
 }
 
-export default withDrawer(Documentation);
+export default Documentation;

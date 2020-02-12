@@ -5,14 +5,17 @@ import { connect } from 'react-redux'
 import './favorites.scss';
 import { NOT_LOADED, LOADED } from '../../../constants';
 import { loadFavotires } from '../../../actions/favoritesActions';
+import { compose } from 'redux';
+import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 const Favorites = (props) => {
 
+    const { loadFavotires } = props;
     const { loading } = props;
     const { startGetFavorites } = props;
 
     useEffect(() => {
-        startGetFavorites();
+        loadFavotires();
     }, [ ]);
 
     if(loading !== LOADED) return <span>WAIT</span>;
@@ -32,10 +35,7 @@ const mapStateToProps = ({ favorites: { loading, groups }}) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        startGetFavorites: () => dispatch(loadFavotires())
-    }
-}
-
-export default connect(mapStateToProps, mapDipatchToProps)(Favorites);
+export default compose(
+    connect(mapStateToProps, { loadFavotires }),
+    withFadeIn
+)(Favorites);

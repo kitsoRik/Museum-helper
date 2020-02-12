@@ -3,10 +3,9 @@ import { connect, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import "./home.scss";
-import withDrawer from '../../withDrawer/';
 import { compose } from 'redux';
-import withAlert from '../../withAlert/withAlert';
-import { changeDrawerTitleCreator } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
+import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 const Home = (props) => {
     const { user: { loggedIn } } = props;
@@ -18,7 +17,7 @@ const Home = (props) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changeDrawerTitleCreator("Home"));
+        dispatch(changeDrawerTitle("Home"));
     }, [])
     
     return ( 
@@ -42,11 +41,7 @@ const mapStateToProps = ({ user }) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, props) => {
-    return {
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps)
+    withFadeIn,
+    connect(mapStateToProps)
 )(Home);

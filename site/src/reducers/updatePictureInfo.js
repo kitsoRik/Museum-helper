@@ -1,6 +1,6 @@
 import { NOT_LOADED, IS_LOADING, LOADED } from "../constants";
 import { getPictureData, savePictureData, savePictureInfo, addLanguageInfo } from "../services/api/api";
-import { loadPictureInfoSuccessCreator, changePictureSuccessCreator, changePictureInfoSuccessCreator, languageInfoAddedCreator } from "../actions/picturesInfoActions";
+import { loadPictureInfoSuccess, changePictureSuccess, changePictureInfoSuccess, languageInfoAdded, LOAD_PICTURE_INFO_SUCCESS, CHANGE_PICTURE_SUCCESS, CHANGE_PICTURE_INFO_SUCCESS, LANGUAGE_INFO_ADDED, CHANGE_CURRENT_INDEX, TRIGGERED_ADD_LANGUAGE_INFO, UNTRIGGERED_ADD_LANGUAGE_INFO, ICON_TO_PICTURE_ADDED, ICON_FROM_PICTURE_DELETED } from "../actions/picturesInfoActions";
 
 const initState = {
     loading: NOT_LOADED,
@@ -12,7 +12,7 @@ const initState = {
 
 const updatePictureInfo = (state = initState, action) => {
     switch(action.type) {
-        case "LOAD_PICTURE_INFO_SUCCESS": {
+        case LOAD_PICTURE_INFO_SUCCESS: {
             return {
                 currentIndex: -1,
                 loading: LOADED,
@@ -21,7 +21,7 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
-        case "CHANGE_PICTURE_SUCCESS": {
+        case CHANGE_PICTURE_SUCCESS: {
             const { id, changes } = action;
             const picture = { ...state.picture };
 
@@ -38,7 +38,7 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
-        case "CHANGE_PICTURE_INFO_SUCCESS": {
+        case CHANGE_PICTURE_INFO_SUCCESS: {
             const { id, changes } = action;
 
             const pictureInfo = state.pictureInfo;
@@ -61,7 +61,7 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
-        case "LANGUAGE_INFO_ADDED": {
+        case LANGUAGE_INFO_ADDED: {
             const { pictureInfo } = state;
             const { pictureInfoPart } = action;
 
@@ -73,7 +73,7 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
-        case "CHANGE_CURRENT_INDEX": {
+        case CHANGE_CURRENT_INDEX: {
             const { index } = action;
             return {
                 ...state,
@@ -81,21 +81,21 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
         
-        case "TRIGGERED_ADD_LANGUAGE_INFO": {
+        case TRIGGERED_ADD_LANGUAGE_INFO: {
             return {
                 ...state,
                 triggeredAdd: true
             }
         }
 
-        case "UNTRIGGERED_ADD_LANGUAGE_INFO": {
+        case UNTRIGGERED_ADD_LANGUAGE_INFO: {
             return {
                 ...state,
                 triggeredAdd: false
             }
         }
 
-        case "ICON_TO_PICTURE_ADDED": {
+        case ICON_TO_PICTURE_ADDED: {
             const { picture } = state;
             const { addedIcon } = action;
 
@@ -108,9 +108,8 @@ const updatePictureInfo = (state = initState, action) => {
             }
         }
 
-        case "ICON_FROM_PICTURE_DELETED": {
+        case ICON_FROM_PICTURE_DELETED: {
             const { id } = action;
-
             return {
                 ...state,
                 picture: {

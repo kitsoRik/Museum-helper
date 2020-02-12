@@ -29,21 +29,6 @@ const PictureIcon = (props) => {
         </div>
      );
 }
-
-
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        deleteIcon: (id) => dispatch(deleteIcon(id))
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps)
+    connect(null, { deleteIcon })
 )(PictureIcon);

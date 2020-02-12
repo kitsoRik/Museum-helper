@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import './MainDrawer.scss';
-import { changeVisibleDrawerCreator } from '../../actions/drawerActions';
+import { changeVisibleDrawer } from '../../actions/drawerActions';
 import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon } from '@material-ui/core';
 import { Menu as MenuIcon, 
         Delete as DeleteIcon, 
@@ -17,13 +17,12 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
-import { unloginCreator } from '../../actions/userActions';
+import { unlogin} from '../../actions/userActions';
 
 const drawerWidth = 240;
 
 const MainDrawer = (props) => {
 
-    const { main } = props;
     const { opened, title } = props;
     const { changeVisibleDrawer } = props;
 
@@ -112,7 +111,7 @@ return (
             })}
         >
             <div className={classes.drawerHeader} />
-            {main}
+            {props.children}
         </main>
         <UIDrawer
             className={classes.drawer}
@@ -149,16 +148,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        changeVisibleDrawer: () => dispatch(changeVisibleDrawerCreator()),
-        unlogin: () => dispatch(unloginCreator())
-    }
-}
-
-
-
-export default connect(mapStateToProps, mapDipatchToProps)(withRouter(MainDrawer));
+export default connect(mapStateToProps, { changeVisibleDrawer, unlogin })(withRouter(MainDrawer));
 
 const useStyles = makeStyles(theme => ({
     root: {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import { TextField, Button } from '@material-ui/core';
-import { addLanguageInfoCreator } from '../../../../../actions/picturesInfoActions';
+import { addLanguageInfo } from '../../../../../actions/picturesInfoActions';
 
 const AddLanguageInfo = (props) => {
 
-    const { id, addLanguage } = props;
+    const { id, addLanguageInfo } = props;
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -24,23 +24,16 @@ const AddLanguageInfo = (props) => {
                 onChange={(e) => setLanguage(e.target.value)}/>
             <Button 
                 variant="contained"
-                onClick={() => addLanguage(id, title, description, language)}
+                onClick={() => addLanguageInfo(id, title, description, language)}
             >Add</Button>
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         id: state.pictureInfo.picture.id
     }
 }
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        addLanguage: (id, title, description, language) => dispatch(addLanguageInfoCreator(id, title, description, language)),
-    }
-}
  
-export default connect(mapStateToProps, mapDipatchToProps)(AddLanguageInfo);
+export default connect(mapStateToProps, { addLanguageInfo })(AddLanguageInfo);

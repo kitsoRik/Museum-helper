@@ -1,79 +1,90 @@
-import { getPicturesData, deletePicture, addPicture, addPictureToFavorites, deletePictureFromFavorites } from "../services/api/api";
-import { alertAddNotificationCreator } from "./alertActions";
+import api from "../services/api/api";
 import { actionFactory } from "./helpers";
 
+export const 
+    LOAD_PICTURES_START = "LOAD_PICTURES_START",
+    LOAD_PICTURES_SUCCESS = "LOAD_PICTURES_SUCCESS",
+    LOAD_PICTURES_ERROR = "LOAD_PICTURES_ERROR",
+
+    ADD_PICTURE_SUCCESS = "ADD_PICTURE_SUCCESS",
+    DELETE_PICTURE_SUCCESS = "DELETE_PICTURE_SUCCESS",
+    PICTURE_TO_FAVOTIRES_ADDED = "PICTURE_TO_FAVOTIRES_ADDED",
+    PICTURE_FROM_FAVOTIRES_DELETED = "PICTURE_FROM_FAVOTIRES_DELETED",
+    SET_SEARCH_PARAMS = "SET_SEARCH_PARAMS";
+
+
 export const loadPicturesStart = (searchParams) => ({
-    type: "LOAD_PICTURES_START",
+    type: LOAD_PICTURES_START,
     searchParams,
 });
 
-export const loadPicturesSuccessCreator = ({ pictures, pagesData: { pagesCount }}) => ({
-    type: "LOAD_PICTURES_SUCCESS",
+export const loadPicturesSuccess = ({ pictures, pagesData: { pagesCount }}) => ({
+    type: LOAD_PICTURES_SUCCESS,
     pictures,
     pagesCount
 });
 
-export const loadPicturesErrorCreator = (error) => ({
-    type: "LOAD_PICTURES_ERROR",
+export const loadPicturesError = (error) => ({
+    type: LOAD_PICTURES_ERROR,
     error
 });
 
-export const startLoadPicturesCreator = actionFactory(
-    getPicturesData, 
+export const startLoadPictures = actionFactory(
+    api.getPicturesData, 
     loadPicturesStart, 
-    loadPicturesSuccessCreator, 
-    loadPicturesErrorCreator
+    loadPicturesSuccess, 
+    loadPicturesError
 );
 
 export const addPictureSuccess = ({ picture }) => ({
-    type: "ADD_PICTURE_SUCCESS",
+    type: ADD_PICTURE_SUCCESS,
     picture
 })
 
-export const addPictureCreator = actionFactory(
-    addPicture,
+export const addPicture = actionFactory(
+    api.addPicture,
     null,
     addPictureSuccess
 );
 
-export const deletePictureSuccessCreator = (data) => ({
-    type: "DELETE_PICTURE_SUCCESS",
+export const deletePictureSuccess = (data) => ({
+    type: DELETE_PICTURE_SUCCESS,
     ...data
 })
 
-export const deletePictureCreator = actionFactory(
-    deletePicture,
+export const deletePicture = actionFactory(
+    api.deletePicture,
     null,
-    deletePictureSuccessCreator,
+    deletePictureSuccess,
     null,
     ({ pictures: { searchParams, pageNumber = 1, limit }}) => 
         ({ searchParams, pageNumber, limit })
 );
 
 export const pictureToFavotiresAdded = (data, id) => ({
-    type: "PICTURE_TO_FAVOTIRES_ADDED",
+    type: PICTURE_TO_FAVOTIRES_ADDED,
     id
 });
 
 export const addToFavorite = actionFactory(
-    addPictureToFavorites,
+    api.addPictureToFavorites,
     null,
     pictureToFavotiresAdded
 );
 
 export const pictureFromFavotiresDelete = (data, id) => ({
-    type: "PICTURE_FROM_FAVOTIRES_DELETED",
+    type: PICTURE_FROM_FAVOTIRES_DELETED,
     id
 });
 
 export const deleteFromFavorite = actionFactory(
-    deletePictureFromFavorites,
+    api.deletePictureFromFavorites,
     null,
     pictureFromFavotiresDelete
 );
 
 export const setSearchParams = (params) => ({
-    type: "SET_SEARCH_PARAMS",
+    type: SET_SEARCH_PARAMS,
     searchParams: {
         ...params
     }

@@ -13,12 +13,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import EjectIcon from '@material-ui/icons/Eject';
+import { DIRECTION_UP, DIRECTION_DOWN } from '../../../../../constants';
 
 const ContainerItem = (props) => {
 
     const { editable } = props;
     const { group: { id, name, description, items }} = props;
-    const { onGroupNameChanged, deleteGroup, moveGroup } = props;
+    const { onGroupNameChanged, deleteFavoriteGroup, moveGroup } = props;
 
     const [expanded, setExpanded] = useState(false);
 
@@ -61,16 +62,16 @@ const ContainerItem = (props) => {
                 <IconButton>
                     <HighlightOffIcon 
                         color="secondary"
-                        onClick={(e) => { e.stopPropagation(); deleteGroup(id); }}/>
+                        onClick={(e) => { e.stopPropagation(); deleteFavoriteGroup(id); }}/>
                 </IconButton>
             }
             { editable &&  id !== -1 &&
-                <IconButton onClick={(e) => {e.stopPropagation(); moveGroup(id, 'up')}}>
+                <IconButton onClick={(e) => {e.stopPropagation(); moveGroup(id, DIRECTION_UP)}}>
                     <EjectIcon />
                 </IconButton>
             }
             { editable &&  id !== -1 &&
-                <IconButton onClick={(e) => { e.stopPropagation(); moveGroup(id, 'down')}}>
+                <IconButton onClick={(e) => { e.stopPropagation(); moveGroup(id, DIRECTION_DOWN)}}>
                     <EjectIcon style={{transform: "rotate(180deg)"}}/>
                 </IconButton>
             }
@@ -128,19 +129,10 @@ const ContainerItem = (props) => {
     );
 }
 
-
-
 const mapStateToProps = ({ favorites: { editable }}) => {
     return {
         editable
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        deleteGroup: (id) => dispatch(deleteFavoriteGroup(id)),
-        moveGroup: (id, direction) => dispatch(moveGroup(id, direction))
-    }
-}
-
-export default connect(mapStateToProps, mapDipatchToProps)(ContainerItem);
+export default connect(mapStateToProps, { deleteFavoriteGroup, moveGroup })(ContainerItem);

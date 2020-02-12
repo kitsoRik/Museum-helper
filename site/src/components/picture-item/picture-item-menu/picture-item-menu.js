@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { deleteFromFavorite, addToFavorite, deletePictureCreator } from '../../../actions/picturesActions';
+import { deleteFromFavorite, addToFavorite, deletePicture } from '../../../actions/picturesActions';
 import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -67,20 +67,8 @@ const PictureItemMenu = (props) => {
         </IconButton>
     );
 }
-
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        addToFavorite: (id) => dispatch(addToFavorite(id)),
-        deleteFromFavorite: (id) => dispatch(deleteFromFavorite(id)),
-        deletePicture: (id) => dispatch(deletePictureCreator(id))
-    
-    }
-}
-
-export default connect(mapStateToProps, mapDipatchToProps)(PictureItemMenu);
+export default connect(null, {
+    addToFavorite,
+    deleteFromFavorite,
+    deletePicture
+})(PictureItemMenu);

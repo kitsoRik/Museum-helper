@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import "./picture-languages.scss";
 import { connect } from 'react-redux';
-import { changePictureInfoCreator, changeCurrentIndexCreator, triggeredAddLanguageInfoCreator } from '../../../../../../actions/picturesInfoActions';
+import { changePictureInfo, changeCurrentIndex, triggeredAddLanguageInfo} from '../../../../../../actions/picturesInfoActions';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -80,9 +80,9 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changeLanguageName: (id, name) => dispatch(changePictureInfoCreator(id, { language: name }, dispatch)),
-        changeCurrentIndex: (index) => dispatch(changeCurrentIndexCreator(index)),
-        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfoCreator())
+        changeLanguageName: (id, name) => dispatch(changePictureInfo(id, { language: name }, dispatch)),
+        changeCurrentIndex: (index) => dispatch(changeCurrentIndex(index)),
+        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfo())
     }
 }
 
