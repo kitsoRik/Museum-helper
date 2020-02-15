@@ -4,13 +4,15 @@ import { LOAD_PICTURES_START, LOAD_PICTURES_SUCCESS, LOAD_PICTURES_ERROR, ADD_PI
 const initState = {
     loading: NOT_LOADED,
     pictures: [],
+    museumsMinimize: [],
     pagesCount: 0,
     pageNumber: 1,
     limit: 10,
     searchParams: {
         searchText: '',
         sortedField: 'none',
-        sortedType: 'ASC'
+        sortedType: 'ASC',
+        museumId: -1,
     }
 }
 
@@ -39,23 +41,23 @@ const updatePictures = (state = initState, action) => {
     }
 }
 
-const loadPicturesStart = (state, { searchParams, pageNumber }) => {
+const loadPicturesStart = (state, { searchParams }) => {
     return {
         ...state,
         loading: IS_LOADING,
-        searchParams,
-        pageNumber
+        searchParams
     }
 }
 
 const loadPicturesSuccess = (state, action) => {
-    const { pictures, pagesCount, pageNumber } = action;
+    const { pictures, pagesCount, museumsMinimize } = action;
+    let min = museumsMinimize ? museumsMinimize : state.museumsMinimize;
     return {
         ...state,
         loading: LOADED,
         pictures,
         pagesCount,
-        pageNumber
+        museumsMinimize: min
     }
 }
 

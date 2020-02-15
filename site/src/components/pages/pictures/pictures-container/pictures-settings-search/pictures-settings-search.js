@@ -7,7 +7,7 @@ import './pictures-settings-search.scss';
 import { setSearchParams } from '../../../../../actions/picturesActions';
 import { debounce } from 'debounce';
 const PicturesSettingsSearch = (props) => {
-    const { searchText, sortedField, sortedType, 
+    const { searchText, sortedField, sortedType, museumsMinimize, museumId, 
         setSearchParam, setSearchParamImmediate } = props;
 
     return ( 
@@ -34,15 +34,30 @@ const PicturesSettingsSearch = (props) => {
                     <MenuItem value='changed'>Changed</MenuItem>
                 </Select>
             </FormControl>
+            <FormControl style={{marginLeft: `10px`, flexGrow: "1"}}>
+                <InputLabel id="museums-label">Museum</InputLabel>
+            <Select value={ museumId } 
+                        labelId={"museums-label"}
+                        onChange={(e) => setSearchParamImmediate({ museumId: e.target.value })}
+                        style={{flexGrow: "1"}}
+                    >
+                    {
+                        museumsMinimize.map(m =>
+                            <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>)
+                    }
+                </Select>
+            </FormControl>
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    const { searchParams: { sortedField, sortedType }} = state.pictures;
+    const { searchParams: { sortedField, sortedType, museumId }, museumsMinimize } = state.pictures;
     return {
         sortedField,
-        sortedType
+        sortedType,
+        museumId,
+        museumsMinimize
     }
 }
 

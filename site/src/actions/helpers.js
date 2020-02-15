@@ -13,20 +13,28 @@ export const actionFactory = (
         }
         try {
             if(pendingAction) {
-                dispatch(pendingAction(...args, stateArgs));
+                if(Array.isArray(pendingAction)) 
+                    pendingAction.forEach(p => dispatch(p(...args, stateArgs))); 
+                else dispatch(pendingAction(...args, stateArgs));
             }
             const data = await apiFunc(...args, stateArgs);
             if(data.success) {
                 if(successAction) {
-                    dispatch(successAction(data, ...args, stateArgs));
+                    if(Array.isArray(successAction)) 
+                        successAction.forEach(s => dispatch(s(data, ...args, stateArgs)));
+                    else dispatch(successAction(data, ...args, stateArgs));
                 }
             } else if(errorAction) {
-                dispatch(errorAction(data)); 
+                if(Array.isArray(errorAction)) 
+                    errorAction.forEach(e => dispatch(e(data, ...args, stateArgs)))
+                else dispatch(errorAction(data)); 
             }
         }catch(error) {
             console.log(error);
             if(errorAction) {
-                dispatch(errorAction(error))
+                if(Array.isArray(errorAction)) 
+                    errorAction.forEach(e => dispatch(e()))
+                else dispatch(errorAction()); 
             }
         }
     }

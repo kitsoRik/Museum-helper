@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeDrawerTitle } from '../../../actions/drawerActions';
 import DocumentationContainer from './documentation-container/documentation-container';
+import { compose } from 'redux';
+import withFadeIn from '../../hocs/withFadeIn';
 
 const Documentation = (props) => {
 
@@ -18,4 +20,6 @@ const Documentation = (props) => {
      );
 }
 
-export default Documentation;
+export default compose(
+    withFadeIn
+)(Documentation);

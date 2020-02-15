@@ -22,7 +22,7 @@ const Favorites = (props) => {
 
 
     return (
-        <div className="favotires-page">
+        <div className="favorites-page">
             <FavoritesContainer />
         </div>
     );

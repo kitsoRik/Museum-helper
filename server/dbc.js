@@ -7,6 +7,7 @@ const FavHelp = require("./dbhelpers/favorites-helper");
 const PicHelp = require("./dbhelpers/picture-helper");
 const PicsHelp = require("./dbhelpers/pictures-helper");
 const PicIcoHelp = require("./dbhelpers/pictures-icons-helper");
+const MusHelp = require("./dbhelpers/museums-helper");
 
 exports.registerUser = (username, email, password) => {
     return new Promise((resolve, reject) => {
@@ -83,12 +84,27 @@ exports.getUser = (sesid) => {
     });
 }
 
-exports.getPictures = (id, searchText, sortedField, sortedType, limit, pageNumber) => new Promise((resolve, reject) => {
-    let pictures;
-    PicsHelp.getPictures(id, searchText, sortedField, sortedType, limit, pageNumber)
+exports.getMuseumsByUserId = (userId) => new Promise((resolve, reject) => {
+    db.all(`SELECT id, name, location 
+            FROM museums 
+            WHERE owner_id=?`,
+    [userId], (err, rows) => {
+        if(err) return reject({ error: SERVER_ERROR });
+
+        resolve(rows);
+    });
+});
+
+exports.getPictures = (id, searchText, sortedField, sortedType, museumId, limit, pageNumber) => new Promise((resolve, reject) => {
+    let pictures, museumsMinimize;
+
+    MusHelp.checkId(museumId)
+    .then(mid => PicsHelp.getPictures(id, searchText, sortedField, sortedType, mid, limit, pageNumber))
     .then(ps => pictures = ps)
+    .then(() => (museumId === -1 ? MusHelp.getMuseumsMinimize(id) : null))
+    .then(min => museumsMinimize = min)
     .then(() => PicsHelp.getPicturesPagesDataByRequest(id, searchText, limit, pageNumber))
-    .then(pagesData => resolve({ pictures, pagesData }))
+    .then(pagesData => resolve({ pictures, pagesData, museumsMinimize }))
     .catch(reject);
 });
 
