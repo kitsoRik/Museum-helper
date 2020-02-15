@@ -1,5 +1,5 @@
 import Axios from "axios"
-export const apiHost = `http://5.45.118.116:3006`;
+export const apiHost = `http://localhost:3006`;
 
 Axios.defaults.baseURL = apiHost;
 Axios.defaults.withCredentials = true;
@@ -26,6 +26,9 @@ const unlogin = () =>
 
 const getRegisterIn = (username, email, password, passwordConfirm) => 
     AxiosPost(`/registerIn`, { username, email, password, passwordConfirm });
+
+const getMuseums = () => 
+    AxiosPost(`/getMuseums`);
 
 const getPicturesData = (searchParams, limit, pageNumber) => 
     AxiosPost(`/getPicturesData`, { searchParams, limit, pageNumber })
@@ -82,6 +85,7 @@ export default {
     getLoginIn,
     unlogin,
     getRegisterIn,
+    getMuseums,
     getPicturesData,
     getPictureData,
     savePictureData,

@@ -18,10 +18,11 @@ export const loadPicturesStart = (searchParams) => ({
     searchParams,
 });
 
-export const loadPicturesSuccess = ({ pictures, pagesData: { pagesCount }}) => ({
+export const loadPicturesSuccess = ({ pictures, museumsMinimize, pagesData: { pagesCount }}) => ({
     type: LOAD_PICTURES_SUCCESS,
     pictures,
-    pagesCount
+    pagesCount,
+    museumsMinimize
 });
 
 export const loadPicturesError = (error) => ({

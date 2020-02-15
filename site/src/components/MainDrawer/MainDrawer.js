@@ -7,7 +7,8 @@ import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button,
 import { Menu as MenuIcon, 
         Delete as DeleteIcon, 
         ExitToApp as ExitToAppIcon,
-        Favorite as FavotireIcon } from '@material-ui/icons';
+        Favorite as FavotireIcon,
+        Museum as MuseumIcon } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -33,7 +34,7 @@ const MainDrawer = (props) => {
         <ListItem
             key={-1}
             button
-            onClick={() => alert("GO TO PROFILE")}>
+            onClick={() => props.history.push("/profile")}>
             <ListItemIcon>
                 <AccountBoxIcon />
             </ListItemIcon>
@@ -70,9 +71,17 @@ const MainDrawer = (props) => {
             <ListItemIcon><MenuIcon /></ListItemIcon>
             <ListItemText primary={"Pictures"} />
         </ListItem>,
-        
         <ListItem 
         key={-5}
+        button
+        onClick={() => props.history.push("/museums")}    
+        >
+            <ListItemIcon><MuseumIcon /></ListItemIcon>
+            <ListItemText primary={"Museums"} />
+        </ListItem>,
+        
+        <ListItem 
+        key={-6}
         button
         onClick={() => props.history.push("/favorites")}    
         >
@@ -179,9 +188,15 @@ const useStyles = makeStyles(theme => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
+        ['@media (max-width:480px)']: {
+            width: '100%'
+        }
     },
     drawerPaper: {
         width: drawerWidth,
+        ['@media (max-width:480px)']: {
+            width: '100%'
+        }
     },
     drawerHeader: {
         display: 'flex',
@@ -203,6 +218,9 @@ const useStyles = makeStyles(theme => ({
     },
     contentShift: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
+        ['@media (max-width:480px)']: {
+            maxWidth: '100%'
+        },
         transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,

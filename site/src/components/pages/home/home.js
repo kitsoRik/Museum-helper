@@ -42,6 +42,6 @@ const mapStateToProps = ({ user }) => {
 }
 
 export default compose(
-    withFadeIn,
-    connect(mapStateToProps)
+    connect(mapStateToProps),
+    withFadeIn
 )(Home);

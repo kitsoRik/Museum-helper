@@ -11,28 +11,6 @@ export const
     SET_DATA = "SET_DATA",
     FAIL_DATA = "FAIL_DATA";
 
-
-export const loginInSuccess = (data) => {
-    return {
-        type: LOGIN_IN_SUCCESS,
-        data
-    }
-}
-
-export const loginInError = (error) => {
-    return {
-        type: LOGIN_IN_ERROR,
-        error
-    }
-}
-
-export const loginIn = actionFactory(
-    api.getLoginIn,
-    null,
-    loginInSuccess,
-    loginInError
-)
-
 export const unloginSuccess = () => {
     return {
         type: UNLOGIN_SUCCESS
@@ -50,7 +28,7 @@ export const unlogin = actionFactory(
     api.unlogin,
     null,
     unloginSuccess,
-    unloginSuccess
+    unloginError
 );
 
 export const setData = (data) => {

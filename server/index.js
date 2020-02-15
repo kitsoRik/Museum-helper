@@ -32,21 +32,25 @@ app.post("/loginIn", (req, res) => {
 
     const { email, password } = req.body;
 
+    setTimeout(() => {
+        
+
     dbc.getUserByEmailPassword(email, password)
-        .then(({ id, username, email}) => {
-            res.cookie("sesid", createSesid(id));
-            res.send({
-                success: true,
-                username,
-                email
-            });
-        }).catch(({ error }) => {
-            if(!error) error = SCRIPT_ERROR;
-            res.send({
-                success: false,
-                error
-            });
+    .then(({ id, username, email}) => {
+        res.cookie("sesid", createSesid(id));
+        res.send({
+            success: true,
+            username,
+            email
         });
+    }).catch(({ error }) => {
+        if(!error) error = SCRIPT_ERROR;
+        res.send({
+            success: false,
+            error
+        });
+    });
+    }, 3000);
 });
 
 app.post("/unlogin", (req, res) => {
@@ -106,17 +110,32 @@ app.post("/getData", (req, res) => {
         });
 });
 
-app.post("/getPicturesData", (req, res) => {
+app.post("/getMuseums", (req, res) => {
     const { sesid } = req.cookies;
-    const { searchParams: { searchText, sortedField, sortedType }, pageNumber = 1, limit = 5} = req.body;
 
     dbc.getIdBySesid(sesid)
-        .then(id => dbc.getPictures(id, searchText, sortedField, sortedType, limit, pageNumber))
-        .then(({ pictures, pagesData }) => {
+        .then(dbc.getMuseumsByUserId)
+        .then(museums => {
             res.send({
                 success: true,
-                pictures,
-                pagesData
+                museums
+            });
+        }).catch(({ error }) =>{
+                if(!error) error = SCRIPT_ERROR;
+             res.send({ success: false, error })
+        });
+});
+
+app.post("/getPicturesData", (req, res) => {
+    const { sesid } = req.cookies;
+    const { searchParams: { searchText, sortedField, sortedType, museumId }, pageNumber = 1, limit = 5} = req.body;
+
+    dbc.getIdBySesid(sesid)
+        .then(id => dbc.getPictures(id, searchText, sortedField, sortedType, museumId, limit, pageNumber))
+        .then((data) => {
+            res.send({
+                success: true,
+                ...data
             });
         })
         .catch(({ error }) => {

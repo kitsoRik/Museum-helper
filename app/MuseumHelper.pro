@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Data/museum.cpp \
         Data/picture.cpp \
         Objects/networkmanager.cpp \
         Objects/pictureobject.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
         QMLObjects/pictureicon.cpp \
         logic.cpp \
         main.cpp \
+        models/museumsmodel.cpp \
         picturesmodel.cpp \
         qrcodeanalyzer.cpp
 
@@ -42,6 +44,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 include(QZXingSource/QZXing.pri)
 
 HEADERS += \
+    Data/museum.h \
     Data/picture.h \
     Objects/networkmanager.h \
     Objects/pictureobject.h \
@@ -49,6 +52,7 @@ HEADERS += \
     Objects/settings.h \
     QMLObjects/pictureicon.h \
     logic.h \
+    models/museumsmodel.h \
     picturesmodel.h \
     qrcodeanalyzer.h
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginContainer from './login-container/login-container';
-import { loginIn } from '../../../actions/userActions';
+import { loginIn } from '../../../actions/loginActions';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
@@ -20,9 +20,9 @@ const Login = (props) => {
      );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ user: { loggedIn } }) => {
     return {
-        loggedIn: state.user.loggedIn
+        loggedIn
     }
 }
 
