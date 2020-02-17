@@ -11,13 +11,13 @@ import { changeDrawerTitle } from '../../../actions/drawerActions';
 import PictureSettingsSearch from './pictures-container/pictures-settings-search';
 import PicturesPages from './PicturesPages/PicturesPages';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
+import AddPictureDialog from './AddPictureDialog';
 
 
 const Pictures = (props) => {
     const { startLoadPictures } = props;
     const dispatch = useDispatch();
-    const { searchParams, limit } = props;
-    const [pageNumber, setPageNumber] = useState(1);
+    const { searchParams } = props;
     const [searchText, setSearchText] = useState(searchParams.searchText);
 
     useEffect(() => {
@@ -25,8 +25,8 @@ const Pictures = (props) => {
     }, [ ])
 
     useEffect(() => {
-        startLoadPictures(searchParams, limit, pageNumber);
-    }, [searchParams, pageNumber, limit]);
+        startLoadPictures();
+    }, [ ]);
 
     return ( 
         <div className="pictures-page">
@@ -35,9 +35,8 @@ const Pictures = (props) => {
                 searchText={searchText}
                 setSearchText={setSearchText}/>
             <PicturesContainer />
-            <PicturesPages 
-                pageNumber={pageNumber}
-                setPageNumber={setPageNumber}/>
+            <PicturesPages />
+            <AddPictureDialog />
         </div>
      );
 }

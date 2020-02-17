@@ -10,11 +10,13 @@ import { changePictureInfo, triggeredAddLanguageInfo } from '../../../../../acti
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { debounce } from 'debounce';
+import AddLanguageInfo from '../add-language-info/index.js';
 
 const PictureProductionContainer = (props) => {
 
+    const [addLanguageDialogVisible, setAddLanguageDialogVisible] = useState(false);
     const { currentIndex, picture, pictureInfo } = props;
-    const { changePictureInfoPartTitle, triggerAddLanguage } = props;
+    const { changePictureInfoPartTitle } = props;
     
     const [title, setTitle] = useState("");
 
@@ -34,14 +36,23 @@ const PictureProductionContainer = (props) => {
                 variant="contained"
                 color="primary"
                 style={{flexGrow: "1"}}
-                onClick={() => triggerAddLanguage()}
-            >Add your first language info</Button>
+                onClick={() => setAddLanguageDialogVisible(true)}
+            >Add your first language info
+            
+            
+            
+            <AddLanguageInfo
+                    visible={addLanguageDialogVisible}
+                    setVisible={setAddLanguageDialogVisible}
+                />
+            </Button>
         )
     }
     
     return ( 
         <div className="picture-info-container">
-            <PictureLanguages />
+            <PictureLanguages 
+                setAddLanguageDialogVisible={setAddLanguageDialogVisible}/>
             <div className="picture-info-container-upper-part">
                { 
                 currentIndex !== -1 && 
@@ -54,6 +65,11 @@ const PictureProductionContainer = (props) => {
                }
             </div>
             <PictureDescriptionContainer />
+            
+            <AddLanguageInfo
+                    visible={addLanguageDialogVisible}
+                    setVisible={setAddLanguageDialogVisible}
+                />
         </div>
      );
 }
@@ -69,8 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfo(id, { title })), 1000),
-        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfo())
+        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfo(id, { title })), 1000)
     }
 }
  

@@ -44,7 +44,7 @@ export const changeFavoritesGroups = (groups) => {
     }
 }
 
-const setEditable = (editable) => {
+const setEditable = ({editable}) => {
     return {
         type: SET_EDITABLE,
         editable

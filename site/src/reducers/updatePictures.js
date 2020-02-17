@@ -6,13 +6,13 @@ const initState = {
     pictures: [],
     museumsMinimize: [],
     pagesCount: 0,
-    pageNumber: 1,
-    limit: 10,
     searchParams: {
         searchText: '',
         sortedField: 'none',
         sortedType: 'ASC',
         museumId: -1,
+        pageNumber: 1,
+        limit: 10
     }
 }
 
@@ -35,30 +35,35 @@ const updatePictures = (state = initState, action) => {
         case PICTURE_TO_FAVOTIRES_ADDED: return addDeletePictureInFavorites(state, action, true);
         case PICTURE_FROM_FAVOTIRES_DELETED: return addDeletePictureInFavorites(state, action, false);
 
-        case SET_SEARCH_PARAMS: return setSearchParam(state, action);
+        case SET_SEARCH_PARAMS: return setSearchParams(state, action);
 
         default: return state;
     }
 }
 
-const loadPicturesStart = (state, { searchParams }) => {
+const loadPicturesStart = (state) => {
     return {
         ...state,
-        loading: IS_LOADING,
-        searchParams
+        loading: IS_LOADING
     }
 }
 
 const loadPicturesSuccess = (state, action) => {
-    const { pictures, pagesCount, museumsMinimize } = action;
-    let min = museumsMinimize ? museumsMinimize : state.museumsMinimize;
+    const { searchParams } = state;
+    const { pictures, pagesCount, museumsMinimize, museumId } = action;
+    let min = !!museumsMinimize ? museumsMinimize : state.museumsMinimize;
+    console.log(searchParams, action);
     return {
         ...state,
         loading: LOADED,
         pictures,
         pagesCount,
-        museumsMinimize: min
-    }
+        museumsMinimize: min,
+        searchParams: {
+            ...searchParams,
+            museumId
+        }
+    };
 }
 
 const loadPicturesError = (state, action) => {
@@ -92,7 +97,8 @@ const addDeletePictureInFavorites = (state, action, isAdded) => {
     }
 }
 
-const setSearchParam = (state, action) => {
+const setSearchParams = (state, action) => {
+    console.log(action);
     return {
         ...state,
         searchParams: {

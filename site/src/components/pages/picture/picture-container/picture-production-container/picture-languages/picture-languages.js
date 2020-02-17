@@ -11,32 +11,23 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import Modal from '@material-ui/core/Modal'
 import AddLanguageInfo from '../../add-language-info/add-language-info';
-
-const useStyles = makeStyles(theme => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
+import { LANGUAGES_BY_DEV } from '../../../../../../constants';
 
 const PictureLanguages = (props) => {
-    const classes = useStyles();
+
     const { picture, pictureInfo, currentIndex } = props;
-    const { changeCurrentIndex, changeLanguageName, triggerAddLanguage } = props;
+    const { setAddLanguageDialogVisible } = props;
+    const { changeCurrentIndex, changeLanguageName } = props;
 
     const languageItems = pictureInfo.map((info, index) => {
-        return <MenuItem key={info.id} value={index} >{info.language}</MenuItem>
+        return <MenuItem key={info.id} value={index} >{LANGUAGES_BY_DEV[info.language]}</MenuItem>
     });
     
     return (
         <div className="picture-languages">
             
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" style={{flexGrow: '1'}}>
                 <InputLabel id="demo-simple-select-outlined-label">
                 Language
                 </InputLabel>
@@ -50,17 +41,10 @@ const PictureLanguages = (props) => {
                     { languageItems }
                 </Select>
             </FormControl>
-            { currentIndex !== -1 && 
-                <TextField
-                    variant="outlined"
-                    value={pictureInfo[currentIndex].language}
-                    onBlur={(e) => changeLanguageName(pictureInfo[currentIndex].id, e.target.value)}
-                    onChange={(e) => changeLanguageName(pictureInfo[currentIndex].id, e.target.value)} />
-            }
             <Button
                 variant="contained" 
                 color="primary"
-                onClick={() => triggerAddLanguage()}>
+                onClick={() => setAddLanguageDialogVisible(true)}>
                 ADD
             </Button>
         </div>
@@ -80,9 +64,7 @@ const mapStateToProps = (state) => {
 
 const mapDipatchToProps = (dispatch, ownProps) => {
     return {
-        changeLanguageName: (id, name) => dispatch(changePictureInfo(id, { language: name }, dispatch)),
-        changeCurrentIndex: (index) => dispatch(changeCurrentIndex(index)),
-        triggerAddLanguage: () => dispatch(triggeredAddLanguageInfo())
+        changeCurrentIndex: (index) => dispatch(changeCurrentIndex(index))
     }
 }
 

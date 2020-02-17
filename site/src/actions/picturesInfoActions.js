@@ -27,7 +27,7 @@ export const loadPictureInfo = actionFactory(
     loadPictureInfoSuccess
 )
 
-export const changePictureInfoSuccess = (id, changes) => {
+export const changePictureInfoSuccess = ({ changes }, id) => {
     return {
         type: CHANGE_PICTURE_INFO_SUCCESS,
         id,

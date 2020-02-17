@@ -21,8 +21,9 @@ int PicturesModel::indexPictureAtQRCode(const QString &qrCode)
 	return -1;
 }
 
-void PicturesModel::setPictures(QList<Picture> &pictures)
+void PicturesModel::setPictures(const QList<Picture> &pictures)
 {
+	qDebug() << pictures.size();
 	m_pictures = pictures;
 	emit layoutChanged();
 }
@@ -38,8 +39,9 @@ QVariant PicturesModel::data(const QModelIndex &index, int role) const
 
 	switch (role)
 	{
-		case NameRole: return m_pictures.at(row).languages().first().title();
+		case NameRole: return m_pictures.at(row).name();
 		case IconRole: return m_pictures.at(row).icon();
+		case IdRole: return m_pictures.at(row).id();
 		default: return QVariant();
 	}
 }
@@ -51,6 +53,7 @@ QHash<int, QByteArray> PicturesModel::roleNames() const
 	hash[NameRole] = "name";
 	hash[DescriptionRole] = "description";
 	hash[IconRole] = "icon";
+	hash[IdRole] = "id";
 
 	return hash;
 }

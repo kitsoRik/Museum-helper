@@ -14,36 +14,29 @@ public:
 	{
 		NameRole = Qt::UserRole + 1,
 		DescriptionRole,
-		IconRole
+		IconRole,
+		IdRole
 	};
 
 	Q_ENUMS(MyRoles)
 
-	explicit PicturesModel(QObject *parent = nullptr);
-
-	Q_INVOKABLE int indexPictureAtQRCode(const QString &qrCode);
-
-	inline const QList<Picture> &pictures() {
-		return m_pictures;
+	inline static PicturesModel *instance() {
+		return m_instance;
 	}
-	void setPictures(QList<Picture> &pictures);
 
+	explicit PicturesModel(QObject *parent = nullptr);
+	void setPictures(const QList<Picture> &pictures);
+
+	int indexPictureAtQRCode(const QString &qrCode);
 
 	int rowCount(const QModelIndex &) const override;
 	QVariant data(const QModelIndex &index, int role) const override;
 
 	QHash<int, QByteArray> roleNames() const override;
 
-	inline static PicturesModel *instance() {
-		return m_instance;
-	}
-
 signals:
 
 public slots:
-	void setCurrentIndex(const int &index) {
-		PictureObject::instance()->setPicture(m_pictures[index]);
-	}
 
 private:
 	QList<Picture> m_pictures;

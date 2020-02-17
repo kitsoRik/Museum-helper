@@ -31,9 +31,7 @@ const PictureIconsContainer = (props) => {
             <h2>123123</h2>
             <div className="picture-icons-container">  
                 { iconElements }
-                <IconButton>
-                    <AddAPhotoRoundedIcon 
-                        color="primary"
+                <IconButton
                         onClick={(e) => {
                             let input = document.createElement('input');
                             input.type = "file";
@@ -44,7 +42,9 @@ const PictureIconsContainer = (props) => {
                                     return;
                                 addIcon(picture.id, input.files[0]);
                             }
-                        }}/>
+                        }}>
+                    <AddAPhotoRoundedIcon 
+                        color="primary"/>
                 </IconButton>
             </div>
         </div>

@@ -41,23 +41,21 @@ const updatePictureInfo = (state = initState, action) => {
         case CHANGE_PICTURE_INFO_SUCCESS: {
             const { id, changes } = action;
 
-            const pictureInfo = state.pictureInfo;
+            const pictureInfo = state.pictureInfo.filter(() => true);
 
             const index = pictureInfo.findIndex(i => i.id == id);
+            const newPictureInfo = pictureInfo[index];
 
             let keys = Object.keys(changes);
-            let changingPictureInfoPart = { ...pictureInfo[index] };
 
             for(let i = 0; i < keys.length; i++) {
                 let key = keys[i];
-                changingPictureInfoPart[key] = changes[key];
+                newPictureInfo[key] = changes[key];
             }
+            pictureInfo[index] = newPictureInfo;
             return {
                 ...state,
-                pictureInfo:
-                    pictureInfo.slice(0, index)
-                        .concat(changingPictureInfoPart)
-                        .concat(pictureInfo.slice(index + 1))
+                pictureInfo
             }
         }
 

@@ -1,4 +1,4 @@
-QT += quick core multimedia network
+QT += quick core multimedia network sql
 
 CONFIG += c++11 qzxing_qml
 
@@ -16,6 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         Data/museum.cpp \
         Data/picture.cpp \
+        Objects/dbc.cpp \
+        Objects/museumobject.cpp \
         Objects/networkmanager.cpp \
         Objects/pictureobject.cpp \
         Objects/qrcodeanalyzerdecoder.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
         logic.cpp \
         main.cpp \
         models/museumsmodel.cpp \
+        models/savedmuseumsmodel.cpp \
         picturesmodel.cpp \
         qrcodeanalyzer.cpp
 
@@ -46,6 +49,8 @@ include(QZXingSource/QZXing.pri)
 HEADERS += \
     Data/museum.h \
     Data/picture.h \
+    Objects/dbc.h \
+    Objects/museumobject.h \
     Objects/networkmanager.h \
     Objects/pictureobject.h \
     Objects/qrcodeanalyzerdecoder.h \
@@ -53,6 +58,7 @@ HEADERS += \
     QMLObjects/pictureicon.h \
     logic.h \
     models/museumsmodel.h \
+    models/savedmuseumsmodel.h \
     picturesmodel.h \
     qrcodeanalyzer.h
 

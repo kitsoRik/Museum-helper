@@ -14,6 +14,8 @@
         <file>Panels/Delegates/DrawerDelegate.qml</file>
         <file>Panels/SettingsPanel.qml</file>
         <file>Panels/AboutPanel.qml</file>
-        <file>Panels/MuseumsPanel.qml</file>
+        <file>Panels/MuseumPanel/MuseumPanel.qml</file>
+        <file>Panels/MuseumsPanel/MuseumsList.qml</file>
+        <file>Panels/MuseumsPanel/MuseumsPanel.qml</file>
     </qresource>
 </RCC>

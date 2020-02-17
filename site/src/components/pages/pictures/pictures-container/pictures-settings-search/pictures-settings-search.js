@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 import { TextField, Select, FormControl, MenuItem, InputLabel, Button, IconButton, Menu } from '@material-ui/core';
 import SortIcon from '@material-ui/icons/Sort';
@@ -7,7 +7,7 @@ import './pictures-settings-search.scss';
 import { setSearchParams } from '../../../../../actions/picturesActions';
 import { debounce } from 'debounce';
 const PicturesSettingsSearch = (props) => {
-    const { searchText, sortedField, sortedType, museumsMinimize, museumId, 
+    const { searchText, sortedField, sortedType, museums, museumId, 
         setSearchParam, setSearchParamImmediate } = props;
 
     return ( 
@@ -30,8 +30,6 @@ const PicturesSettingsSearch = (props) => {
                     <MenuItem value='none'>None</MenuItem>
                     <MenuItem value='name'>Name</MenuItem>
                     <MenuItem value='description'>Description</MenuItem>
-                    <MenuItem value='created'>Created</MenuItem>
-                    <MenuItem value='changed'>Changed</MenuItem>
                 </Select>
             </FormControl>
             <FormControl style={{marginLeft: `10px`, flexGrow: "1"}}>
@@ -42,7 +40,7 @@ const PicturesSettingsSearch = (props) => {
                         style={{flexGrow: "1"}}
                     >
                     {
-                        museumsMinimize.map(m =>
+                        museums.map(m =>
                             <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>)
                     }
                 </Select>
@@ -52,12 +50,13 @@ const PicturesSettingsSearch = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { searchParams: { sortedField, sortedType, museumId }, museumsMinimize } = state.pictures;
+    const { searchParams: { sortedField, sortedType, museumId} } = state.pictures;
+    const { museums } = state.museums;
     return {
         sortedField,
         sortedType,
         museumId,
-        museumsMinimize
+        museums
     }
 }
 

@@ -16,7 +16,8 @@ Rectangle {
 
     color: {
         if(ma.pressed) return "black";
-        if(mainStackView.currentItem.panelDevTitle === openPanelDevTitle) return "gray";
+        if(mainStackView.currentItem &&
+           mainStackView.currentItem.panelDevTitle === openPanelDevTitle) return "gray";
         return "white";
     }
 

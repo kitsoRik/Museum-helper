@@ -43,5 +43,16 @@ Rectangle {
                 family: "PT SANS";
             }
         }
+
+        Button {
+            Layout.fillHeight: true;
+            Layout.preferredWidth: height;
+            text: "M";
+
+            onClicked: {
+                mainStackView.pop(null);
+                mainStackView.replace(museumsPanel, {destroyOnPop: false});
+            }
+        }
     }
 }

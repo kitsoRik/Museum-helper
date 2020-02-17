@@ -1,9 +1,11 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 
-#include <QObject>
-#include <QSettings>
-#include <QDebug>
+#include <QtCore>
+#include "models/savedmuseumsmodel.h"
+#include "Objects/networkmanager.h"
+#include "Objects/settings.h"
+#include "Objects/dbc.h"
 
 class Logic : public QObject
 {
@@ -16,11 +18,13 @@ public:
 		return m_instance;
 	}
 
+private slots:
+	void loadMuseums();
+	void loadSavedMuseums();
+
 signals:
 
 private:
-	QSettings m_settings;
-
 	static Logic* m_instance;
 
 };

@@ -14,7 +14,7 @@ import qs from 'qs';
 
 const PictureContainer = (props) => {
 
-    const { picture, triggeredAdd, untriggeredAddLanguageInfo } = props;
+    const { picture } = props;
     
     const prod = qs.parse(props.location.search.slice(1)).v === "prod";
     return ( 
@@ -30,31 +30,19 @@ const PictureContainer = (props) => {
                 </AppBar> 
                 { !prod && <PictureDevelopmentContainer /> }    
                 { prod && <PictureProductionContainer /> }
-            <Modal
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center"
-                }}
-                open={triggeredAdd}
-                onClose={() => untriggeredAddLanguageInfo()}
-            >
-                <AddLanguageInfo />
-            </Modal>
         </div>
      );
 }
 
 const mapStateToProps = (state) => {
-    const { picture, triggeredAdd } = state.pictureInfo;
+    const { picture } = state.pictureInfo;
     return {
-        picture,
-        triggeredAdd
+        picture
     }
 }
  
 export default compose(
-    connect(mapStateToProps, { untriggeredAddLanguageInfo }),
+    connect(mapStateToProps),
     withRouter
 )
 (PictureContainer);

@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux'
+import React from 'react';
 
 import './picture-item.scss';
-import { apiHost } from '../../services/api/api';
+import { picturesIconsBaseUrl } from '../../services/api/api';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import PictureItemMenu from './picture-item-menu/picture-item-menu';
-import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button, CardHeader } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardHeader } from '@material-ui/core';
 
 const PictureItem = (props) => {
     const { editing = false } = props;
     const { picture: { id, name, description, iconName, favorite }} = props;
     const { onClick = () => {props.history.push(`/pictures/${id}`)}} = props;
-    const iconPath = `${apiHost}/static/pictureIcons/${iconName}`;
+    const iconPath = picturesIconsBaseUrl + iconName;
     
     return ( 
         <Card className="picture-item" onClick={onClick}>

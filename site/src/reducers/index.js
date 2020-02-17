@@ -7,8 +7,10 @@ import { combineReducers } from "redux";
 import { updateFavorites } from "./updateFavorites";
 import loginReducer from "./login-reducer";
 import { museumsReducer } from "./museums-reducer";
+import museumReducer from "./museum-reducer";
 
 const reducer = combineReducers({
+    museum: museumReducer,
     museums: museumsReducer,
     login: loginReducer,
     alert: updateAlert,

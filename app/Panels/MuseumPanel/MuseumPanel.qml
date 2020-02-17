@@ -1,0 +1,72 @@
+import QtQuick 2.0
+import QtQuick.Controls 2.13
+import QtQuick.Layouts 1.13
+import QtMultimedia 5.13
+import RostikObjects 1.0
+
+Rectangle {
+    property bool replaceblePanel: false;
+    property string panelDevTitle: "MuseumPanel";
+    property string panelTitle: qsTr("Museum")
+    color: "cyan";
+
+    ColumnLayout {
+        anchors.fill: parent;
+
+        Text {
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 30;
+            text: currentMuseum.name + (currentMuseum.isSaved ? " (SAVED)": "");
+            horizontalAlignment: Text.AlignHCenter;
+
+            font.pointSize: 300;
+            fontSizeMode: Text.Fit;
+        }
+
+        BusyIndicator {
+            visible: currentMuseum.isLoading;
+
+            Layout.fillWidth: true;
+            Layout.fillHeight: true;
+        }
+
+        Item { Layout.fillHeight: true; }
+
+        Button {
+            visible: currentMuseum.needUpdate;
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 30;
+            Layout.margins: 10;
+
+            text: "Update";
+
+            onClicked: currentMuseum.updateMuseum();
+        }
+
+        Button {
+            visible: !currentMuseum.isSaved;
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 30;
+            Layout.margins: 10;
+
+            text: "Save museum";
+
+            onClicked: currentMuseum.saveMuseum();
+        }
+
+        Button {
+            visible: currentMuseum.isSaved;
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 30;
+            Layout.margins: 10;
+
+            text: "Go to start";
+
+            onClicked: {
+                mainStackView.pop(null);
+                mainStackView.replace(startPanel, {destroyOnPop: false});
+                currentMuseum.goToStart();
+            }
+        }
+    }
+}

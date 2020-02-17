@@ -10,6 +10,7 @@ export const
     DELETE_PICTURE_SUCCESS = "DELETE_PICTURE_SUCCESS",
     PICTURE_TO_FAVOTIRES_ADDED = "PICTURE_TO_FAVOTIRES_ADDED",
     PICTURE_FROM_FAVOTIRES_DELETED = "PICTURE_FROM_FAVOTIRES_DELETED",
+
     SET_SEARCH_PARAMS = "SET_SEARCH_PARAMS";
 
 
@@ -18,11 +19,12 @@ export const loadPicturesStart = (searchParams) => ({
     searchParams,
 });
 
-export const loadPicturesSuccess = ({ pictures, museumsMinimize, pagesData: { pagesCount }}) => ({
+export const loadPicturesSuccess = ({ pictures, museumsMinimize, pagesData: { pagesCount }, museumId }) => ({
     type: LOAD_PICTURES_SUCCESS,
     pictures,
     pagesCount,
-    museumsMinimize
+    museumsMinimize,
+    museumId
 });
 
 export const loadPicturesError = (error) => ({
@@ -34,7 +36,8 @@ export const startLoadPictures = actionFactory(
     api.getPicturesData, 
     loadPicturesStart, 
     loadPicturesSuccess, 
-    loadPicturesError
+    loadPicturesError,
+    ({ pictures: { searchParams }}) => (searchParams)
 );
 
 export const addPictureSuccess = ({ picture }) => ({
@@ -84,9 +87,13 @@ export const deleteFromFavorite = actionFactory(
     pictureFromFavotiresDelete
 );
 
-export const setSearchParams = (params) => ({
-    type: SET_SEARCH_PARAMS,
-    searchParams: {
-        ...params
-    }
-})
+export const setSearchParams = (params) => (dispatch, getState) => {
+    dispatch({
+        type: SET_SEARCH_PARAMS,
+        searchParams: {
+            ...params
+        }
+    });
+
+    dispatch(startLoadPictures());
+};

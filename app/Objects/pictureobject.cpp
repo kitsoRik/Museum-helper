@@ -1,4 +1,5 @@
 #include "pictureobject.h"
+#include "dbc.h"
 
 PictureObject* PictureObject::m_instance = nullptr;
 
@@ -18,12 +19,8 @@ void PictureObject::allChanged()
 	emit languagesSizeChanged();
 }
 
-void PictureObject::setPicture(const Picture &picture)
+void PictureObject::setCurrentPictureId(const int &id)
 {
-	m_picture = picture;
-	m_languageIndex = 0;
-
+	m_pictureInfo = DBC::instance()->getSavedPicturesInfoByPictureId(id);
 	allChanged();
-
-
 }

@@ -20,7 +20,7 @@ public:
 	static PictureObject *instance() { return m_instance; }
 
 	inline bool isNull() const {
-		return m_picture.languages().size() == 0;
+		return m_pictureInfo.size() == 0;
 	}
 
 	inline QImage icon() const {
@@ -28,15 +28,17 @@ public:
 	}
 
 	inline QString title() const {
-		return m_picture.languages()[m_languageIndex].title();
+		if(m_languageIndex >= m_pictureInfo.size()) return "NONE";
+		return m_pictureInfo[m_languageIndex].title();
 	}
 
 	inline QString description() const {
-		return m_picture.languages()[m_languageIndex].description();
+		if(m_languageIndex >= m_pictureInfo.size()) return "NONE";
+		return m_pictureInfo[m_languageIndex].description();
 	}
 
 	inline int languagesSize() const {
-		return m_picture.languages().size();
+		return m_pictureInfo.size();
 	}
 
 signals:
@@ -49,12 +51,13 @@ private slots:
 	void allChanged();
 
 public slots:
+	void setCurrentPictureId(const int &id);
 	void setLanguageIndex(const int &index) { m_languageIndex = index; allChanged(); }
-	void setPicture(const Picture &picture);
 
 private:
 	int m_languageIndex;
 	Picture m_picture;
+	QList<PictureInfo> m_pictureInfo;
 
 	static PictureObject *m_instance;
 };

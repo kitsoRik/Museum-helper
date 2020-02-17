@@ -64,9 +64,9 @@ const FavotiresContainer = (props) => {
 
     const switchEditable = (value) => {
         if(value) {
-            changeEditable(true);
+            changeEditable({editable: true});
         } else {
-            changeEditable(false, groups);
+            changeEditable({editable: false, groups});
         }
     }
 

@@ -5,45 +5,35 @@
 #include <QImage>
 #include <QDataStream>
 
-class PictureLanguage
+class PictureInfo
 {
 public:
-	PictureLanguage() { }
-	PictureLanguage(const QJsonObject &json);
+	PictureInfo(const QString &title, const QString &description);
 
-	QString description() const { return m_description; }
-	QString title() const { return m_title; }
-	QString language() const { return m_language; }
-
-	friend QDataStream& operator <<(QDataStream &stream, const PictureLanguage &picture);
-	friend QDataStream& operator >>(QDataStream &stream, PictureLanguage &picture);
+	inline QString title() const { return m_title; }
+	inline QString description() const { return m_description; }
 
 private:
-	QString m_description;
 	QString m_title;
-	QString m_language;
+	QString m_description;
 };
 
 class Picture
 {
 public:
-	Picture();
-	Picture(const QJsonObject &json);
+	Picture(const int &id = 0,
+			const QString &name = "",
+			const QString &qrcode = "");
 
-	inline QString qrcode() const { return m_qrcode; }
+	inline int id() const { return m_id; }
 	inline QString name() const { return m_name; }
-
-	inline QList<PictureLanguage> languages() const { return m_languages; }
-
+	inline QString qrcode() const { return m_qrcode; }
 	inline QImage icon() const { return m_icon; }
 
-	friend QDataStream& operator <<(QDataStream &stream, const Picture &picture);
-	friend QDataStream& operator >>(QDataStream &stream, Picture &picture);
-
 private:
-	QString m_qrcode;
+	int m_id;
 	QString m_name;
-	QList<PictureLanguage> m_languages;
+	QString m_qrcode;
 	QImage m_icon;
 };
 

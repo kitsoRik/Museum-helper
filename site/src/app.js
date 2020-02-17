@@ -18,11 +18,14 @@ import withFadeIn from './components/hocs/withFadeIn/withFadeIn';
 import MainDrawer from './components/MainDrawer';
 import Profile from './components/pages/Profile';
 import Museums from './components/pages/Museums';
+import { loadMuseums } from './actions/museumsActions';
+import Museum from './components/pages/Museum';
 
 const App = (props) => {
     
     useEffect(() => {
         props.getData();
+        props.loadMuseums();
     }, [ ]);
 
     return ( 
@@ -33,6 +36,7 @@ const App = (props) => {
                 <Route path="/register" render={() => <Register /> } exact/>
                 <Route path="/profile" render={() => <Profile /> } exact/>
                 <Route path="/museums" render={() => <Museums /> } exact/>
+                <Route path="/museums/:id" render={() => <Museum /> } exact/>
                 <Route path="/pictures/" render={() => <Pictures /> } exact/>
                 <Route path="/pictures/:id" render={() => <Picture /> } exact/>
                 <Route path="/favorites" render={() => <Favorites /> } exact/>
@@ -48,15 +52,9 @@ const mapStateToProps = () => {
 
     }
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getData: () => dispatch(getData())
-    }
-}
  
 export default compose(
     withFadeIn,
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps, { getData, loadMuseums }),
     withAlert,
 )(App);
