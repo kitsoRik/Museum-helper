@@ -1,5 +1,7 @@
 import Axios from "axios"
-export const apiHost = `http://localhost:3006`;
+export const apiHost = `http://5.45.118.116:3006`;
+export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
+export const museumsIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
 
 Axios.defaults.baseURL = apiHost;
 Axios.defaults.withCredentials = true;
@@ -27,8 +29,23 @@ const unlogin = () =>
 const getRegisterIn = (username, email, password, passwordConfirm) => 
     AxiosPost(`/registerIn`, { username, email, password, passwordConfirm });
 
+const getMuseum = (museumId) => 
+    AxiosPost(`/getMuseum`, { museumId });
+
 const getMuseums = () => 
     AxiosPost(`/getMuseums`);
+
+const addMuseum = (name, location) =>
+    AxiosPost(`/addMuseum`, { name, location });
+
+const removeMuseum = (museumId) => 
+    AxiosPost(`/removeMuseum`, { museumId });
+
+const changeMuseumData = (museumId, changes) =>
+    AxiosPost(`/changeMuseumData`, { museumId, changes });
+
+const newReleaseMuseum = (museumId) => 
+    AxiosPost(`/newReleaseMuseum`, { museumId });
 
 const getPicturesData = (searchParams, limit, pageNumber) => 
     AxiosPost(`/getPicturesData`, { searchParams, limit, pageNumber })
@@ -42,8 +59,8 @@ const getPictureData = (id) =>
 const savePictureInfo = (id, changes) => 
     AxiosPost(`/savePictureInfo`, { id, changes });
 
-const addPicture = (name, description, qrcode) => 
-    AxiosPost(`/addPicture`, { name, description, qrcode });
+const addPicture = (museumId, name, description, qrcode) => 
+    AxiosPost(`/addPicture`, { museumId, name, description, qrcode });
 
 const deletePicture = (id, { searchParams, pageNumber, limit}) => 
     AxiosPost(`/deletePicture`, { id, searchParams, pageNumber, limit });
@@ -54,7 +71,7 @@ const addLanguageInfo = (pictureId, title, description, language) =>
 const getFavotires = () => 
     AxiosPost(`/getFavorites`);
 
-const saveFavotires = (groups) => 
+const saveFavotires = ({groups}) => 
     AxiosPost(`/saveFavorites`, { groups });
 
 const addPictureToFavorites = (id) => 
@@ -85,7 +102,12 @@ export default {
     getLoginIn,
     unlogin,
     getRegisterIn,
+    getMuseum,
     getMuseums,
+    addMuseum,
+    removeMuseum,
+    changeMuseumData,
+    newReleaseMuseum,
     getPicturesData,
     getPictureData,
     savePictureData,
@@ -101,5 +123,4 @@ export default {
     deleteFavoriteGroup,
     addIconToPicture,
     deleteIconFromPicture,
-    
 };

@@ -10,7 +10,7 @@ Rectangle {
     }
 
     function onClicked() {
-        pictures.setCurrentIndex(index);
+        currentPicture.setCurrentPictureId(id); // IdRole
         //picturePanel.push();
         mainStackView.push("../PicturePanel.qml");
     }
@@ -43,7 +43,7 @@ Rectangle {
             elide: Text.ElideRight;
             horizontalAlignment: Qt.AlignHCenter;
             verticalAlignment: Qt.AlignVCenter;
-            text: name; // NameRole
+            text: id + "_ROS"; // IdRole
         }
     }
 

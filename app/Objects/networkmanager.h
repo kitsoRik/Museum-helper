@@ -4,40 +4,22 @@
 #include <QtNetwork>
 
 const QString HOST = "5.45.118.116";
-const quint16 PORT = 3000;
+const quint16 PORT = 3006;
+const QString BASE = "http://" + HOST + ":" + QString::number(PORT);
 
-class NetworkManager : public QObject
+class NetworkManager
 {
-	Q_OBJECT
-
-	Q_PROPERTY(float updateProgress READ updateProgress NOTIFY updateProgressChanged)
 public:
-	explicit NetworkManager(QObject *parent = nullptr);
+	static QNetworkReply *getMuseums();
+	static QNetworkReply *getMuseum(const int &id);
 
-	inline float updateProgress() const {
-		return m_updateProgress;
-	}
-
-signals:
-	void updateRequired();
-
-	void updateProgressChanged();
-
-	void downloadUpdateFinished();
-	void installUpdateFinished();
-
-public slots:
-	void checkVersion();
-
-	void downloadUpdate();
-
-private slots:
-	void onUpdateFinished();
+	static QNetworkReply *getPictures(const int &id);
 
 private:
-	float m_updateProgress;
 
-	QNetworkAccessManager *m_manager;
+	static QNetworkAccessManager *m_manager;
+
+	static QNetworkReply* postSend(const QString &path, const QJsonObject &json = QJsonObject());
 };
 
 #endif // NETWORKMANAGER_H

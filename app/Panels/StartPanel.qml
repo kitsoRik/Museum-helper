@@ -46,12 +46,4 @@ Rectangle {
             onClicked: onChooseClick();
         }
     }
-
-    Connections {
-        target: networkManager;
-
-        onUpdateRequired: {
-            mainStackView.push("./UpdatePanel.qml");
-        }
-    }
 }

@@ -7,11 +7,13 @@
 #include "QZXing.h"
 #include "logic.h"
 #include "picturesmodel.h"
+#include "models/savedmuseumsmodel.h"
 #include "qrcodeanalyzer.h"
 #include "Objects/networkmanager.h"
 #include "QMLObjects/pictureicon.h"
 #include "Objects/settings.h"
 #include "Objects/pictureobject.h"
+#include "Objects/museumobject.h"
 #include <QtCore>
 
 
@@ -21,11 +23,22 @@ int main(int argc, char *argv[])
 
 	QGuiApplication app(argc, argv);
 
-	Logic logic;
+	qDebug() << 1;
+	DBC dbc;
+	qDebug() << 2;
+
 	PicturesModel pictureModel;
+	MuseumsModel museumsModel;
+	SavedMuseumsModel savedMuseumsModel;
+	qDebug() << 3;
+
 	QRCodeAnalyzer qrcodeAnalyzer;
+	qDebug() << 4;
 	Settings settings;
-	NetworkManager networkManager;
+	qDebug() << 5;
+
+	Logic logic;
+	qDebug() << 6;
 
 	QQmlApplicationEngine engine;
 
@@ -41,8 +54,10 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("settings", &settings);
 	engine.rootContext()->setContextProperty("qrcodeAnalyzer", &qrcodeAnalyzer);
 	engine.rootContext()->setContextProperty("pictures", &pictureModel);
-	engine.rootContext()->setContextProperty("networkManager", &networkManager);
+	engine.rootContext()->setContextProperty("museums", &museumsModel);
+	engine.rootContext()->setContextProperty("savedMuseums", &savedMuseumsModel);
 	engine.rootContext()->setContextProperty("currentPicture", new PictureObject);
+	engine.rootContext()->setContextProperty("currentMuseum", new MuseumObject);
 
 	const QUrl url(QStringLiteral("qrc:/main.qml"));
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

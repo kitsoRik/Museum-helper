@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import './picture-development-container.scss';
 import PictureIcons from './picture-icons';
 import { connect } from 'react-redux';
-import { InputAdornment, TextField, FormControl, ListItemSecondaryAction, IconButton, Tooltip } from '@material-ui/core';
+import { InputAdornment, TextField, FormControl, ListItemSecondaryAction, IconButton, Tooltip, Switch, FormControlLabel } from '@material-ui/core';
 import { AccountCircle, GetApp } from '@material-ui/icons';
 import { changePicture } from '../../../../../actions/picturesInfoActions';
 import { debounce } from 'debounce';
@@ -12,15 +12,18 @@ import CropFreeIcon from '@material-ui/icons/CropFree';
 const PictureDevelopmentContainer = (props) => {
 
     const { picture } = props;
-    const { onPictureChanged } = props;
+    const { id } = picture;
+    const { onPictureChanged, onPictureChangedImmidiate } = props;
 
     const [name, setName] = useState(picture.name);
     const [description, setDescription] = useState(picture.description);
     const [qrcode, setQrcode] = useState(picture.qrcode);
+    const [includeRelease, setIncludeRelease] = useState(picture.includeRelease);
 
-    useEffect(() => onPictureChanged(picture.id, { name }), [name]);
-    useEffect(() => onPictureChanged(picture.id, { description }), [description]);
-    useEffect(() => onPictureChanged(picture.id, { qrcode }), [qrcode]);
+    useEffect(() => { onPictureChanged(id, { name }) }, [name]);
+    useEffect(() => { onPictureChanged(id, { description }) }, [description]);
+    useEffect(() => { onPictureChanged(id, { qrcode }) }, [qrcode]);
+    useEffect(() => { onPictureChangedImmidiate(id, { include_release: includeRelease }) }, [includeRelease]);
 
     return (
         <div className="picture-development-container">
@@ -33,9 +36,18 @@ const PictureDevelopmentContainer = (props) => {
                         description={description}
                         setDescription={setDescription}/>
                 <QrcodeComponent 
-                        picture={picture}
                         qrcode={qrcode}
-                        setQrcode={setQrcode}/>
+                        setQrcode={setQrcode}/>  
+                <FormControlLabel
+                    style={{flexDirection: "row"}}
+                    control={
+                        <Switch 
+                            color="primary"   
+                            checked={ includeRelease === 1 } 
+                            onChange={e => setIncludeRelease(e.target.checked ? 1 : 0)} />}
+                    label="Include next release"
+                    labelPlacement="start"
+                />
             </div>
             <PictureIcons />
         </div>
@@ -44,14 +56,13 @@ const PictureDevelopmentContainer = (props) => {
 
 const QrcodeComponent = (props) => {
 
-    const { picture, qrcode, setQrcode } = props;
+    const { qrcode, setQrcode } = props;
 
     return (
         <FormControl>
             <TextField
                 label={"QR Code"}
                 value={qrcode}
-                defaultValue=" "
                 variant="outlined"
                 color="primary"
                 style={{ marginTop: "8px" }}
@@ -90,7 +101,6 @@ const NameComponent = (props) => {
             <TextField
                 label={"Name"}
                 value={name}
-                defaultValue=" "
                 variant="outlined"
                 color="primary"
                 style={{ marginTop: "8px" }}
@@ -115,7 +125,6 @@ const DescriptionComponent = (props) => {
             <TextField
                 label={"Description"}
                 value={description}
-                defaultValue=" "
                 variant="outlined"
                 color="primary"
                 style={{ marginTop: "8px" }}
@@ -145,7 +154,8 @@ const mapDipatchToProps = (dispatch, ownProps) => {
         onPictureChanged: debounce(
             (id, changes) =>
                 dispatch(changePicture(id, changes))
-            , 1000)
+            , 1000),
+        onPictureChangedImmidiate: (id, changes) => dispatch(changePicture(id, changes))
     }
 }
 

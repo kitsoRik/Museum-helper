@@ -1,5 +1,5 @@
 import { NOT_LOADED, IS_LOADING, LOADED, ERROR_LOADING } from "../constants";
-import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL } from "../actions/museumsActions";
+import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL } from "../actions/museumsActions";
 
 const initState = {
     error: null,
@@ -36,6 +36,31 @@ export const museumsReducer = (state = initState, action) => {
                 loading: LOADED,
                 error
             };
+        }
+
+        case ADD_MUSEUM_SUCCESS: {
+            const { museums } = state;
+            const { addedMuseum } = action;
+
+            return {
+                ...state,
+                museums: museums.concat([addedMuseum])
+            };
+        }
+
+        case REMOVE_MUSEUM_SUCCESS: {
+            const { museums } = state;
+            const { id } = action;
+            return {
+                ...state,
+                museums: museums.filter(m => m.id !== id)
+            }
+        }
+
+        case REMOVE_MUSEUM_FAIL: {
+            return {
+                ...state
+            }
         }
 
         default: return state;

@@ -12,13 +12,6 @@ class Settings : public QObject
 public:
 	explicit Settings(QObject *parent = nullptr);
 
-
-	inline int version() const { return m_version; }
-	inline void setVersion(const int &version) {
-		m_version = version;
-		emit versionChanged();
-	}
-
 	static Settings *instance() { return m_instance; }
 
 	inline bool fullScreen() const { return m_settigns.value("fullScreen", false).toBool(); }
@@ -30,10 +23,6 @@ public:
 signals:
 	void fullScreenChanged();
 	void preloadedCameraChanged();
-
-	void versionChanged();
-
-	void loaded();
 
 public slots:
 	void save(const bool &savePictures = false);

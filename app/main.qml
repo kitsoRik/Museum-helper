@@ -3,6 +3,8 @@ import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
 
 import "Panels"
+import "Panels/MuseumsPanel"
+import "Panels/MuseumPanel"
 import "Items"
 
 ApplicationWindow {
@@ -49,13 +51,19 @@ ApplicationWindow {
     StackView {
         id: mainStackView;
         anchors.fill: parent;
-        initialItem: StartPanel { }
+        initialItem: museumsPanel;
+
+
+
         onCurrentItemChanged: {
             qrcodeAnalyzer.decoding = (currentItem === scannerPanel);
-            if(currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
+            if(currentItem && currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
         }
     }
 
-    ScannerPanel { id: scannerPanel; enabled: mainStackView.currentItem.scanner === true; }
+    MuseumsPanel { id: museumsPanel; visible: false; }
+    StartPanel { id: startPanel; visible: false; }
+    MuseumPanel { id: museumPanel; visible: false; }
+    ScannerPanel { id: scannerPanel; enabled: mainStackView.currentItem && mainStackView.currentItem.scanner === true; }
     ChoosePanel { id: choosePanel;  visible: false; }
 }

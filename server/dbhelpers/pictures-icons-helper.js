@@ -16,6 +16,16 @@ exports.getIconFromPicturesIconsById = ({ id, filename }) => new Promise((resolv
         [id, filename], (err, icon) => {
             if (err) return reject({ error: SERVER_ERROR });
 
-            resolve(icon);
+            resolve({icon});
         });
+});
+
+exports.deleteIconById = (id) => new Promise((resolve, reject) => {
+    db.run(`DELETE FROM pictures_icons
+            WHERE id=?`
+    [id], (run, err) => {
+        if(err) return reject({ error: SERVER_ERROR });
+
+        resolve({id});
+    });
 });

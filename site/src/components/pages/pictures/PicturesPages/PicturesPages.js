@@ -7,10 +7,8 @@ import { connect } from 'react-redux';
 
 const PicturesPages = (props) => {
 
-    const { pageNumber, setPageNumber } = props;
-    const { pagesCount } = props;
-
-    console.log(pagesCount);
+    const { pageNumber, pagesCount } = props;
+    const setPageNumber = () => {}
     
     const buttonsElements = new Array(pagesCount).fill(1).map((e, index) => {
         return (
@@ -31,9 +29,10 @@ const PicturesPages = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { pagesCount } = state.pictures;
+    const { pagesCount, searchParams: { pageNumber } } = state.pictures;
     return {
-        pagesCount
+        pagesCount,
+        pageNumber
     };
 }
 

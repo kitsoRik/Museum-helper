@@ -18,7 +18,23 @@ Rectangle {
         mainStackView.pop();
     }
 
+    Text {
+        anchors.margins: 10;
+        anchors.fill: parent;
+        visible: currentPicture.languagesSize === 0;
+
+
+        horizontalAlignment: Text.AlignHCenter;
+        verticalAlignment: Text.AlignVCenter;
+
+        text: "Picture without information, wait future update";
+        font.pixelSize: 300;
+        fontSizeMode: Text.Fit;
+        wrapMode: Text.WordWrap;
+    }
+
     ScrollView {
+        visible: currentPicture.languagesSize !== 0;
         width: parent.width;
         height: parent.height;
         contentWidth: width;
