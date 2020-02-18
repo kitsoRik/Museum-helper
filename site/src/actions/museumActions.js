@@ -37,6 +37,7 @@ export const changeMuseumDataPending = (id, changes) => ({
 
 export const changeMuseumDataSuccess = (data, id, changes) => ({
     type: CHANGE_MUSEUM_DATA_SUCCESS,
+    id,
     changes
 })
 

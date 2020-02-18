@@ -11,12 +11,27 @@ PictureObject::PictureObject(QObject *parent)
 	m_instance = this;
 }
 
+QStringList PictureObject::languagesModel() const
+{
+	QStringList list;
+
+	for(auto info : m_pictureInfo) list.append(info.language());
+
+	return list;
+}
+
 void PictureObject::allChanged()
 {
 	emit iconChanged();
 	emit titleChanged();
 	emit descriptionChanged();
 	emit languagesSizeChanged();
+}
+
+void PictureObject::setCurrentPictureQrcode(const QString &qrcode)
+{
+	m_pictureInfo = DBC::instance()->getSavedPicturesInfoByPictureQrcode(qrcode);
+	allChanged();
 }
 
 void PictureObject::setCurrentPictureId(const int &id)

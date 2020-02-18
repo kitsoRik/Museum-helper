@@ -20,24 +20,22 @@ const PictureDevelopmentContainer = (props) => {
     const [qrcode, setQrcode] = useState(picture.qrcode);
     const [includeRelease, setIncludeRelease] = useState(picture.includeRelease);
 
-    useEffect(() => { onPictureChanged(id, { name }) }, [name]);
-    useEffect(() => { onPictureChanged(id, { description }) }, [description]);
-    useEffect(() => { onPictureChanged(id, { qrcode }) }, [qrcode]);
-    useEffect(() => { onPictureChangedImmidiate(id, { include_release: includeRelease }) }, [includeRelease]);
-
     return (
         <div className="picture-development-container">
             <div className="picture-upper-panel-info">
 
                 <NameComponent 
                         name={name}
-                        setName={setName}/>
+                        setName={setName}
+                        save={() => onPictureChangedImmidiate(id, { name })}/>
                 <DescriptionComponent 
                         description={description}
-                        setDescription={setDescription}/>
+                        setDescription={setDescription}
+                        save={() => onPictureChangedImmidiate(id, { description })}/>
                 <QrcodeComponent 
                         qrcode={qrcode}
-                        setQrcode={setQrcode}/>  
+                        setQrcode={setQrcode}
+                        save={() => onPictureChangedImmidiate(id, { qrcode })}/>  
                 <FormControlLabel
                     style={{flexDirection: "row"}}
                     control={
@@ -56,7 +54,7 @@ const PictureDevelopmentContainer = (props) => {
 
 const QrcodeComponent = (props) => {
 
-    const { qrcode, setQrcode } = props;
+    const { qrcode, setQrcode, save } = props;
 
     return (
         <FormControl>
@@ -73,7 +71,8 @@ const QrcodeComponent = (props) => {
                             <CropFreeIcon />
                         </InputAdornment>
                     ),
-                }} />
+                }} 
+                onBlur={save}/>
             <ListItemSecondaryAction>
                 <IconButton onClick={() => {
                     console.log("A");
@@ -94,7 +93,7 @@ const QrcodeComponent = (props) => {
 
 const NameComponent = (props) => {
 
-    const { name, setName } = props;
+    const { name, setName, save } = props;
 
     return (
         <FormControl>
@@ -111,14 +110,15 @@ const NameComponent = (props) => {
                             <AccountCircle />
                         </InputAdornment>
                     ),
-                }} />
+                }}
+                onBlur={save} />
         </FormControl>
     )
 }
 
 const DescriptionComponent = (props) => {
 
-    const { description, setDescription } = props;
+    const { description, setDescription, save } = props;
 
     return (
         <FormControl>
@@ -135,7 +135,8 @@ const DescriptionComponent = (props) => {
                             <AccountCircle />
                         </InputAdornment>
                     ),
-                }} />
+                }} 
+                onBlur={save}/>
         </FormControl>
     )
 }

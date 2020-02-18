@@ -60,7 +60,7 @@ exports.addFavoritePicture = (pictureId) => new Promise((resolve, reject) => {
     })
 });
 
-exports.deleteFavoritePicture = (id) => new Promise((resolve, reject) => {
+exports.deleteFavoritePictureByPictureId = (id) => new Promise((resolve, reject) => {
     db.run(`DELETE FROM favorites_items WHERE picture_id=?`, 
     [id], (run, err) => {
         if(err) return reject({ error: SERVER_ERROR });

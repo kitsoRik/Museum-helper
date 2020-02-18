@@ -1,11 +1,17 @@
 import { LOAD_FAVORITES_STARTED, LOAD_FAVORITES_SUCCESS, LOAD_FAVORITES_FAILED, CHANGE_FAVORITES_GROUPS, SET_EDITABLE, FAVORITE_GROUP_ADDED, FAVORITE_GROUP_DELETED, MOVE_GROUP } from "../actions/favoritesActions";
 import { IS_LOADING, LOADED, NOT_LOADED, DIRECTION_DOWN, DIRECTION_UP } from "../constants";
-import { PICTURE_FROM_FAVOTIRES_DELETED } from "../actions/picturesActions";
+import { PICTURE_FROM_FAVOTIRES_DELETED, DELETE_PICTURE_SUCCESS } from "../actions/picturesActions";
 
 const initState = {
     loading: NOT_LOADED,
     editable: false,
-    groups: []
+    groups: [],
+    otherGroup: {
+        id: -1,
+        name: "Other",
+        description: "For items without group",
+        items: []
+    }
 }
 
 export const updateFavorites = (state = initState, action) => {
@@ -17,11 +23,18 @@ export const updateFavorites = (state = initState, action) => {
             }
         }
         case LOAD_FAVORITES_SUCCESS: {
+            const { otherGroup } = state;
             const { groups } = action;
+            const rGroups = groups.filter(g => g.id !== -1);
+            const oGroup = groups.find(g => g.id === -1);
+            let rOtherGroup = otherGroup;
+            if(oGroup) rOtherGroup = oGroup;
+
             return {
                 ...state, 
                 loading: LOADED,
-                groups
+                groups: rGroups,
+                otherGroup: rOtherGroup
             }
         }
         case LOAD_FAVORITES_FAILED: {
@@ -29,10 +42,17 @@ export const updateFavorites = (state = initState, action) => {
         }
 
         case CHANGE_FAVORITES_GROUPS: {
+            const { otherGroup } = state;
             const { groups } = action;
+            const rGroups = groups.filter(g => g.id !== -1);
+            const oGroup = groups.find(g => g.id === -1);
+            let rOtherGroup = otherGroup;
+            if(oGroup) rOtherGroup = oGroup;
+
             return {
                 ...state,
-                groups
+                groups: rGroups,
+                otherGroup: rOtherGroup
             }
         }
 
@@ -60,25 +80,17 @@ export const updateFavorites = (state = initState, action) => {
 
         case FAVORITE_GROUP_DELETED: {
             const { id } = action;
-            const { groups } = state;
+            const { groups, otherGroup, otherGroup: { items } } = state;
 
-            const groupIndex = groups.findIndex(g => g.id === id);
+            const deletedGroup = groups.find(g => g.id === id);
 
-            const newGroups = groups.filter(g => g.id !== id);
-            const otherGroupIndex = newGroups.findIndex(g => g.id === -1);
-            
-            if(otherGroupIndex === -1) {
-                newGroups.push({ 
-                    id: -1, 
-                    items: groups[groupIndex].items
-                });
-            } else {
-                newGroups[groupIndex].items.push(...groups[groupIndex].items);
-            }
-            
             return {
                 ...state,
-                groups: newGroups
+                groups: groups.filter(g => g.id !== id),
+                otherGroup: {
+                    ...otherGroup,
+                    items: items.concat(deletedGroup.items)
+                }
             }
         }
 
@@ -113,7 +125,7 @@ export const updateFavorites = (state = initState, action) => {
             const newGroups = groups.filter(() => true);
 
             if(newGroups.length === 0) return state;
-            console.log(id, newGroups);
+
             const groupWithItem = newGroups.find(g => {
                 let flag = false;
                 g.items.forEach(i => {
@@ -131,6 +143,27 @@ export const updateFavorites = (state = initState, action) => {
             return {
                 ...state,
                 groups: newGroups
+            }
+        }
+
+        case DELETE_PICTURE_SUCCESS: {
+            const { id } = action;
+            const { groups, otherGroup } = state;
+
+            const newGroups = groups.filter(() => true);
+            newGroups.forEach(g => {
+                g.items = g.items.filter(i => i.pictureId !== id);
+            });
+
+            const newOtherGroup = otherGroup;
+            
+            newOtherGroup.items = otherGroup.items.filter(i => i.pictureId !== id);
+
+
+            return {
+                ...state,
+                groups: newGroups,
+                otherGroup: newOtherGroup
             }
         }
 

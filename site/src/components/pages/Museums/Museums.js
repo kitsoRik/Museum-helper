@@ -5,6 +5,7 @@ import withGuard from '../../hocs/withGuard';
 import MuseumsContainer from './MuseumsContainer';
 
 import './Museums.scss';
+import withFadeIn from '../../hocs/withFadeIn';
 
 const Museums = (props) => {
     return ( 
@@ -28,5 +29,6 @@ const mapDipatchToProps = (dispatch, ownProps) => {
  
 export default compose(
     connect(mapStateToProps, mapDipatchToProps),
-    withGuard
+    withGuard,
+    withFadeIn
 )(Museums);

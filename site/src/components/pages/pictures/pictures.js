@@ -12,10 +12,11 @@ import PictureSettingsSearch from './pictures-container/pictures-settings-search
 import PicturesPages from './PicturesPages/PicturesPages';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 import AddPictureDialog from './AddPictureDialog';
+import AddMuseumLabel from './AddMuseumLabel/AddMuseumLabel';
 
 
 const Pictures = (props) => {
-    const { startLoadPictures } = props;
+    const { museumsSize, startLoadPictures } = props;
     const dispatch = useDispatch();
     const { searchParams } = props;
     const [searchText, setSearchText] = useState(searchParams.searchText);
@@ -24,9 +25,10 @@ const Pictures = (props) => {
         dispatch(changeDrawerTitle("Pictures"));
     }, [ ])
 
-    useEffect(() => {
-        startLoadPictures();
-    }, [ ]);
+    if(museumsSize === 0) return (
+                    <div className="pictures-page">
+                        <AddMuseumLabel />
+                    </div> );
 
     return ( 
         <div className="pictures-page">
@@ -43,8 +45,9 @@ const Pictures = (props) => {
 
 const mapStateToProps = (state) => {
     const { searchParams, limit, pageNumber } = state.pictures;
+    const { museums } = state.museums;
     return {
-        searchParams, limit, pageNumber
+        searchParams, limit, pageNumber, museumsSize: museums.length
     }
 }
  

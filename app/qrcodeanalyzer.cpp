@@ -2,6 +2,7 @@
 #include "picturesmodel.h"
 #include <QtMultimedia>
 #include <QtDebug>
+#include "Objects/dbc.h"
 
 QRCodeAnalyzer* QRCodeAnalyzer::m_instance = nullptr;
 
@@ -42,23 +43,24 @@ void QRCodeAnalyzer::onDecodingStarted()
 void QRCodeAnalyzer::onDecodingFinished(const QString &result)
 {
 	qDebug() << "Finish decoding, result:" << result;
-
+	if(m_decodedS) return;
+	m_decodedS = false;
 	if(result.isEmpty())
 	{
 		emit failedDecoding(NotFoundCodeInImage);
 		m_decoding = true;
 	}else
 	{
-		PicturesModel *model = PicturesModel::instance();
-		int index = model->indexPictureAtQRCode(result);
-		if(index == -1)
+		bool valid = DBC::instance()->checkPictureQrcode(result);
+		if(!valid)
 		{
 			emit failedDecoding(NotFoundCodeInBase);
 			m_decoding = true;
 		}else
 		{
 			m_decoding = false;
-			emit successDecoding(index);
+			PictureObject::instance()->setCurrentPictureQrcode(result);
+			emit successDecoding();
 		}
 	}
 }
@@ -81,5 +83,7 @@ bool QRCodeAnalyzer::decoding() const
 
 void QRCodeAnalyzer::setDecoding(bool decoding)
 {
+	m_decodedS = decoding ? false : true;
+	qDebug() << "SET DECODING: " << decoding;
 	m_decoding = decoding;
 }

@@ -1,5 +1,6 @@
 import { NOT_LOADED, IS_LOADING, LOADED, ERROR_LOADING } from "../constants";
 import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL } from "../actions/museumsActions";
+import { CHANGE_MUSEUM_DATA_SUCCESS } from "../actions/museumActions";
 
 const initState = {
     error: null,
@@ -60,6 +61,20 @@ export const museumsReducer = (state = initState, action) => {
         case REMOVE_MUSEUM_FAIL: {
             return {
                 ...state
+            }
+        }
+
+        case CHANGE_MUSEUM_DATA_SUCCESS: {
+            const { museums } = state;
+            const { id, changes } = action;
+
+            const newMuseums = museums.filter(() => true);
+            const key = Object.keys(changes)[0];
+            newMuseums.find(m => m.id === id)[key] = changes[key];
+
+            return { 
+                ...state,
+                museums: newMuseums
             }
         }
 

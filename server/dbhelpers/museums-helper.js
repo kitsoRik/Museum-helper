@@ -27,8 +27,9 @@ exports.getMuseumById = (id) => new Promise((resolve, reject) => {
 exports.changeMuseumData = (id, changes) => new Promise((resolve, reject) => {
     const key = Object.keys(changes)[0];
     db.run(`UPDATE museums 
-            SET ${key}=?`,
-    [changes[key]], (run, err) => {
+            SET ${key}=?
+            WHERE id=?`,
+    [changes[key], id], (run, err) => {
         if(run || err) reject({});
         resolve({});
     });
@@ -71,7 +72,6 @@ exports.getLastReleaseIdByMuseumId = (museumId) => new Promise((resolve, reject)
             FROM museums
             WHERE id=?`,
     [museumId], (err, row) => {
-        console.log(err);
         if(err) return reject({ error: SERVER_ERROR });
 
         resolve(row.updateId);
@@ -83,7 +83,6 @@ exports.setReleaseIdByMuseumId = (museumId, releaseId, lastReleaseId) => new Pro
             SET update_id=? 
             WHERE id=? AND update_id=?`,
     [releaseId, museumId, lastReleaseId], (run, err) => {
-        console.log(err, run);
         if(run || err) return reject({ error: SERVER_ERROR });
         resolve({});
     });

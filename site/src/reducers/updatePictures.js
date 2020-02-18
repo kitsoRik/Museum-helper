@@ -11,6 +11,7 @@ const initState = {
         sortedField: 'none',
         sortedType: 'ASC',
         museumId: -1,
+        updateId: 'current',
         pageNumber: 1,
         limit: 10
     }
@@ -52,7 +53,7 @@ const loadPicturesSuccess = (state, action) => {
     const { searchParams } = state;
     const { pictures, pagesCount, museumsMinimize, museumId } = action;
     let min = !!museumsMinimize ? museumsMinimize : state.museumsMinimize;
-    console.log(searchParams, action);
+    
     return {
         ...state,
         loading: LOADED,

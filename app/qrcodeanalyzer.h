@@ -37,7 +37,7 @@ public:
 
 signals:
 	void decode(const QImage &image);
-	void successDecoding(const int &index);
+	void successDecoding();
 	void failedDecoding(const FailedDecodingType& type);
 
 public slots:
@@ -52,6 +52,7 @@ private slots:
 private:
 	QRCodeAnalyzerDecoder *m_decoder;
 	bool m_decoding;
+	bool m_decodedS;
 	QObject* m_source;
 	QVideoProbe *m_probe;
 

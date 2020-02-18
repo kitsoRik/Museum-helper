@@ -54,8 +54,8 @@ ApplicationWindow {
         initialItem: museumsPanel;
 
 
-
         onCurrentItemChanged: {
+            console.log(currentItem === scannerPanel)
             qrcodeAnalyzer.decoding = (currentItem === scannerPanel);
             if(currentItem && currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
         }
@@ -64,6 +64,6 @@ ApplicationWindow {
     MuseumsPanel { id: museumsPanel; visible: false; }
     StartPanel { id: startPanel; visible: false; }
     MuseumPanel { id: museumPanel; visible: false; }
-    ScannerPanel { id: scannerPanel; enabled: mainStackView.currentItem && mainStackView.currentItem.scanner === true; }
+    ScannerPanel { id: scannerPanel; visible: false; }
     ChoosePanel { id: choosePanel;  visible: false; }
 }

@@ -1,5 +1,5 @@
 import Axios from "axios"
-export const apiHost = `http://5.45.118.116:3006`;
+export const apiHost = `http://localhost:3006`;
 export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
 export const museumsIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
 

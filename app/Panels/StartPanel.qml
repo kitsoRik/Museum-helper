@@ -12,10 +12,6 @@ Rectangle {
 
     color: "orange";
 
-    function onScanClick() {
-        scannerPanel.push();
-    }
-
     function onChooseClick() {
         choosePanel.push();
     }
@@ -32,7 +28,7 @@ Rectangle {
             source: "qrc:main/icons/ScanningIcon.png";
             sourceInverse: "qrc:main/icons/ScanningIcon_inverse.png";
 
-            onClicked: onScanClick();
+            onClicked: mainStackView.push(scannerPanel, {destroyOnPop: false});
         }
 
         ButtonWithIcon {
