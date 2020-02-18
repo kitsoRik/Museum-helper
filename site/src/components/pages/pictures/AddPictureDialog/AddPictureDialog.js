@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 
 import SpeedDial from '@material-ui/lab/SpeedDial';
@@ -9,14 +9,18 @@ import { addPicture } from '../../../../actions/picturesActions';
 
 
 const AddPictureDialog = (props) => {
-    const { museums, addPicture } = props;
+    const { museums, selectedMuseumId, selectedUpdateId, addPicture } = props;
     const [addDialogVisible, setAddDialogVisible] = useState(false);
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [qrcode, setQrcode] = useState("");
 
-    const [museumId, setMuseumId] = useState(-1);
+    const [museumId, setMuseumId] = useState(selectedMuseumId);
+
+    useEffect(() => { setMuseumId(selectedMuseumId)}, [selectedMuseumId]);
+
+    if(selectedMuseumId === -1 || selectedUpdateId !== 'current') return null;
 
     return ( 
         <div>
@@ -58,7 +62,7 @@ const AddPictureDialog = (props) => {
                         value={qrcode}
                         onChange={(e) => setQrcode(e.target.value)}
                     />
-                    <FormControl style={{marginLeft: `10px`, flexGrow: "1"}}>
+                    <FormControl style={{width: `100%`}}>
                         <InputLabel id="museums-label">Museum</InputLabel>
                         <Select value={ museumId } 
                                 labelId={"museums-label"}
@@ -88,8 +92,11 @@ const AddPictureDialog = (props) => {
 
 const mapStateToProps = (state) => {
     const { museums } = state.museums;
+    const { museumId, updateId } = state.pictures.searchParams;
     return {
-        museums
+        museums,
+        selectedMuseumId: museumId,
+        selectedUpdateId: updateId
     }
 }
  

@@ -37,9 +37,16 @@ public:
 		return m_pictureInfo[m_languageIndex].description();
 	}
 
+	inline QString language() const {
+		if(m_languageIndex >= m_pictureInfo.size()) return "NONE";
+		return m_pictureInfo[m_languageIndex].language();
+	}
+
 	inline int languagesSize() const {
 		return m_pictureInfo.size();
 	}
+
+	Q_INVOKABLE QStringList languagesModel() const;
 
 signals:
 	void iconChanged();
@@ -51,6 +58,7 @@ private slots:
 	void allChanged();
 
 public slots:
+	void setCurrentPictureQrcode(const QString &qrcode);
 	void setCurrentPictureId(const int &id);
 	void setLanguageIndex(const int &index) { m_languageIndex = index; allChanged(); }
 

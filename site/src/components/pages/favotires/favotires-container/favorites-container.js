@@ -10,6 +10,7 @@ import { FormControlLabel, Switch } from '@material-ui/core';
 import EditButton from './edit-button/edit-button';
 
 const onDragEnd = (result, groups, setGroups) => {
+    console.log(groups);
     if (!result.destination) return;
     const { source, destination } = result;
 
@@ -29,7 +30,6 @@ const onDragEnd = (result, groups, setGroups) => {
         setGroups(newGroups);
     } else {
         const sourceItem = groups[sourceGroupIndex].items[source.index];
-        const destinationItem = groups[destinationGroupIndex].items[destination.index];
     
         const newGroups = groups.map(g => {
             return {
@@ -48,9 +48,9 @@ const onDragEnd = (result, groups, setGroups) => {
   };
 
 const FavotiresContainer = (props) => {
-    const { editable, groups, changeFavoritesGroups } = props;
+    const { editable, groups, otherGroup, changeFavoritesGroups } = props;
     const { changeEditable } = props; 
-    const containerItems = groups.map((group, index) => {
+    const containerItems = groups.concat([otherGroup]).map((group, index) => {
         const onGroupNameChanged = (name) => {
             let newGroups = groups.filter(() => true);
             newGroups[index].name = name;
@@ -72,7 +72,7 @@ const FavotiresContainer = (props) => {
 
     return (
         <div className="favorites-container">
-            <DragDropContext onDragEnd={(result) => onDragEnd(result, groups, changeFavoritesGroups)}>
+            <DragDropContext onDragEnd={(result) => onDragEnd(result, groups.concat([otherGroup]), changeFavoritesGroups)}>
                 <div className="favorites-items-container">
                     { containerItems }
                 </div>
@@ -84,10 +84,11 @@ const FavotiresContainer = (props) => {
     );
 }
 
-const mapStateToProps = ({ favorites: { editable, groups }}) => {
+const mapStateToProps = ({ favorites: { editable, groups, otherGroup }}) => {
     return {
         editable,
-        groups
+        groups,
+        otherGroup
     }
 }
 

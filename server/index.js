@@ -41,7 +41,7 @@ app.post("/loginIn", (req, res) => {
     setTimeout(() => {
         
 
-    dbc.getUserByEmailPassword(email, password)
+    dbc.getUserByEmailPassword(email, utils.hashPassword(password))
     .then(({ id, username, email}) => {
         res.cookie("sesid", createSesid(id));
         res.send({
@@ -74,7 +74,7 @@ app.post("/registerIn", (req, res) => {
 
     const { username, email, password, passwordConfirm } = req.body;
 
-    dbc.registerUser(username, email, password)
+    dbc.registerUser(username, email, utils.hashPassword(password))
         .then(sendAllData(res))
         .catch(sendError(res));
 });
@@ -99,7 +99,7 @@ app.post("/getMuseum", (req, res) => {
 
 app.post("/getMuseums", (req, res) => {
     const { sesid } = req.cookies;
-
+    
     dbc.getIdBySesid(sesid)
         .then(dbc.getMuseumsByUserId)
         .then(sendAllData(res))
@@ -107,9 +107,9 @@ app.post("/getMuseums", (req, res) => {
 });
 
 app.post("/changeMuseumData", (req, res) => {
-    const { id, changes } = req.body;
+    const { museumId, changes } = req.body;
 
-    dbc.changeMuseumData(id, changes)
+    dbc.changeMuseumData(museumId, changes)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
@@ -144,9 +144,17 @@ app.post("/newReleaseMuseum", (req, res) => {
 
 app.post("/getPicturesData", (req, res) => {
     const { sesid } = req.cookies;
-    const { searchParams: { searchText, sortedField, sortedType, museumId, pageNumber = 1, limit = 5 }} = req.body;
+
+    const { searchParams: { searchText, 
+        sortedField, 
+        sortedType, 
+        museumId, 
+        updateId,
+        pageNumber = 1, 
+        limit = 5 }} = req.body;
+
     dbc.getIdBySesid(sesid)
-        .then(id => dbc.getPictures(museumId, searchText, sortedField, sortedType, museumId, limit, pageNumber))
+        .then(id => dbc.getPictures(museumId, searchText, sortedField, sortedType, museumId, updateId, limit, pageNumber))
         .then(sendAllData(res))
         .catch(sendError(res));
 });

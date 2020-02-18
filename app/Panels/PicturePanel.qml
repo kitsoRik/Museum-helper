@@ -74,7 +74,7 @@ Rectangle {
                 Layout.preferredHeight: 50;
                 Layout.fillWidth: true;
 
-                model: currentPicture.languagesSize;
+                model: currentPicture.languagesModel();
 
                 onCurrentIndexChanged: currentPicture.setLanguageIndex(currentIndex);
             }

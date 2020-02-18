@@ -12,7 +12,13 @@ import { addPicture } from '../../../../actions/picturesActions';
 
 const PicturesContainer = (props) => {
 
-    const { loadingState } = props;
+    const { museumId, loadingState, pictures } = props;
+
+    if(museumId === -1) return (
+        <div className="pictures-container-label">
+            Select museum
+        </div>
+    );
 
     if(loadingState === NOT_LOADED) return <span>NOT LOADED</span>
     if(loadingState === IS_LOADING) return ( 
@@ -22,7 +28,11 @@ const PicturesContainer = (props) => {
         );
     if(loadingState === ERROR_LOADING) return <span>ERROR</span>
 
-    const { pictures } = props;
+    if(pictures.length === 0) return (
+        <div className="pictures-container-label">
+            This museum without pictures. Add picture!
+        </div>
+    );
 
     const pictureItems = pictures.map(item => (
             <PictureItem key={item.id} picture={item} onClick={() => props.history.push(`/pictures/${item.id}`)}/>
@@ -36,13 +46,14 @@ const PicturesContainer = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    const { loading, pictures } = state.pictures;
+    const { loading, pictures, searchParams: { museumId } } = state.pictures;
     const { museums } = state.museums;
     
     return {
         loadingState: loading,
         pictures,
-        museums
+        museums,
+        museumId
     }
 }
  

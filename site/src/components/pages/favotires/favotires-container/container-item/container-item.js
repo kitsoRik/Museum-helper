@@ -28,6 +28,7 @@ const ContainerItem = (props) => {
     return (
         <div className="container-item">
             <ExpansionPanel 
+                style={{border: `2px solid black`}}
                 expanded={expanded} 
                 onChange={() => setExpanded(!expanded)}>
         <ExpansionPanelSummary

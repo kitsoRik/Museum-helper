@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const sha256 = require("js-sha256").sha256;
 
 exports.parseJStoSQLQ = (obj, prefix = '') => {
     let keys = Object.keys(obj);
@@ -26,4 +27,12 @@ exports.processFileToFilename = (file) => {
             resolve(file.filename);
         });
     });
+}
+
+exports.hashPassword = (pass) => {
+    let result = pass;
+    for(let i = 0; i < 32; i++) {
+        result = sha256(result);
+    }
+    return result;
 }

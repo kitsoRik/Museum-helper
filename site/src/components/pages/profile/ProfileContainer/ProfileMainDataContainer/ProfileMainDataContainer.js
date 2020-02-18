@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import './ProfileMainDataContainer.scss';
-import { TextField, InputLabel } from '@material-ui/core';
+import { TextField, InputLabel, Divider, FormControl } from '@material-ui/core';
 
 const ProfileMainDataContainer = (props) => {
     return ( 
@@ -12,11 +12,15 @@ const ProfileMainDataContainer = (props) => {
             </div>
             <div className="profile-main-data-fields">
                
-                <TextField label={<InputLabel>Name</InputLabel>} disabled value={"name"} />
-                <TextField disabled value={"surname"} />
-                <TextField disabled value={"email"} />
-                <TextField disabled value={"name"} />
-                <TextField disabled value={"name"} />
+                <TextField label={<InputLabel>Name</InputLabel>} disabled value={"username"} />
+                <TextField label={<InputLabel>Name</InputLabel>} disabled value={"email"} />
+                <Divider />          
+                <FormControl>
+                    <TextField label={<InputLabel id="123123">Old password</InputLabel>} defaultValue={""} />
+                </FormControl>   
+                <TextField label={<InputLabel>Password</InputLabel>} defaultValue={""}  />
+                <TextField label={<InputLabel>Password confirm</InputLabel>} defaultValue={""} />
+                <Divider />
             </div>
         </div>
      );

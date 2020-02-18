@@ -1,5 +1,6 @@
 const db = require("./statics").db;
 const utils = require("./utils");
+const { customError } = require("./statics");
 
 const UsersHelper = require("./dbhelpers/users-helper");
 const SesidsHelper = require("./dbhelpers/sesids-helper");
@@ -9,6 +10,7 @@ const PicsHelp = require("./dbhelpers/pictures-helper");
 const PicturesInfoHelper = require("./dbhelpers/pictures-info-helper");
 const PicIcoHelp = require("./dbhelpers/pictures-icons-helper");
 const MusHelp = require("./dbhelpers/museums-helper");
+const PicturesOldHelper = require("./dbhelpers/pics-old-helper");
 
 exports.registerUser = UsersHelper.registerUser;
 exports.getUser = UsersHelper.getUserBySesid;
@@ -26,10 +28,10 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
         .then(() => MusHelp.setReleaseIdByMuseumId(museumId, releaseId + 1, releaseId))
         .then(() => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_old
-                    SELECT id, museum_id, name, description, qrcode, update_id release_id
+                    SELECT id, museum_id, name, description, qrcode, ?
                     FROM pictures
-                    WHERE update_id=?`,
-            [releaseId], (run, err) => {
+                    WHERE museum_id=?`,
+            [releaseId, museumId], (run, err) => {
                 if(run || err) return reject({});
                 console.log("1");
                 resolve({});
@@ -41,9 +43,9 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     FROM pictures_info
                     WHERE picture_id=
                     (
-                        SELECT id FROM pictures WHERE update_id=?
+                        SELECT id FROM pictures WHERE update_id=? AND museum_id=?
                     )`,
-            [releaseId, releaseId], (run, err) => {
+            [releaseId, releaseId, museumId], (run, err) => {
                 if(run || err) return reject({});
                 console.log("2");
 
@@ -53,8 +55,8 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
         .then(() => new Promise((resolve, reject) => {
             db.run(`UPDATE pictures
                     SET update_id=?
-                    WHERE update_id=?`,
-            [releaseId + 1, releaseId], (run, err) => {
+                    WHERE update_id=? AND museum_id=?`,
+            [releaseId + 1, releaseId, museumId], (run, err) => {
                 if(run || err) return reject({});
                 console.log("3");
 
@@ -105,8 +107,8 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_release
                     SELECT id, museum_id, name, description, qrcode
                     FROM pictures
-                    WHERE update_id=?`,
-            [releaseId + 1], (run, err) => {
+                    WHERE update_id=? AND museum_id=?`,
+            [releaseId + 1, museumId], (run, err) => {
                 if(run || err) return reject({});
                 console.log("7");
 
@@ -136,11 +138,14 @@ exports.getReleasedPicturesByMuseumId = PicsHelp.getReleasedPicturesByMuseumId;
 exports.getPicturesInfoByMuseumId = PicturesInfoHelper.getPicturesInfoByMuseumId;
 exports.getReleasedPicturesInfoByMuseumId = PicturesInfoHelper.getReleasedPicturesInfoByMuseumId;
 
-exports.getPictures = (id, searchText, sortedField, sortedType, museumId, limit, pageNumber) => new Promise((resolve, reject) => {
+exports.getPictures = (id, searchText, sortedField, sortedType, museumId, updateId, limit, pageNumber) => new Promise((resolve, reject) => {
+    if(museumId === -1) return reject(customError("UNKNOWN_MUSEUM_ID"));
     let pictures, mid;
     MusHelp.checkId(museumId)
     .then(m => mid = m)
-    .then(() => PicsHelp.getPictures(id, searchText, sortedField, sortedType, mid, limit, pageNumber))
+    .then(() => updateId === 'current' ?
+         PicsHelp.getPictures(id, searchText, sortedField, sortedType, mid, limit, pageNumber)
+         : PicturesOldHelper.getOldPicturesByMuseumIdAndReleaseId(museumId, updateId))
     .then(ps => pictures = ps)
     .then(() => PicsHelp.getPicturesPagesDataByRequest(id, searchText, limit, pageNumber))
     .then(pagesData => resolve({ pictures, pagesData, museumId: mid }))
@@ -170,7 +175,12 @@ exports.addIconToPicture = (id, filename) => new Promise((resolve, reject) => {
 
 exports.deleteIconFromPictureById = PicIcoHelp.deleteIconById;
 
-exports.deletePicture = PicsHelp.deletePicture;
+exports.deletePicture = (id) => new Promise((resolve, reject) => {
+    PicsHelp.deletePicture(id)
+        .then(FavHelp.deleteFavoritePictureByPictureId(id))
+        .then(resolve)
+        .catch(reject);
+});
 
 exports.changePicture = PicsHelp.changePicture;
 
@@ -222,7 +232,7 @@ exports.changeFavorites = (groups) => {
 
 exports.addFavotirePicture = FavHelp.addFavoritePicture;
 
-exports.deleteFavotirePicture = FavHelp.deleteFavoritePicture;
+exports.deleteFavotirePicture = FavHelp.deleteFavoritePictureByPictureId;
 
 exports.addFavotireGroup = (userId, name, description) => new Promise((resolve, reject) => {
     FavHelp.addFavoriteGroup(userId, name, description)

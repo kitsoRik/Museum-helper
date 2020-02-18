@@ -8,14 +8,16 @@
 class PictureInfo
 {
 public:
-	PictureInfo(const QString &title, const QString &description);
+	PictureInfo(const QString &title, const QString &description, const QString &language);
 
 	inline QString title() const { return m_title; }
 	inline QString description() const { return m_description; }
+	inline QString language() const { return m_language; }
 
 private:
 	QString m_title;
 	QString m_description;
+	QString m_language;
 };
 
 class Picture

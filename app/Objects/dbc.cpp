@@ -61,6 +61,20 @@ bool DBC::getSavedMuseumById(const int &id, Museum *m)
 	return false;
 }
 
+bool DBC::checkPictureQrcode(const QString &qrcode)
+{
+	QSqlQuery query(db);
+
+	query.prepare("SELECT COUNT(id) FROM saved_pictures "
+				  "WHERE qrcode=?");
+	query.addBindValue(qrcode);
+	query.exec();
+
+	query.next();
+	int count = query.record().value(0).toInt();
+	return count != 0;
+}
+
 QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 {
 	QSqlQuery query(db);
@@ -84,6 +98,31 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 	return pictures;
 }
 
+QList<PictureInfo> DBC::getSavedPicturesInfoByPictureQrcode(const QString &qrcode)
+{
+	QSqlQuery query(db);
+
+	query.prepare("SELECT * FROM saved_picturesInfo WHERE picture_id=(SELECT id FROM saved_pictures WHERE qrcode=?)");
+	query.addBindValue(qrcode);
+	query.exec();
+
+	QList<PictureInfo> picturesInfo;
+
+	while(query.next())
+	{
+		QSqlRecord record = query.record();
+		int id = record.value(0).toInt();
+		int pictureId = record.value(1).toInt();
+		QString title = record.value(2).toString();
+		QString description = record.value(3).toString();
+		QString language = record.value(4).toString();
+
+		picturesInfo.append(PictureInfo(title, description, language));
+	}
+
+	return picturesInfo;
+}
+
 QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 {
 	QSqlQuery query(db);
@@ -103,7 +142,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 		QString description = record.value(3).toString();
 		QString language = record.value(4).toString();
 
-		picturesInfo.append(PictureInfo(title, description));
+		picturesInfo.append(PictureInfo(title, description, language));
 	}
 
 	return picturesInfo;
@@ -128,7 +167,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByMuseumId(const int &museumId)
 		QString description = record.value(2).toString();
 		QString language = record.value(2).toString();
 
-		picturesInfo.append(PictureInfo(title, description));
+		picturesInfo.append(PictureInfo(title, description, language));
 	}
 
 	return picturesInfo;

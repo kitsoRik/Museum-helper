@@ -51,10 +51,11 @@ export const addPicture = actionFactory(
     addPictureSuccess
 );
 
-export const deletePictureSuccess = (data) => ({
+export const deletePictureSuccess = (data, id) => ({
     type: DELETE_PICTURE_SUCCESS,
-    ...data
-})
+    ...data,
+    id
+});
 
 export const deletePicture = actionFactory(
     api.deletePicture,

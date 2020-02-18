@@ -23,32 +23,10 @@ Rectangle {
         mainStackView.pop();
     }
 
-    function onSuccessDecoding(index) {
-        if(mainStackView.currentItem.isPicturePanel)
-            return;
-        console.log(index);
-        pictures.setCurrentIndex(index);
-        //picturePanel.push();
-        mainStackView.push("PicturePanel.qml");
-    }
-
-    function onFailedDecoding(type) {
-//        if(type === QRCodeAnalyzer.NotFoundCodeInImage)
-//        {
-//            errorRect.show(qsTr("Try more"));
-//        }else if(type === QRCodeAnalyzer.NotFoundCodeInBase)
-//        {
-//            errorRect.show(qsTr("Bad code"));
-//        }else
-//        {
-//            throw "Unknown failed decoding type";
-//        }
-    }
-
     Connections {
         target: qrcodeAnalyzer;
-        onSuccessDecoding: onSuccessDecoding(index);
-        onFailedDecoding: onFailedDecoding(type);
+        onSuccessDecoding: mainStackView.push("PicturePanel.qml");
+        //onFailedDecoding: onFailedDecoding(type);
     }
 
     Rectangle {

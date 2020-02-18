@@ -17,8 +17,9 @@ const MuseumContainer = (props) => {
                     <AccountCircle />
                     { changingFields.includes("name") && <CircularProgress style={{position: "absolute", top: "0", left: "0", width: "100%", height: "100%"}}/>}
                 </Grid>
-                <Grid item>
-                    <TextField 
+                <Grid item style={{display: "flex", flexGrow: "1"}}>
+                    <TextField
+                        style={{flexGrow: "1"}} 
                         label="Name"
                         defaultValue={name}
                         error={notChangedField.includes("name")}
@@ -31,9 +32,9 @@ const MuseumContainer = (props) => {
                     <AccountCircle />
                     { changingFields.includes("location") && <CircularProgress style={{position: "absolute", top: "0", left: "0", width: "100%", height: "100%"}}/>}
                 </Grid>
-                <Grid item>
+                <Grid item style={{display: "flex", flexGrow: "1"}}>
                     <TextField 
-                        id="input-with-icon-grid" 
+                        style={{flexGrow: "1"}} 
                         label="Location"
                         error={notChangedField.includes("location")}
                         defaultValue={location}
