@@ -23,6 +23,9 @@ const getUserData = () =>
 const getLoginIn = (email, password) => 
     AxiosPost(`/loginIn`, { email, password });
 
+const changeUserData = (password, changes) => 
+    AxiosPost(`/changeUserData`, { password, changes });
+
 const unlogin = () => 
     AxiosPost(`/unlogin`);
 
@@ -100,6 +103,7 @@ const deleteIconFromPicture = (id) =>
 export default {
     getUserData,
     getLoginIn,
+    changeUserData,
     unlogin,
     getRegisterIn,
     getMuseum,

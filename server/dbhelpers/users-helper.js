@@ -1,4 +1,5 @@
 const db = require("../statics").db;
+const { customError, serverError } = require("../statics");
 
 exports.registerUser = (username, email, password) => new Promise((resolve, reject) => {
     db.run(`INSERT INTO users (username, email, password) 
@@ -12,6 +13,22 @@ exports.registerUser = (username, email, password) => new Promise((resolve, reje
         });
         resolve({});
     });
+});
+
+exports.checkPassword = (id, password) => new Promise((resolve, reject) => {
+    db.get(`SELECT id FROM users WHERE id=? AND password=?`,
+    [id, password], (err, row) => {
+        if(err || !row) return reject(customError("BAD_OLD_PASSWORD"));
+        resolve({});
+    })
+});
+
+exports.changePassword = (id, password) => new Promise((resolve, reject) => {
+    db.run(`UPDATE users SET password=? WHERE id=?`,
+    [password, id], (run, err) => {
+        if(run || err) return reject(serverError());
+        resolve({ password: "" });
+    })
 });
 
 exports.getUserBySesid = (sesid) => new Promise((resolve, reject) => {
