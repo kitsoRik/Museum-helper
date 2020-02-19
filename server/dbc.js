@@ -13,6 +13,18 @@ const MusHelp = require("./dbhelpers/museums-helper");
 const PicturesOldHelper = require("./dbhelpers/pics-old-helper");
 
 exports.registerUser = UsersHelper.registerUser;
+
+exports.changeUserData = (id, changes) => new Promise((resolve, reject) => {
+    let key = Object.keys(changes)[0];
+    let f;
+    if(key === 'password') f = UsersHelper.changePassword(id, utils.hashPassword(changes[key]));
+    
+    f.then(d => resolve({changes: d}))
+     .catch(reject);
+});
+
+exports.checkPasswordById = UsersHelper.checkPassword;
+
 exports.getUser = UsersHelper.getUserBySesid;
 exports.getUserByEmailPassword = UsersHelper.getUserByEmailAndPassword;
 

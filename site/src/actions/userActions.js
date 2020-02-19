@@ -9,7 +9,11 @@ export const
     UNLOGIN_ERROR = "UNLOGIN_ERROR",
 
     SET_DATA = "SET_DATA",
-    FAIL_DATA = "FAIL_DATA";
+    FAIL_DATA = "FAIL_DATA",
+    
+    CHANGE_DATA_PENDING = "CHANGE_DATA_PENDING",
+    CHANGE_DATA_SUCCESS = "CHANGE_DATA_SUCCESS",
+    CHANGE_DATA_FAIL = "CHANGE_DATA_FAIL";
 
 export const unloginSuccess = () => {
     return {
@@ -31,10 +35,11 @@ export const unlogin = actionFactory(
     unloginError
 );
 
-export const setData = (data) => {
+export const setData = ({ email, username }) => {
     return {
         type: SET_DATA,
-        data
+        email,
+        username
     }
 }
 
@@ -50,4 +55,25 @@ export const getData = actionFactory(
     null,
     setData,
     failData
+);
+
+export const changeDataPending = () => ({
+    type: CHANGE_DATA_PENDING
+});
+
+export const changeDataSuccess = ({ newData }) => ({
+    type: CHANGE_DATA_SUCCESS,
+    newData
+});
+
+export const changeDataFail = ({ error }) => ({
+    type: CHANGE_DATA_FAIL,
+    error
+});
+
+export const changeUserData = actionFactory(
+    api.changeUserData,
+    changeDataPending,
+    changeDataSuccess,
+    changeDataFail
 );
