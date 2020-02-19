@@ -1,3 +1,4 @@
+const db = require("./statics").db;
 const fs = require("fs");
 const path = require("path");
 const sha256 = require("js-sha256").sha256;
@@ -36,3 +37,26 @@ exports.hashPassword = (pass) => {
     }
     return result;
 }
+
+exports.makeLink = () => makeString(512);
+
+
+exports.createSesid = (id) => {
+     const sesid = makeString(256);
+     db.run(`INSERT INTO sesids (id, sesid)
+            VALUES (?, ?)`, [id, sesid], (run, err) => {
+                if(err) console.log(err);
+            });
+
+     return sesid;
+}
+
+const makeString = (length) => {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }

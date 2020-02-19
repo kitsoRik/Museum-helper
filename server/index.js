@@ -1,3 +1,5 @@
+const { serverError, customError, sendAllData, sendError } = require("./statics");
+
 const SCRIPT_ERROR = "SCRIPT_ERROR";
 
 const express = require("express");
@@ -5,6 +7,8 @@ const app = express();
 
 const dbc = require('./dbc');
 const utils = require("./utils");
+const registerRouter = require("./routes/register");
+const loginRouter = require("./routes/login");
 
 const fs = require("fs");
 const sqlite = require("sqlite3").verbose();
@@ -13,13 +17,6 @@ const db = new sqlite.Database(path.resolve(__dirname, "../databases/nice.db"));
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-
-const sendAllData = res => data => 
-    res.send({ success: true, ...data });
-const sendError = res => (e) => { 
-    if(!e) e.text = SCRIPT_ERROR;
-    res.send({ success: false, error: e });
-};
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -34,31 +31,8 @@ app.use(/.*/, (req, res, next) => {
     next();
 });
 
-
-app.post("/loginIn", (req, res) => {
-
-    const { email, password } = req.body;
-
-    setTimeout(() => {
-        
-
-    dbc.getUserByEmailPassword(email, utils.hashPassword(password))
-    .then(({ id, username, email}) => {
-        res.cookie("sesid", createSesid(id));
-        res.send({
-            success: true,
-            username,
-            email
-        });
-    }).catch(({ error }) => {
-        if(!error) error = SCRIPT_ERROR;
-        res.send({
-            success: false,
-            error
-        });
-    });
-    }, 3000);
-});
+app.use(registerRouter);
+app.use(loginRouter);
 
 app.post("/changeUserData", (req, res) => {
     const { password, changes } = req.body;
@@ -84,14 +58,7 @@ app.post("/unlogin", (req, res) => {
         }).catch(sendError(res));
 });
 
-app.post("/registerIn", (req, res) => {
 
-    const { username, email, password, passwordConfirm } = req.body;
-
-    dbc.registerUser(username, email, utils.hashPassword(password))
-        .then(sendAllData(res))
-        .catch(sendError(res));
-});
 
 app.post("/getData", (req, res) => {
 
@@ -313,27 +280,6 @@ app.post("/deleteFavoriteGroup", (req, res) => {
         .then(sendAllData(res))
         .catch(sendError(res));
 });
-
-const createSesid = (id) => {
-    const makeid = (length) => {
-        var result           = '';
-        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var charactersLength = characters.length;
-        for ( var i = 0; i < length; i++ ) {
-           result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-     }
-
-     const sesid = makeid(256);
-     
-     db.run(`INSERT INTO sesids (id, sesid)
-            VALUES (?, ?)`, [id, sesid], (run, err) => {
-                if(err) console.log(err);
-            });
-
-     return sesid;
-}
 
 app.post('/app/getMuseums', (req, res) => {
     const { name = ""} = req.body;

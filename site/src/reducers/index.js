@@ -8,8 +8,11 @@ import { updateFavorites } from "./updateFavorites";
 import loginReducer from "./login-reducer";
 import { museumsReducer } from "./museums-reducer";
 import museumReducer from "./museum-reducer";
+import registerReducer from "./register-reducer";
 
 const reducer = combineReducers({
+    register: registerReducer,
+
     museum: museumReducer,
     museums: museumsReducer,
     login: loginReducer,

@@ -1,4 +1,5 @@
 import api from "../services/api/api";
+import { actionFactory } from "./helpers";
 
 export const 
     REGISTER_IN_PENDING = "REGISTER_IN_PENDING",
@@ -10,8 +11,9 @@ export const registerInPending = () => ({
     type: REGISTER_IN_PENDING
 });
 
-export const registerInSuccess = () => ({
-    type: REGISTER_IN_SUCCESS
+export const registerInSuccess = ({ link }) => ({
+    type: REGISTER_IN_SUCCESS,
+    verifyLink: link
 });
 
 export const registerInError = ({ error }) => ({
@@ -19,10 +21,9 @@ export const registerInError = ({ error }) => ({
     error
 });
 
-export const registerIn = (username, email, password, passwordConfirm) => (dispatch) => {
-    dispatch(registerInPending());
-    api.getRegisterIn(username, email, password, passwordConfirm)
-        .then(data => {
-            console.log(data);
-        });
-};
+export const registerIn = actionFactory(
+    api.getRegisterIn,
+    registerInPending,
+    registerInSuccess,
+    registerInError
+);
