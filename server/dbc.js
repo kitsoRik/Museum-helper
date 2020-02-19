@@ -1,6 +1,6 @@
 const db = require("./statics").db;
 const utils = require("./utils");
-const { customError } = require("./statics");
+const { customError, serverError } = require("./statics");
 
 const UsersHelper = require("./dbhelpers/users-helper");
 const SesidsHelper = require("./dbhelpers/sesids-helper");
@@ -13,6 +13,14 @@ const MusHelp = require("./dbhelpers/museums-helper");
 const PicturesOldHelper = require("./dbhelpers/pics-old-helper");
 
 exports.registerUser = UsersHelper.registerUser;
+exports.checkVerifyEmail = (email) => new Promise((resolve, reject) => {
+    db.get(`SELECT email FROM email_verify_links WHERE email=?`,
+    [email], (err, row) => {
+        if(err) return reject(serverError());
+        if(row) return reject(customError("NEED_VEFIRY_EMAIL"));
+        resolve({});
+    });
+});
 
 exports.changeUserData = (id, changes) => new Promise((resolve, reject) => {
     let key = Object.keys(changes)[0];

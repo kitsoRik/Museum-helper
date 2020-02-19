@@ -1,20 +1,6 @@
 const db = require("../statics").db;
 const { customError, serverError } = require("../statics");
 
-exports.registerUser = (username, email, password) => new Promise((resolve, reject) => {
-    db.run(`INSERT INTO users (username, email, password) 
-            VALUES ($username, $email, $password)`, {
-        $username: username,
-        $email: email,
-        $password: password
-    }, (run, err) => {
-        if (err) return reject({
-            error: SERVER_ERROR
-        });
-        resolve({});
-    });
-});
-
 exports.checkPassword = (id, password) => new Promise((resolve, reject) => {
     db.get(`SELECT id FROM users WHERE id=? AND password=?`,
     [id, password], (err, row) => {
@@ -63,12 +49,8 @@ exports.getUserByEmailAndPassword = (email, password) => new Promise((resolve, r
         email,
         password
     ], (err, user) => {
-        if (err) return reject({
-            error: SERVER_ERROR
-        });
-        if (!user) return reject({
-            error: "UNKNOWN_USER"
-        });
+        if (err) return reject(serverError());
+        if (!user) return reject(customError("UNKNOWN_DATA"));
         resolve({
             ...user
         });
