@@ -119,7 +119,6 @@ return (
                 [classes.contentShift]: opened,
             })}
         >
-            <div className={classes.drawerHeader} />
             {props.children}
         </main>
         <UIDrawer
@@ -186,6 +185,7 @@ const useStyles = makeStyles(theme => ({
         display: 'none',
     },
     drawer: {
+        position: 'absolute',
         width: drawerWidth,
         flexShrink: 0,
         ['@media (max-width:480px)']: {
@@ -215,6 +215,7 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginRight: -drawerWidth,
+        marginTop: `64px`
     },
     contentShift: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
