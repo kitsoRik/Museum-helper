@@ -14,10 +14,11 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 
-const sendAllData = res => data => res.send({ success: true, ...data });
-const sendError = res => (e = {}) => { 
-    if(!e.error) e.error = SCRIPT_ERROR;
-    res.send({ success: false, e });
+const sendAllData = res => data => 
+    res.send({ success: true, ...data });
+const sendError = res => (e) => { 
+    if(!e) e.text = SCRIPT_ERROR;
+    res.send({ success: false, error: e });
 };
 
 app.use(cookieParser());
@@ -57,6 +58,19 @@ app.post("/loginIn", (req, res) => {
         });
     });
     }, 3000);
+});
+
+app.post("/changeUserData", (req, res) => {
+    const { password, changes } = req.body;
+    const { sesid } = req.cookies;
+    let id;
+
+    dbc.getIdBySesid(sesid)
+        .then(_id => id = _id)
+        .then(() => dbc.checkPasswordById(id, utils.hashPassword(password)))
+        .then(() => dbc.changeUserData(id, changes))
+        .then(sendAllData(res))
+        .catch(sendError(res))
 });
 
 app.post("/unlogin", (req, res) => {
