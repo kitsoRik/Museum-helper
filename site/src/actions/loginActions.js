@@ -17,8 +17,9 @@ export const loginInPending = () => ({
     type: LOGIN_IN_PENDING
 });
 
-export const loginInFail = () => ({
-    type: LOGIN_IN_FAIL
+export const loginInFail = ({ error }) => ({
+    type: LOGIN_IN_FAIL,
+    error
 });
 
 export const loginInSuccess = () => ({

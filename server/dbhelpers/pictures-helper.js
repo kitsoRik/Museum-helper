@@ -91,10 +91,11 @@ exports.deletePicture = (id) => new Promise((resolve, reject) => {
 
 exports.changePicture = (id, changes) => new Promise((resolve, reject) => {   
     const sqlQ = utils.parseJStoSQLQ(changes);
-    console.log(changes);
+    console.log(sqlQ);
     db.run(`UPDATE pictures
             SET ${sqlQ.resultKeys}
             WHERE id=?`, sqlQ.resultValues.concat(id), (run, err) => {
+                console.log(err, run);
                 if(err || run) return reject({ error: SERVER_ERROR });
                 resolve({ changes });
             });

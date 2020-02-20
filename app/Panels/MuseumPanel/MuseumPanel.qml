@@ -8,7 +8,7 @@ Rectangle {
     property bool replaceblePanel: false;
     property string panelDevTitle: "MuseumPanel";
     property string panelTitle: qsTr("Museum")
-    color: "cyan";
+    color: "black";
 
     ColumnLayout {
         anchors.fill: parent;
@@ -35,7 +35,7 @@ Rectangle {
         Button {
             visible: currentMuseum.needUpdate;
             Layout.fillWidth: true;
-            Layout.preferredHeight: 30;
+            Layout.preferredHeight: 60;
             Layout.margins: 10;
 
             text: "Update";
@@ -46,7 +46,7 @@ Rectangle {
         Button {
             visible: !currentMuseum.isSaved;
             Layout.fillWidth: true;
-            Layout.preferredHeight: 30;
+            Layout.preferredHeight: 60;
             Layout.margins: 10;
 
             text: "Save museum";
@@ -57,7 +57,7 @@ Rectangle {
         Button {
             visible: currentMuseum.isSaved;
             Layout.fillWidth: true;
-            Layout.preferredHeight: 30;
+            Layout.preferredHeight: 60;
             Layout.margins: 10;
 
             text: "Go to start";

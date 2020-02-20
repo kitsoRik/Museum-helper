@@ -14,7 +14,7 @@ const Documentation = (props) => {
     }, [ ])
 
     return ( 
-        <div>
+        <div style={{height: '100%', overflow: "auto"}}>
             <DocumentationContainer />
         </div>
      );

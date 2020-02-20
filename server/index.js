@@ -9,6 +9,7 @@ const dbc = require('./dbc');
 const utils = require("./utils");
 const registerRouter = require("./routes/register");
 const loginRouter = require("./routes/login");
+const picturesInfoRouter = require("./routes/pictures-info");
 
 const fs = require("fs");
 const sqlite = require("sqlite3").verbose();
@@ -33,6 +34,7 @@ app.use(/.*/, (req, res, next) => {
 
 app.use(registerRouter);
 app.use(loginRouter);
+app.use(picturesInfoRouter);
 
 app.post("/changeUserData", (req, res) => {
     const { password, changes } = req.body;
@@ -140,26 +142,9 @@ app.post("/getPicturesData", (req, res) => {
         .catch(sendError(res));
 });
 
-app.post("/getPictureData", (req, res) => {
-    const { sesid } = req.cookies;
-    const { id } = req.body;
-
-    dbc.getPictureInfo(id)
-        .then(sendAllData(res))
-        .catch(sendError(res));
-});
-
 app.post("/savePictureData", (req, res) => {
     const { id, changes } = req.body;
     dbc.changePicture(id, changes)
-        .then(sendAllData(res))
-        .catch(sendError(res));
-});
-
-app.post("/savePictureInfo", (req, res) => {
-    const { id, changes } = req.body;
-    
-    dbc.changePictureInfo(id, changes)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
@@ -208,13 +193,6 @@ app.post("/deletePicture", (req, res) => {
         .catch(sendError(res));
 });
 
-app.use("/addPictureInfo", (req, res) => {
-    const { pictureId, title = "", description = "", language } = req.body;
-    dbc.addPictureInfo(pictureId, title, description, language)
-        .then(sendAllData(res))
-        .catch(sendError(res));
-});
-
 app.post("/getFavorites", (req, res) => {
     const { sesid } = req.cookies;
     dbc.getIdBySesid(sesid)
@@ -230,20 +208,6 @@ app.post("/saveFavorites", (req, res) => {
     dbc.changeFavorites(groups)
         .then(sendAllData(res))
         .catch(sendError(res));
-});
-
-app.post("/getFavoritesGroupsName", (req, res) => { // UNUSED
-    const { sesid } = req.cookies;
-
-    dbc.getIdBySesid(sesid)
-        .then(dbc.getFavoritesGroupsName)
-        .then(names => {
-            res.send({
-                success: true,
-                names
-            });
-        });
-
 });
 
 app.post("/addPictureToFavorites", (req, res) => {

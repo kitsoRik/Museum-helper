@@ -3,6 +3,7 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 import QtMultimedia 5.13
 import RostikObjects 1.0
+import QtQuick.Controls.Material 2.12
 
 ListView {
     Layout.fillHeight: true;
@@ -14,9 +15,11 @@ ListView {
     delegate: Rectangle {
         width: parent.width;
         height: 50;
+
         color: {
-            if(ma.containsMouse) return "black";
-            return "red";
+            if(ma.containsMouse)
+                return Material.color(Material.Cyan);
+            return Material.color(Material.Red);
         }
 
         Text {

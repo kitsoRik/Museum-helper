@@ -10,7 +10,7 @@ Rectangle {
     property string panelDevTitle: "StartPanel";
     property string panelTitle: qsTr("Home");
 
-    color: "orange";
+    color: "black";
 
     function onChooseClick() {
         choosePanel.push();

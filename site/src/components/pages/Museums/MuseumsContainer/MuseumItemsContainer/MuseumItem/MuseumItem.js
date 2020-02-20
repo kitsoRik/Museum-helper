@@ -24,7 +24,7 @@ const MuseumItem = (props) => {
                     { location }
                 </h3>
             </div>
-                <h2>Release id: { updateId }</h2>
+                {/* <h2>Release id: { updateId }</h2> */}
 
             <Button 
                 variant="outlined" 

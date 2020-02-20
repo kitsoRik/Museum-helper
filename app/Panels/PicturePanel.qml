@@ -7,7 +7,7 @@ Rectangle {
     property bool replaceblePanel: false;
     property string panelDevTitle: "PicturePanel";
     property string panelTitle: currentPicture.title;
-    color: "lime";
+    color: "black";
 
     function push() {
         //mainStackView.push("PicturePanel.qml");
@@ -71,7 +71,7 @@ Rectangle {
             }
 
             ComboBox {
-                Layout.preferredHeight: 50;
+                Layout.preferredHeight: 70;
                 Layout.fillWidth: true;
 
                 model: currentPicture.languagesModel();
@@ -85,7 +85,7 @@ Rectangle {
                 Layout.preferredHeight: 40;
 
                 horizontalAlignment: Text.AlignHCenter;
-
+                color: "white";
                 text: {
 //                    if(currentPicture.isNull)
 //                        return "";
@@ -104,6 +104,7 @@ Rectangle {
                 Layout.fillHeight: true;
                 Layout.margins: 10;
 
+                color: "white";
                 font {
                     family: "Times New Roman";
                     pointSize: 14;

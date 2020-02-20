@@ -1,9 +1,8 @@
 .picture-page {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     flex-grow: 1;
-
-    height: 100%;
     overflow: hidden;
 }

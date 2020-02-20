@@ -13,12 +13,19 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import AddLanguageInfo from '../../add-language-info/add-language-info';
 import { LANGUAGES_BY_DEV } from '../../../../../../constants';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { removePictureInfo } from '../../../../../../actions/favoritesActions';
 
 const PictureLanguages = (props) => {
 
     const { picture, pictureInfo, currentIndex } = props;
     const { setAddLanguageDialogVisible } = props;
-    const { changeCurrentIndex, changeLanguageName } = props;
+    const { changeCurrentIndex, removePictureInfo } = props;
+    const [removeConfirmDialogVisilbe, setRemoveConfirmDialogVisilbe] = useState(false);
 
     const languageItems = pictureInfo.map((info, index) => {
         return <MenuItem key={info.id} value={index} >{LANGUAGES_BY_DEV[info.language]}</MenuItem>
@@ -47,10 +54,48 @@ const PictureLanguages = (props) => {
                 onClick={() => setAddLanguageDialogVisible(true)}>
                 ADD
             </Button>
+            <Button
+                disabled={currentIndex === -1}
+                variant="contained" 
+                color="primary"
+                onClick={() => setRemoveConfirmDialogVisilbe(true)}>
+                REMOVE
+            </Button>
+            <ConfirmRemoveDialog 
+                open={removeConfirmDialogVisilbe}
+                setOpen={setRemoveConfirmDialogVisilbe}
+                onRemove={() => removePictureInfo(pictureInfo[currentIndex].id)}/>
         </div>
     );
 }
 
+const ConfirmRemoveDialog = ({ open, setOpen, onRemove }) => {
+    
+    return (
+        <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { onRemove(); setOpen(false); }} color="primary">
+            Yes, remove it;
+          </Button>
+          <Button onClick={() => setOpen(false)} color="primary" autoFocus>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+}
 
 
 const mapStateToProps = (state) => {
@@ -62,10 +107,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        changeCurrentIndex: (index) => dispatch(changeCurrentIndex(index))
-    }
-}
-
-export default connect(mapStateToProps, mapDipatchToProps)(PictureLanguages);
+export default connect(mapStateToProps, {changeCurrentIndex, removePictureInfo})(PictureLanguages);

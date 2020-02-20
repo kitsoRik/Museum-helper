@@ -28,9 +28,8 @@ const PictureIconsContainer = (props) => {
         <div 
             className="picture-icons"
         >
-            <h2>123123</h2>
-            <div className="picture-icons-container">  
-                { iconElements }
+            <div className="picture-icons-header">   
+                <h2>Icons</h2>
                 <IconButton
                         onClick={(e) => {
                             let input = document.createElement('input');
@@ -46,6 +45,10 @@ const PictureIconsContainer = (props) => {
                     <AddAPhotoRoundedIcon 
                         color="primary"/>
                 </IconButton>
+            </div>
+            <div className="picture-icons-container">  
+                { iconElements }
+               
             </div>
         </div>
      );

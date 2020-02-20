@@ -1,7 +1,10 @@
 import Axios from "axios"
-export const apiHost = `http://localhost:3006`;
+export const host = `localhost`;   
+export const httpHost = `http://${host}:3000`;
+export const apiHost = `http://${host}:3006`;
 export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
 export const museumsIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
+export const verifyLinkUrl = `/verifyEmail/`;
 
 Axios.defaults.baseURL = apiHost;
 Axios.defaults.withCredentials = true;
@@ -31,6 +34,9 @@ const unlogin = () =>
 
 const getRegisterIn = (username, email, password, passwordConfirm) => 
     AxiosPost(`/registerIn`, { username, email, password, passwordConfirm });
+
+const verifyEmail = (link) => 
+    AxiosPost("/verifyEmail", { link });
 
 const getMuseum = (museumId) => 
     AxiosPost(`/getMuseum`, { museumId });
@@ -71,6 +77,9 @@ const deletePicture = (id, { searchParams, pageNumber, limit}) =>
 const addLanguageInfo = (pictureId, title, description, language) =>
     AxiosPost(`/addPictureInfo`, { pictureId, title, description, language });
 
+const removePictureInfo = (id) => 
+    AxiosPost(`/removePictureInfo`, { id });
+
 const getFavotires = () => 
     AxiosPost(`/getFavorites`);
 
@@ -105,6 +114,7 @@ export default {
     getLoginIn,
     changeUserData,
     unlogin,
+    verifyEmail,
     getRegisterIn,
     getMuseum,
     getMuseums,
@@ -119,6 +129,7 @@ export default {
     addPicture,
     deletePicture,
     addLanguageInfo,
+    removePictureInfo,
     getFavotires,
     saveFavotires,
     addPictureToFavorites,

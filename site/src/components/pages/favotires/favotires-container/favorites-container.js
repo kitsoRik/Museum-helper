@@ -59,6 +59,7 @@ const FavotiresContainer = (props) => {
         return <ContainerItem 
             key={group.id.toString()} 
             group={group}
+            editing={editable}
             onGroupNameChanged={onGroupNameChanged} />
     });
 

@@ -8,7 +8,7 @@ import "./Delegates"
 
 Drawer {
     background: Rectangle {
-        color: "orange";
+        color: "black";
     }
 
     ScrollView {
@@ -23,7 +23,7 @@ Drawer {
             DrawerDelegate {
                 visible: QtMultimedia.availableCameras.length > 0;
                 Layout.fillWidth: true;
-                Layout.preferredHeight: 60;
+                Layout.preferredHeight: 90;
                 title: "Scanner";
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "ScannerPanel";
@@ -32,7 +32,7 @@ Drawer {
 
             DrawerDelegate {
                 Layout.fillWidth: true;
-                Layout.preferredHeight: 60;
+                Layout.preferredHeight: 90;
                 title: "Choose";
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "ChoosePanel";
@@ -41,7 +41,7 @@ Drawer {
 
             DrawerDelegate {
                 Layout.fillWidth: true;
-                Layout.preferredHeight: 60;
+                Layout.preferredHeight: 80;
                 title: "Settings";
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "SettingsPanel";
@@ -50,7 +50,7 @@ Drawer {
 
             DrawerDelegate {
                 Layout.fillWidth: true;
-                Layout.preferredHeight: 60;
+                Layout.preferredHeight: 70;
                 title: "About";
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "AboutPanel";

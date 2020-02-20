@@ -4,10 +4,20 @@
     flex-grow: 1;
 }
 
+.picture-icons-header {
+    display: flex;
+    align-items: center;
+}
+
 .picture-icons-container {
     min-height: 256px;
+    padding: 10px 5px;
+
     display: flex;
     flex-grow: 1;
 
+    border: 2px solid black;
+
     overflow: auto;
+    box-sizing: content-box;
 }

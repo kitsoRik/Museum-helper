@@ -10,10 +10,9 @@ import { withRouter } from 'react-router-dom';
 
 
 const PictureDescriptionContainer = (props) => {
-
-
     const { currentIndex, pictureInfo } = props;
-    const { onPictureInfoChanged } = props;
+    const { changePictureInfo } = props;
+    const currentPictureInfo = pictureInfo[currentIndex]; 
 
     const [description, setDescription] = useState("");
 
@@ -21,18 +20,17 @@ const PictureDescriptionContainer = (props) => {
         if(currentIndex === -1) return;
         setDescription(pictureInfo[currentIndex].description);
     }, [ currentIndex ]);
-
-    useEffect(() => {
-        if(currentIndex === -1) return;
-        onPictureInfoChanged(pictureInfo[currentIndex].id, { description });
-    }, [ description ]);
     
-    if(currentIndex === -1) return <span>SELECT LANGUAGE</span>
+    if(currentIndex === -1) return (
+        <span className="picture-description-unknown">
+            SELECT LANGUAGE
+        </span>)
 
     return (
         <textarea 
             value={description} 
             onChange={(e) => setDescription(e.target.value)}
+            onBlur={() => currentPictureInfo.description !== description ? changePictureInfo(currentPictureInfo.id, {description}) : {}}
             className="picture-description-container" />
     );
 }
@@ -45,17 +43,8 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        onPictureInfoChanged: debounce(
-            (id, changes) => 
-                dispatch(changePictureInfo(id, changes))
-                , 1000)
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps, { changePictureInfo }),
     withRouter
 )
 (PictureDescriptionContainer);

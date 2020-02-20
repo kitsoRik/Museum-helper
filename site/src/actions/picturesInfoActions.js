@@ -67,10 +67,10 @@ export const untriggeredAddLanguageInfo = () => {
     }
 }
 
-export const addLanguageInfoSuccess = (result) => {
+export const addLanguageInfoSuccess = ({ addedPictureInfo }) => {
     return {
         type: LANGUAGE_INFO_ADDED,
-        pictureInfoPart: result
+        addedPictureInfo
     }
 }
 

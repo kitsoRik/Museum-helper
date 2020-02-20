@@ -9,9 +9,9 @@ const dbc = require("../../dbc");
 router.post("/loginIn", (req, res) => {
 
     const { email, password } = req.body;
-    dbc.getUserByEmailPassword(email, utils.hashPassword(password))
-    .then(() => dbc.checkVerifyEmail(email))
-    .then(({ id, username, email}) => {
+    
+    dbc.loginIn(email, password)
+    .then(({ id, username, email }) => {
         res.cookie("sesid", utils.createSesid(id));
         res.send({
             success: true,
@@ -19,6 +19,14 @@ router.post("/loginIn", (req, res) => {
             email
         });
     }).catch(sendError(res));
+});
+
+router.post("/verifyEmail", (req, res) => {
+    const { link } = req.body;
+
+    dbc.verifyEmail(link)
+        .then(sendAllData(res))
+        .catch(sendError(res));
 });
 
 module.exports = router; 

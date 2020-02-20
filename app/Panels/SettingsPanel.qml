@@ -9,6 +9,8 @@ Rectangle {
     property string panelDevTitle: "SettingsPanel";
     property string panelTitle: qsTr("Settings");
 
+    color: "black";
+
     ScrollView {
         anchors.fill: parent;
 

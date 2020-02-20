@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
+import QtQuick.Controls.Material 2.12
 
 import "Items"
 
@@ -30,7 +31,7 @@ Rectangle {
             Layout.preferredWidth: height;
             onClicked: onBackClicked();
         }
-        Text {
+        Label {
             Layout.fillHeight: true;
             Layout.fillWidth: true;
             verticalAlignment: Text.AlignVCenter;

@@ -1,4 +1,4 @@
-QT += quick core multimedia network sql
+QT += quick quickcontrols2 core multimedia network sql
 
 CONFIG += c++11 qzxing_qml
 

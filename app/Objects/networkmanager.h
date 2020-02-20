@@ -3,7 +3,7 @@
 
 #include <QtNetwork>
 
-const QString HOST = "5.45.118.116";
+const QString HOST = "localhost";
 const quint16 PORT = 3006;
 const QString BASE = "http://" + HOST + ":" + QString::number(PORT);
 

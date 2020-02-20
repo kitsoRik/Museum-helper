@@ -3,7 +3,7 @@ import { LOGIN_IN_PENDING, LOGIN_IN_FAIL, LOGIN_IN_SUCCESS } from "../actions/lo
 const initState = {
     wait: false,
     success: false,
-    error: false
+    error: null
 }
 
 const loginReducer = (state = initState, action) => {
@@ -13,7 +13,7 @@ const loginReducer = (state = initState, action) => {
                 ...state,
                 wait: true,
                 success: false,
-                error: false
+                error: null
             };
         }
         case LOGIN_IN_SUCCESS: {
@@ -21,15 +21,16 @@ const loginReducer = (state = initState, action) => {
                 ...state,
                 success: true,
                 wait: false,
-                error: false
+                error: null
             };
         }
         case LOGIN_IN_FAIL: {
+            const { error } = action;
             return {
                 ...state,
                 wait: false,
                 success: false,
-                error: true
+                error
             };
         }
         default: return state;

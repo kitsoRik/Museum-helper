@@ -1,5 +1,6 @@
 const utils = require("../utils");
 const db = require("../statics").db;
+const { serverError } = require("../statics");
 
 exports.getPicturesInfoByMuseumId = (museumId) => new Promise((resolve, reject) => {
     db.all(`SELECT id, picture_id pictureId, title, description, language
@@ -31,7 +32,7 @@ exports.getReleasedPicturesInfoByMuseumId = (museumId) => new Promise((resolve, 
 
 exports.changePictureInfo = (id, changes) => new Promise((resolve, reject) => {   
     const sqlQ = utils.parseJStoSQLQ(changes);
-    console.log(id);
+    
     db.run(`UPDATE pictures_info
         SET ${sqlQ.resultKeys}
         WHERE id=?`, sqlQ.resultValues.concat(id), (run, err) => {
@@ -52,9 +53,20 @@ exports.addedPictureInfo = (pictureId, title, description, language) => new Prom
             $description: description,
             $language: language
         }, (run, err) => {
-        if(err) return reject({ error: SERVER_ERROR });
+        if(err || run) return reject({ error: SERVER_ERROR });
         
         resolve({ });
+    });
+});
+
+exports.removePictureInfoById = (id) => new Promise((resolve, reject) => {
+    db.run(`DELETE FROM pictures_info
+            WHERE id=?`,
+    [id], (run, err) => {
+        console.log(err || run);
+        if(run || err) return reject(serverError());
+
+        resolve({});
     });
 });
 
@@ -66,7 +78,6 @@ exports.getLastPictureInfoByPictureId = (pictureId) => new Promise((resolve, rej
             LIMIT 1`, 
     [pictureId], (err, addedPictureInfo) => {
         if(err) return reject({ error: SERVER_ERROR });
-        
-        resolve({ addedPictureInfo });
+        resolve(addedPictureInfo);
     });
 });
