@@ -10,7 +10,7 @@ import { Card, CardActionArea, CardMedia, CardHeader } from '@material-ui/core';
 const PictureItem = (props) => {
     const { editing = false } = props;
     const { picture: { id, name, description, iconName, favorite }} = props;
-    const { onClick = () => {props.history.push(`/pictures/${id}`)}} = props;
+    const { onClick = () => {if(!editing) props.history.push(`/pictures/${id}`)}} = props;
     const iconPath = picturesIconsBaseUrl + iconName;
     
     return ( 
@@ -26,7 +26,7 @@ const PictureItem = (props) => {
                 <CardMedia 
                     style={{height: `140px`}}
                     image={iconPath}
-                    title="Contemplative Reptile"
+                    title={name}
                 />
             </CardActionArea>
         </Card>

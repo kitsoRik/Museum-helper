@@ -9,9 +9,12 @@ import loginReducer from "./login-reducer";
 import { museumsReducer } from "./museums-reducer";
 import museumReducer from "./museum-reducer";
 import registerReducer from "./register-reducer";
+import verifyReducer from "./verify-reducer";
 
 const reducer = combineReducers({
     register: registerReducer,
+    login: loginReducer,
+    verify: verifyReducer,
 
     museum: museumReducer,
     museums: museumsReducer,

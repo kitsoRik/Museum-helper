@@ -46,6 +46,7 @@ const AddLanguageInfo = (props) => {
             
             <DialogActions style={{justifyContent: "center"}}>
             <Button 
+                disabled={language === ''}
                 variant="contained"
                 onClick={() => {setVisible(false); addLanguageInfo(id, title, description, language)}}
             >Add</Button>

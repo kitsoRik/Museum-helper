@@ -5,8 +5,9 @@
 #include "Data/picture.h"
 #include "Data/museum.h"
 
-class DBC
+class DBC : public QObject
 {
+	Q_OBJECT
 public:
 	static DBC* instance() { return m_instance; }
 

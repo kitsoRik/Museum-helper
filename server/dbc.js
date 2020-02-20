@@ -13,11 +13,39 @@ const MusHelp = require("./dbhelpers/museums-helper");
 const PicturesOldHelper = require("./dbhelpers/pics-old-helper");
 
 exports.registerUser = UsersHelper.registerUser;
+
+exports.verifyEmail = (link) => new Promise((resolve, reject) => {
+    this.checkVerifyLink(link)
+        .then(has => new Promise((resolve, reject) => {
+            if(has) return this.removeVerifyEmail(link)
+                                .then(resolve);
+            reject(customError("UNKNOWN_LINK"));
+        }))
+        .then(this.removeVerifyEmail)
+        .then(resolve)
+        .catch(reject)
+});
+
+exports.checkVerifyLink = (link) => new Promise((resolve, reject) => {
+    db.get(`SELECT email, link FROM email_verify_links WHERE link=?`,
+    [link], (err, row) => {
+        if(err) return reject(serverError());
+        resolve(row ? true : false);
+    });
+});
+
 exports.checkVerifyEmail = (email) => new Promise((resolve, reject) => {
-    db.get(`SELECT email FROM email_verify_links WHERE email=?`,
+    db.get(`SELECT email, link FROM email_verify_links WHERE email=?`,
     [email], (err, row) => {
         if(err) return reject(serverError());
-        if(row) return reject(customError("NEED_VEFIRY_EMAIL"));
+        resolve(row);
+    });
+});
+
+exports.removeVerifyEmail = (link) => new Promise((resolve, reject) => {
+    db.run(`DELETE FROM email_verify_links WHERE link=?`,
+    [link], (run, err) => {
+        if(err || run) return reject(serverError());
         resolve({});
     });
 });
@@ -33,7 +61,35 @@ exports.changeUserData = (id, changes) => new Promise((resolve, reject) => {
 
 exports.checkPasswordById = UsersHelper.checkPassword;
 
-exports.getUser = UsersHelper.getUserBySesid;
+exports.loginIn = (email, password) => new Promise((resolve, reject) => {
+    let user;
+    this.getUserByEmailPassword(email, utils.hashPassword(password))
+    .then(u => {
+        if(!u) reject(customError("UNKNOWN_DATA"));
+        user = u;
+        return this.checkVerifyEmail(email);
+    })
+    .then(has => {
+        if(has) reject(customError("NEED_VERIFY_EMAIL", {link: has.link}));
+
+        resolve(user)
+    }).catch(reject);
+});
+exports.getUser = (sesid) => new Promise((resolve, reject) => {
+    let user;
+
+    UsersHelper.getUserBySesid(sesid)
+        .then(u => {
+            if(!u) return reject(customError("UNKNOWN_SESID"))
+            user = u;
+            return this.checkVerifyEmail(u.email);
+        }).then(has => {
+            if(has) return reject(customError("NEED_VERIFY_EMAIL"));
+
+            resolve(user);
+        }).catch(reject);
+});
+
 exports.getUserByEmailPassword = UsersHelper.getUserByEmailAndPassword;
 
 exports.deleteUserSession = SesidsHelper.deleteSesid;
@@ -50,10 +106,10 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_old
                     SELECT id, museum_id, name, description, qrcode, ?
                     FROM pictures
-                    WHERE museum_id=?`,
+                    WHERE museum_id=? AND include_release=1`,
             [releaseId, museumId], (run, err) => {
                 if(run || err) return reject({});
-                console.log("1");
+                console.log(1);
                 resolve({});
             });
         }))
@@ -63,23 +119,13 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     FROM pictures_info
                     WHERE picture_id=
                     (
-                        SELECT id FROM pictures WHERE update_id=? AND museum_id=?
+                        SELECT id FROM pictures WHERE museum_id=? AND include_release=1
                     )`,
-            [releaseId, releaseId, museumId], (run, err) => {
+            [releaseId, museumId], (run, err) => {
+                console.log(err, run);
                 if(run || err) return reject({});
-                console.log("2");
 
-                resolve({});
-            });
-        }))
-        .then(() => new Promise((resolve, reject) => {
-            db.run(`UPDATE pictures
-                    SET update_id=?
-                    WHERE update_id=? AND museum_id=?`,
-            [releaseId + 1, releaseId, museumId], (run, err) => {
-                if(run || err) return reject({});
-                console.log("3");
-
+                console.log(2);
                 resolve({});
             });
         }))
@@ -88,7 +134,7 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     WHERE museum_id=?`,
             [museumId], (run, err) => {
                 if(run || err) return reject({});
-                console.log("4");
+                console.log(3);
 
                 resolve({});
             });
@@ -102,7 +148,7 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             [museumId], (run, err) => {
                 console.log(run, err);
                 if(run || err) return reject({});
-                console.log("5");
+                console.log(4);
 
                 resolve({});
             });
@@ -113,12 +159,12 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     FROM pictures_info
                     WHERE picture_id=
                     (
-                        SELECT id FROM pictures WHERE museum_id=?
+                        SELECT id FROM pictures WHERE museum_id=? AND include_release=1
                     )`,
             [museumId], (run, err) => {
                 console.log(run, err);
                 if(run || err) return reject({});
-                console.log("6");
+                console.log(5);
 
                 resolve({});
             });
@@ -127,10 +173,10 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_release
                     SELECT id, museum_id, name, description, qrcode
                     FROM pictures
-                    WHERE update_id=? AND museum_id=?`,
-            [releaseId + 1, museumId], (run, err) => {
+                    WHERE museum_id=? AND include_release=1`,
+            [museumId], (run, err) => {
                 if(run || err) return reject({});
-                console.log("7");
+                console.log(6);
 
                 resolve({});
             });
@@ -209,9 +255,15 @@ exports.changePictureInfo = PicturesInfoHelper.changePictureInfo;
 exports.addPictureInfo = (pictureId, title, description, language) => new Promise((resolve, reject) => {
     PicturesInfoHelper.addedPictureInfo(pictureId, title, description, language)
         .then(() => PicturesInfoHelper.getLastPictureInfoByPictureId(pictureId))
-        .then(resolve)
+        .then(addedPictureInfo => {
+            if(!addedPictureInfo) return reject(serverError());
+
+            resolve({ addedPictureInfo });
+        })
         .catch(reject);
 });
+
+exports.removePictureInfo = PicturesInfoHelper.removePictureInfoById;
 
 exports.getFavorites = (id) => new Promise((resolve, reject) => {
     FavHelp.getFavoritesGroups(id)

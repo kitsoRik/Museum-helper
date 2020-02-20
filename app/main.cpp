@@ -15,30 +15,26 @@
 #include "Objects/pictureobject.h"
 #include "Objects/museumobject.h"
 #include <QtCore>
+#include <QQuickStyle>
 
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QQuickStyle::setStyle("Material");
 
 	QGuiApplication app(argc, argv);
 
-	qDebug() << 1;
 	DBC dbc;
-	qDebug() << 2;
 
 	PicturesModel pictureModel;
 	MuseumsModel museumsModel;
 	SavedMuseumsModel savedMuseumsModel;
-	qDebug() << 3;
 
 	QRCodeAnalyzer qrcodeAnalyzer;
-	qDebug() << 4;
 	Settings settings;
-	qDebug() << 5;
 
 	Logic logic;
-	qDebug() << 6;
 
 	QQmlApplicationEngine engine;
 

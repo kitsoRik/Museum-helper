@@ -5,24 +5,29 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import './login.scss';
+import VerifyPanel from './VerifyPanel';
 
 const Login = (props) => {
 
-    const { loginIn, loggedIn } = props;
+    const { loginIn, loggedIn, error } = props;
     
     if(loggedIn === 'wait') return <span>"WAIT"</span>;
     if(loggedIn === true) return <Redirect to="/"/>
     
+    const verifyPanel = error && error.type === 'NEED_VERIFY_EMAIL';
+
     return ( 
         <div className="login-page">
-            <LoginContainer onLoginIn={loginIn} />
+            { !verifyPanel && <LoginContainer onLoginIn={loginIn} /> }
+            { verifyPanel && <VerifyPanel link={error.devLink} /> }
         </div>
      );
 }
 
-const mapStateToProps = ({ user: { loggedIn } }) => {
+const mapStateToProps = ({ user: { loggedIn }, login: { error } }) => {
     return {
-        loggedIn
+        loggedIn,
+        error
     }
 }
 

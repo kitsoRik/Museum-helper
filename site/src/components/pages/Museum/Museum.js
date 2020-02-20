@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { loadMuseum } from '../../../actions/museumActions';
 import { NOT_LOADED, IS_LOADING, LOADED_ERROR } from '../../../constants';
 import { CircularProgress } from '@material-ui/core';
-import MuseumContainer from './MuseumContainer';
+import MuseumContainer from './MuseumContainer/MuseumContainer';
 
 import './Museum.scss';
 

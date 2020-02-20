@@ -9,7 +9,7 @@ Button {
     hoverEnabled: true;
     background: Rectangle {
 
-        color: "white";
+        color: "black";
 
         Image {
             anchors {

@@ -20,6 +20,7 @@ import Profile from './components/pages/Profile';
 import Museums from './components/pages/Museums';
 import { loadMuseums } from './actions/museumsActions';
 import Museum from './components/pages/Museum';
+import Verify from './components/pages/Verify';
 
 const App = (props) => {
     
@@ -34,6 +35,7 @@ const App = (props) => {
                 <Route path="/" render={() => <Home /> } exact/>
                 <Route path="/login" render={() => <Login /> } exact/>
                 <Route path="/register" render={() => <Register /> } exact/>
+                <Route path="/verifyEmail/:link" render={() => <Verify /> } exact/>
                 <Route path="/profile" render={() => <Profile /> } exact/>
                 <Route path="/museums" render={() => <Museums /> } exact/>
                 <Route path="/museums/:id" render={() => <Museum /> } exact/>

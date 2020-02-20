@@ -1,6 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
+import QtQuick.Controls.Material 2.12
 
 import "Panels"
 import "Panels/MuseumsPanel"
@@ -18,6 +19,9 @@ ApplicationWindow {
             return x*(dpi/160);
         }
     }
+
+    Material.theme: Material.Dark;
+    Material.accent: Material.Yellow;
 
     visible: true
     width: 1000;
@@ -55,7 +59,6 @@ ApplicationWindow {
 
 
         onCurrentItemChanged: {
-            console.log(currentItem === scannerPanel)
             qrcodeAnalyzer.decoding = (currentItem === scannerPanel);
             if(currentItem && currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
         }

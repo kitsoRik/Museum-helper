@@ -11,7 +11,7 @@ exports.parseJStoSQLQ = (obj, prefix = '') => {
 
     for(let i = 0; i < keys.length; i++) {
         let key = keys[i];
-        resultKeys += ` ${prefix ? `${prefix}.` : ''}${key}=?`;
+        resultKeys += ` ${prefix ? `${prefix}.` : ''}${correctKey(key)}=?`;
         resultValues.push(obj[key]);
 
         if(i !== keys.length - 1) resultKeys += ' AND '
@@ -60,3 +60,16 @@ const makeString = (length) => {
     }
     return result;
  }
+
+ const correctKey = (key) => {
+    for(let i = 0; i < key.length; i++) {
+        const isUpp = key[i] === key[i].toUpperCase();
+        if(isUpp) {
+            const begin = key.slice(0, i);
+            const end = key.slice(i + 1);
+
+            key = begin + `_${key[i++].toLowerCase()}` + end;
+        }
+    }
+    return key;
+}

@@ -16,19 +16,16 @@ const PictureProductionContainer = (props) => {
 
     const [addLanguageDialogVisible, setAddLanguageDialogVisible] = useState(false);
     const { currentIndex, picture, pictureInfo } = props;
-    const { changePictureInfoPartTitle } = props;
+    const { changePictureInfo } = props;
     
     const [title, setTitle] = useState("");
+
+    const currentPictureInfo = pictureInfo[currentIndex];
 
     useEffect(() => {
         if(currentIndex === -1) return;
         setTitle(pictureInfo[currentIndex].title);
     }, [ currentIndex ])
-
-    useEffect(() => {
-        if(currentIndex === -1) return;
-        changePictureInfoPartTitle(pictureInfo[currentIndex].id, title);
-    }, [ title ])
 
     if(pictureInfo.length === 0) {
         return (
@@ -61,7 +58,8 @@ const PictureProductionContainer = (props) => {
                         label="Title"
                         variant="filled"
                         value={ title }
-                        onChange={(e) => setTitle(e.target.value)}/>
+                        onChange={(e) => setTitle(e.target.value)}
+                        onBlur={(e) => currentPictureInfo.title !== title ? changePictureInfo(currentPictureInfo.id, { title }) : {} }/>
                }
             </div>
             <PictureDescriptionContainer />
@@ -82,11 +80,5 @@ const mapStateToProps = (state) => {
         pictureInfo
     }
 }
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-        changePictureInfoPartTitle: debounce((id, title) => dispatch(changePictureInfo(id, { title })), 1000)
-    }
-}
  
-export default connect(mapStateToProps, mapDipatchToProps)(PictureProductionContainer);
+export default connect(mapStateToProps, { changePictureInfo })(PictureProductionContainer);

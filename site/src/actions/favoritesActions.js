@@ -12,7 +12,11 @@ export const
 
     MOVE_GROUP = "MOVE_GROUP",
     FAVORITE_GROUP_ADDED = "FAVORITE_GROUP_ADDED",
-    FAVORITE_GROUP_DELETED = "FAVORITE_GROUP_DELETED";
+    FAVORITE_GROUP_DELETED = "FAVORITE_GROUP_DELETED",
+
+    REMOVE_PICTURE_INFO_PENDING = "REMOVE_PICTURE_INFO_PENDING",
+    REMOVE_PICTURE_INFO_SUCCESS = "REMOVE_PICTURE_INFO_SUCCESS",
+    REMOVE_PICTURE_INFO_FAIL = "REMOVE_PICTURE_INFO_FAIL";
 
 export const loadFavotiresStarted = () => ({
     type: LOAD_FAVORITES_STARTED
@@ -82,3 +86,24 @@ export const moveGroup = (id, direction) => ({
     id,
     direction
 });
+
+export const removePictureInfoPending = (id) => ({
+    type: REMOVE_PICTURE_INFO_PENDING,
+    id
+});
+
+export const removePictureInfoSuccess = (data, id) => ({
+    type: REMOVE_PICTURE_INFO_SUCCESS,
+    id
+});
+
+export const removePictureInfoFail = () => ({
+    type: REMOVE_PICTURE_INFO_FAIL
+});
+
+export const removePictureInfo = actionFactory(
+    api.removePictureInfo,
+    removePictureInfoPending,
+    removePictureInfoSuccess,
+    removePictureInfoFail
+);

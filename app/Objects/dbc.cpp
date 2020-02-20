@@ -1,4 +1,5 @@
 #include "dbc.h"
+#include <QThread>
 
 DBC* DBC::m_instance = nullptr;
 
@@ -8,6 +9,10 @@ DBC::DBC() :
 	if(m_instance) throw new std::runtime_error("DBC already created");
 
 	m_instance = this;
+
+	QThread *t = new QThread();
+	this->moveToThread(t);
+	t->start(QThread::Priority::HighestPriority);
 
 	db.setHostName("host");
 	db.setDatabaseName("nice.db");

@@ -7,7 +7,7 @@ const RegisterVerifyContainer = (props) => {
     return ( 
         <div>
             You was registered, please vefiry your email!
-            (DEV) => {verifyLink}
+            Verify link sending to your email
         </div>
      );
 }

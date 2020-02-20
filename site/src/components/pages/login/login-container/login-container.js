@@ -20,7 +20,8 @@ const LoginContainer = (props) => {
     return (
         <div className="login-container">
             <InputLabel className="login-title">Login</InputLabel>
-            { error && <Alert severity="error">Bad user data</Alert> }
+            { error && error.type === 'UNKNOWN_DATA '&& 
+                <Alert severity="error">Bad user data</Alert> }
             <TextField
                 value={login}
                 placeholder="Login..." 
@@ -35,7 +36,7 @@ const LoginContainer = (props) => {
                 color="primary"
                 className="login-submit-btn"
                 success={(success).toString()}
-                error={(error).toString()}
+                error={error ? "true" : "false"}
                 disabled={wait}
                 onClick={() => onSubmit(login, password)}
             >Login

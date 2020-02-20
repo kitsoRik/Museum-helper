@@ -1,9 +1,14 @@
-const func = (...args) => {
-    func2([...args]);
+const correctKey = (key) => {
+    for(let i = 0; i < key.length; i++) {
+        const isUpp = key[i] === key[i].toUpperCase();
+        if(isUpp) {
+            const begin = key.slice(0, i);
+            const end = key.slice(i + 1);
+
+            key = begin + `_${key[i++].toLowerCase()}` + end;
+        }
+    }
+    return key;
 }
 
-const func2 = ([a]) => {
-    console.log(a);
-}
-
-func(1,2,34);
+console.log(correctKey("includeReleaser"));

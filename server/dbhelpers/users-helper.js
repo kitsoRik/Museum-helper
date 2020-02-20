@@ -50,9 +50,6 @@ exports.getUserByEmailAndPassword = (email, password) => new Promise((resolve, r
         password
     ], (err, user) => {
         if (err) return reject(serverError());
-        if (!user) return reject(customError("UNKNOWN_DATA"));
-        resolve({
-            ...user
-        });
+        resolve(user);
     });
 });

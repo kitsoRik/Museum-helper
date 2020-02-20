@@ -3,24 +3,27 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 import QtMultimedia 5.13
 import RostikObjects 1.0
+import QtQuick.Controls.Material 2.12
 
 Rectangle {
-    property bool replaceblePanel: true;
+    property bool replaceblePanel: false;
     property string panelDevTitle: "MuseumsPanel";
     property string panelTitle: qsTr("Museums")
-    color: "yellow";
+    color: "black";
 
     ColumnLayout {
         anchors.fill: parent;
 
         Rectangle {
-            Layout.preferredHeight: 30;
+            Layout.preferredHeight: 50;
             Layout.fillWidth: true;
 
-            color: "gray";
+            color: "black";
 
             RowLayout {
                 anchors.fill: parent;
+
+
 
                 Button {
                     Layout.fillHeight: true;
@@ -28,11 +31,14 @@ Rectangle {
 
                     text: "Find museum...";
 
-                    background: Rectangle {
-                        color: {
-                            if(sv.currentIndex === 0) return "gray";
-                            return "white";
-                        }
+                    Material.foreground: {
+                        if(sv.currentIndex === 0)
+                            return Material.color(Material.Cyan);
+                    }
+
+                    Material.background: {
+                        if(sv.currentIndex === 0)
+                            return Material.color(Material.Red);
                     }
 
                     onClicked: sv.setCurrentIndex(0);
@@ -44,12 +50,16 @@ Rectangle {
 
                     text: "Find museum...";
 
-                    background: Rectangle {
-                        color: {
-                            if(sv.currentIndex === 1) return "gray";
-                            return "white";
-                        }
+                    Material.foreground: {
+                        if(sv.currentIndex === 1)
+                            return Material.color(Material.Cyan);
                     }
+
+                    Material.background: {
+                        if(sv.currentIndex === 1)
+                            return Material.color(Material.Red);
+                    }
+
                     onClicked: sv.setCurrentIndex(1);
                 }
             }
@@ -66,9 +76,11 @@ Rectangle {
 
                 TextField {
                     Layout.fillWidth: true;
-                    Layout.preferredHeight: 30;
+                    Layout.preferredHeight: 50;
 
                     placeholderText: "AA";
+
+                    Layout.margins: 10;
                 }
 
                 MuseumsList {

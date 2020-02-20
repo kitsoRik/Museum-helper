@@ -37,12 +37,17 @@ const PictureDevelopmentContainer = (props) => {
                         setQrcode={setQrcode}
                         save={() => onPictureChangedImmidiate(id, { qrcode })}/>  
                 <FormControlLabel
-                    style={{flexDirection: "row"}}
+                    style={{flexDirection: "row", margin: '0'}}
                     control={
                         <Switch 
                             color="primary"   
                             checked={ includeRelease === 1 } 
-                            onChange={e => setIncludeRelease(e.target.checked ? 1 : 0)} />}
+                            onChange={e => {
+                                const v = e.target.checked ? 1 : 0;
+                                setIncludeRelease(v);
+                                
+                                onPictureChangedImmidiate(id, { includeRelease: v });
+                            }} />}
                     label="Include next release"
                     labelPlacement="start"
                 />
