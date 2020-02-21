@@ -109,7 +109,6 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     WHERE museum_id=? AND include_release=1`,
             [releaseId, museumId], (run, err) => {
                 if(run || err) return reject({});
-                console.log(1);
                 resolve({});
             });
         }))
@@ -117,15 +116,13 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_info_old
                     SELECT *, ?
                     FROM pictures_info
-                    WHERE picture_id=
+                    WHERE picture_id IN
                     (
                         SELECT id FROM pictures WHERE museum_id=? AND include_release=1
                     )`,
             [releaseId, museumId], (run, err) => {
-                console.log(err, run);
                 if(run || err) return reject({});
 
-                console.log(2);
                 resolve({});
             });
         }))
@@ -134,21 +131,18 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
                     WHERE museum_id=?`,
             [museumId], (run, err) => {
                 if(run || err) return reject({});
-                console.log(3);
 
                 resolve({});
             });
         }))
         .then(() => new Promise((resolve, reject) => {
             db.run(`DELETE FROM pictures_info_release
-                    WHERE picture_id=
+                    WHERE picture_id IN
                     (
                         SELECT id FROM pictures WHERE museum_id=?
                     )`,
             [museumId], (run, err) => {
-                console.log(run, err);
                 if(run || err) return reject({});
-                console.log(4);
 
                 resolve({});
             });
@@ -157,7 +151,7 @@ exports.newReleaseByMuseumId = (museumId) => new Promise((resolve, reject) => {
             db.run(`INSERT INTO pictures_info_release
                     SELECT id, picture_id, title, description, language
                     FROM pictures_info
-                    WHERE picture_id=
+                    WHERE picture_id IN
                     (
                         SELECT id FROM pictures WHERE museum_id=? AND include_release=1
                     )`,
@@ -203,6 +197,7 @@ exports.getReleasedPicturesByMuseumId = PicsHelp.getReleasedPicturesByMuseumId;
 
 exports.getPicturesInfoByMuseumId = PicturesInfoHelper.getPicturesInfoByMuseumId;
 exports.getReleasedPicturesInfoByMuseumId = PicturesInfoHelper.getReleasedPicturesInfoByMuseumId;
+exports.getReleasedPicturesIconsByMuseumId = PicturesInfoHelper.getReleasedPicturesIconsByMuseumId;
 
 exports.getPictures = (id, searchText, sortedField, sortedType, museumId, updateId, limit, pageNumber) => new Promise((resolve, reject) => {
     if(museumId === -1) return reject(customError("UNKNOWN_MUSEUM_ID"));

@@ -84,6 +84,5 @@ bool QRCodeAnalyzer::decoding() const
 void QRCodeAnalyzer::setDecoding(bool decoding)
 {
 	m_decodedS = decoding ? false : true;
-	qDebug() << "SET DECODING: " << decoding;
 	m_decoding = decoding;
 }

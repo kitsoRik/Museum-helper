@@ -22,7 +22,7 @@ QStringList PictureObject::languagesModel() const
 
 void PictureObject::allChanged()
 {
-	emit iconChanged();
+	emit iconsChanged();
 	emit titleChanged();
 	emit descriptionChanged();
 	emit languagesSizeChanged();
@@ -37,5 +37,6 @@ void PictureObject::setCurrentPictureQrcode(const QString &qrcode)
 void PictureObject::setCurrentPictureId(const int &id)
 {
 	m_pictureInfo = DBC::instance()->getSavedPicturesInfoByPictureId(id);
+	m_icons = DBC::instance()->getSavedPicturesIconsByPictureId(id);
 	allChanged();
 }

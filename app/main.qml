@@ -9,7 +9,6 @@ import "Panels/MuseumPanel"
 import "Items"
 
 ApplicationWindow {
-
     property int dpi: Screen.pixelDensity * 25.4
 
     function dp(x){
@@ -23,6 +22,7 @@ ApplicationWindow {
     Material.theme: Material.Dark;
     Material.accent: Material.Yellow;
 
+    id: mainWindow;
     visible: true
     width: 1000;
     height: 500;

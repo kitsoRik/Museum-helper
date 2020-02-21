@@ -33,7 +33,7 @@ Rectangle {
         Item { Layout.fillHeight: true; }
 
         Button {
-            visible: currentMuseum.needUpdate;
+            visible: currentMuseum.needUpdate && !currentMuseum.isLoading;
             Layout.fillWidth: true;
             Layout.preferredHeight: 60;
             Layout.margins: 10;
@@ -44,7 +44,7 @@ Rectangle {
         }
 
         Button {
-            visible: !currentMuseum.isSaved;
+            visible: !currentMuseum.isSaved && !currentMuseum.isLoading;
             Layout.fillWidth: true;
             Layout.preferredHeight: 60;
             Layout.margins: 10;
@@ -55,7 +55,19 @@ Rectangle {
         }
 
         Button {
-            visible: currentMuseum.isSaved;
+
+            visible: !currentMuseum.iconsSaved && currentMuseum.isSaved && !currentMuseum.isLoading;
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 60;
+            Layout.margins: 10;
+
+            text: "Save icons";
+
+            onClicked: currentMuseum.saveIcons();
+        }
+
+        Button {
+            visible: currentMuseum.isSaved && !currentMuseum.isLoading;
             Layout.fillWidth: true;
             Layout.preferredHeight: 60;
             Layout.margins: 10;

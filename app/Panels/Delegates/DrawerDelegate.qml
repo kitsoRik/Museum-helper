@@ -43,7 +43,6 @@ Button {
     hoverEnabled: true;
 
     onClicked: {
-        console.log("CL");
         if(mainStackView.currentItem.panelDevTitle === openPanelDevTitle) return;
 
         mainDrawer.close();
@@ -58,9 +57,6 @@ Button {
                 openPanelRef.push();
             else mainStackView.push(openPanelPath);
         }
-
-
-        parent.clicked();
     }
 
 }

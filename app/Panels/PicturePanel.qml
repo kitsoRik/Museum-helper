@@ -2,6 +2,7 @@ import QtQuick 2.13
 import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.13
 import RostikObjects 1.0;
+import QtQuick.Window 2.13;
 
 Rectangle {
     property bool replaceblePanel: false;
@@ -49,24 +50,36 @@ Rectangle {
 
             Rectangle {
                 id: iconR;
-                Layout.minimumHeight: width / pictureIcon.correlation;
+                Layout.preferredHeight: currentPicture.iconsSize === 0 ? 0 : Screen.height;
                 Layout.fillWidth: true;
 //                visible: !currentPicture.isNull;
 
                 color: "transparent";
                 clip: true;
 
-                PinchHandler {
-                    id: ph;
-                    target: pictureIcon;
-                }
-
-                PictureIcon {
-                    id: pictureIcon;
+                ListView {
+                    id: lv;
                     height: parent.height;
                     width: parent.width;
 
-                    source: currentPicture.icon;
+                    orientation: ListView.Horizontal;
+
+                    model: currentPicture.iconsSize;
+
+                    delegate: Rectangle {
+                        width: height * pictureIcon.correlation;
+                        height: parent.height;
+                        color: "red";
+                        clip: true;
+
+                        PictureIcon {
+                            id: pictureIcon;
+                            height: parent.height;
+                            width: parent.width;
+
+                            source: currentPicture.icon(index);
+                        }
+                    }
                 }
             }
 

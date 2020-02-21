@@ -1,8 +1,9 @@
 #ifndef PICTUREOBJECT_H
 #define PICTUREOBJECT_H
 
-#include <QObject>
+#include <QDebug>
 #include "Data/picture.h"
+#include <QImage>
 
 class PictureObject : public QObject
 {
@@ -10,7 +11,7 @@ class PictureObject : public QObject
 
 	Q_PROPERTY(int languagesSize READ languagesSize NOTIFY languagesSizeChanged)
 
-	Q_PROPERTY(QImage icon READ icon NOTIFY iconChanged)
+	Q_PROPERTY(int iconsSize READ iconsSize NOTIFY iconsChanged)
 	Q_PROPERTY(QString title READ title NOTIFY titleChanged)
 	Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
 	Q_PROPERTY(bool isNull READ isNull NOTIFY languagesSizeChanged)
@@ -23,8 +24,10 @@ public:
 		return m_pictureInfo.size() == 0;
 	}
 
-	inline QImage icon() const {
-		return m_picture.icon();
+	inline int iconsSize() const { return m_icons.size(); }
+
+	Q_INVOKABLE inline QImage icon(const int &index) const {
+		return m_icons[index];
 	}
 
 	inline QString title() const {
@@ -49,7 +52,7 @@ public:
 	Q_INVOKABLE QStringList languagesModel() const;
 
 signals:
-	void iconChanged();
+	void iconsChanged();
 	void titleChanged();
 	void descriptionChanged();
 	void languagesSizeChanged();
@@ -66,6 +69,7 @@ private:
 	int m_languageIndex;
 	Picture m_picture;
 	QList<PictureInfo> m_pictureInfo;
+	QList<QImage> m_icons;
 
 	static PictureObject *m_instance;
 };

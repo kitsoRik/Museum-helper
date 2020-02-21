@@ -269,16 +269,19 @@ app.post('/app/getMuseum', (req, res) => {
 
 app.post('/app/getPictures', (req, res) => {
     const { museumId } = req.body;
-    let pictures, picturesInfo;
+    let pictures, picturesInfo, picturesIcons;
     dbc.getReleasedPicturesByMuseumId(museumId)
         .then(p => pictures = p)
         .then(() => dbc.getReleasedPicturesInfoByMuseumId(museumId))
         .then(p => picturesInfo = p)
+        .then(() => dbc.getReleasedPicturesIconsByMuseumId(museumId))
+        .then(p => picturesIcons = p)
         .then(() => {
             res.send({
                 success: true,
                 pictures, 
-                picturesInfo
+                picturesInfo,
+                picturesIcons
             });
         });
 });
