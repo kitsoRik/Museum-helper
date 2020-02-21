@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "networkmanager.h"
+#include "Data/bigmuseum.h"
 
 class MuseumObject : public QObject
 {
@@ -12,6 +13,7 @@ class MuseumObject : public QObject
 	Q_PROPERTY(bool isLoading READ isLoading NOTIFY isLoadingChanged)
 
 	Q_PROPERTY(bool needUpdate READ needUpdate NOTIFY needUpdateChanged)
+	Q_PROPERTY(bool iconsSaved READ iconsSaved NOTIFY iconsSavedChanged)
 
 	Q_PROPERTY(QString name READ name NOTIFY nameChanged)
 public:
@@ -28,13 +30,20 @@ public:
 	inline bool needUpdate() const { return m_needUpdate; }
 	void setNeedUpdate(const bool &needUpdate);
 
-	inline QString name() const { return m_name; }
+	inline bool iconsSaved() const { return m_bigMuseum.hasIcons(); }
+	void setIconsSaved(const bool &iconsSaved);
+
+	inline QString name() const { return m_bigMuseum.name(); }
 	void setName(const QString &name);
+
+private:
+	void clear();
 
 public slots:
 	void setMuseumId(const int &id);
 
 	void saveMuseum();
+	void saveIcons();
 	void updateMuseum();
 	void goToStart();
 
@@ -43,8 +52,10 @@ signals:
 	void isLoadingChanged();
 
 	void needUpdateChanged();
+	void iconsSavedChanged();
 
 	void nameChanged();
+
 
 private:
 	static MuseumObject *m_instance;
@@ -54,9 +65,9 @@ private:
 
 	bool m_needUpdate;
 
-	int m_id;
-	QString m_name;
-	int m_updateId;
+	QJsonArray m_picturesIcons;
+
+	BigMuseum m_bigMuseum;
 
 };
 

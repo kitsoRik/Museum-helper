@@ -5,15 +5,19 @@
 
 const QString HOST = "localhost";
 const quint16 PORT = 3006;
-const QString BASE = "http://" + HOST + ":" + QString::number(PORT);
+const QString BASE = "http://97d373c0.ngrok.io";//"http://" + HOST + ":" + QString::number(PORT);
+const QString ICONS_URL = BASE + "/static/pictureIcons/";
 
 class NetworkManager
 {
 public:
+	static QNetworkAccessManager *netManager() { return m_manager; }
 	static QNetworkReply *getMuseums();
 	static QNetworkReply *getMuseum(const int &id);
 
 	static QNetworkReply *getPictures(const int &id);
+
+	static QNetworkReply *getIcon(const QString &iconName);
 
 private:
 

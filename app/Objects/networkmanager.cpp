@@ -26,6 +26,14 @@ QNetworkReply *NetworkManager::getPictures(const int &id)
 	return postSend("/getPictures", json);
 }
 
+QNetworkReply *NetworkManager::getIcon(const QString &iconName)
+{
+	QUrl url(ICONS_URL + iconName);
+	QNetworkRequest req(url);
+
+	return m_manager->get(req);
+}
+
 QNetworkReply *NetworkManager::postSend(const QString &path, const QJsonObject &json)
 {
 	QUrl url(BASE + "/app" + path);

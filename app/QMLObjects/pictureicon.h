@@ -14,7 +14,7 @@ class PictureIcon : public QQuickPaintedItem
 	Q_PROPERTY(int iwidth READ iwidth NOTIFY sourceChanged)
 	Q_PROPERTY(int iheight READ iheight NOTIFY sourceChanged)
 
-	Q_PROPERTY(bool isNull READ isNull CONSTANT)
+	Q_PROPERTY(bool isNull READ isNull NOTIFY sourceChanged)
 public:
 	PictureIcon(QQuickItem *parent = nullptr);
 

@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        Data/bigmuseum.cpp \
         Data/museum.cpp \
         Data/picture.cpp \
         Objects/dbc.cpp \
@@ -47,6 +48,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 include(QZXingSource/QZXing.pri)
 
 HEADERS += \
+    Data/bigmuseum.h \
     Data/museum.h \
     Data/picture.h \
     Objects/dbc.h \

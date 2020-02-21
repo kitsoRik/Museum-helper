@@ -31,24 +31,39 @@ void MuseumObject::setNeedUpdate(const bool &needUpdate)
 	emit needUpdateChanged();
 }
 
+void MuseumObject::setIconsSaved(const bool &iconsSaved)
+{
+	m_bigMuseum.setHasIcons(iconsSaved);
+	emit iconsSavedChanged();
+}
+
 void MuseumObject::setName(const QString &name)
 {
-	m_name = name;
+	m_bigMuseum.setName(name);
 	emit nameChanged();
+}
+
+void MuseumObject::clear()
+{
+	setIsLoading(false);
+	setIsSaved(false);
+	setNeedUpdate(false);
+	setIconsSaved(false);
 }
 
 void MuseumObject::setMuseumId(const int &id)
 {
-	m_id = id;
-	Museum m;
+	m_bigMuseum.setId(id);
+	clear();
 
-	setNeedUpdate(false);
-
-	if(DBC::instance()->getSavedMuseumById(id , &m))
+	BigMuseum b;
+	if(DBC::instance()->getSavedMuseumById(id , &b))
 	{
-		m_updateId = m.updateId();
-		setName(m.name());
+
+		m_bigMuseum.setUpdateId(b.updateId());
+		setName(b.name());
 		setIsSaved(true);
+		setIconsSaved(b.hasIcons());
 
 		setIsLoading(true);
 		auto reply = NetworkManager::getMuseum(id);
@@ -64,7 +79,7 @@ void MuseumObject::setMuseumId(const int &id)
 
 				int fupdateId = info["updateId"].toInt();
 
-				if(m_updateId != fupdateId)
+				if(m_bigMuseum.updateId() != fupdateId)
 				{
 					setNeedUpdate(true);
 				}
@@ -88,7 +103,7 @@ void MuseumObject::setMuseumId(const int &id)
 				QJsonObject info = json["museum"].toObject();
 
 				setName(info["name"].toString());
-				m_updateId = info["updateId"].toInt();
+				m_bigMuseum.setUpdateId(info["updateId"].toInt());
 			}
 			setIsLoading(false);
 		});
@@ -97,7 +112,8 @@ void MuseumObject::setMuseumId(const int &id)
 
 void MuseumObject::saveMuseum()
 {
-	auto reply = NetworkManager::getPictures(m_id);
+	setIsLoading(true);
+	auto reply = NetworkManager::getPictures(m_bigMuseum.id());
 	connect(reply, &QNetworkReply::finished, [reply, this]() {
 		auto data = reply->readAll();
 
@@ -106,21 +122,58 @@ void MuseumObject::saveMuseum()
 		{
 			QJsonArray pictures = json["pictures"].toArray();
 			QJsonArray picturesInfo = json["picturesInfo"].toArray();
-			DBC::instance()->saveMuseum(m_id, m_name, m_updateId, pictures, picturesInfo);
+			m_picturesIcons = json["picturesIcons"].toArray();
+			DBC::instance()->saveMuseum(m_bigMuseum.id(),
+										m_bigMuseum.name(),
+										m_bigMuseum.updateId(), pictures, picturesInfo);
 			setIsSaved(true);
+			setIsLoading(false);
 		}
 	});
 }
 
+void MuseumObject::saveIcons()
+{
+	setIsLoading(true);
+	int *_index = new int(0);
+	QList<int> *l = new QList<int>();
+	QList<QPixmap> *p = new QList<QPixmap>();
+	for(auto ref : m_picturesIcons)
+	{
+		auto obj = ref.toObject();
+		int *id = new int(obj["pictureId"].toString().toInt());
+		QString iconName = obj["iconName"].toString();
+		auto reply = NetworkManager::getIcon(iconName);
+		connect(reply, &QNetworkReply::finished, [reply, id, l, p, this, _index]() {
+			auto data = reply->readAll();
+			l->append(*id);
+			p->append(QPixmap::fromImage(QImage::fromData(data)));
+
+			if(++(*_index) == m_picturesIcons.size())
+			{
+				DBC::instance()->savePicturesIcons(m_bigMuseum.id(), *l, *p);
+
+				setIconsSaved(true);
+				setIsLoading(false);
+
+				delete _index;
+				delete l;
+				delete p;
+				delete id;
+			}
+		});
+	}
+}
+
 void MuseumObject::updateMuseum()
 {
-	DBC::instance()->removeMuseumById(m_id);
-	setMuseumId(m_id);
+	DBC::instance()->removeMuseumById(m_bigMuseum.id());
+	setMuseumId(m_bigMuseum.id());
 	saveMuseum();
 }
 
 void MuseumObject::goToStart()
 {
-	auto a = DBC::instance()->getSavedPicturesByMuseumId(m_id);
+	auto a = DBC::instance()->getSavedPicturesByMuseumId(m_bigMuseum.id());
 	PicturesModel::instance()->setPictures(a);
 }
