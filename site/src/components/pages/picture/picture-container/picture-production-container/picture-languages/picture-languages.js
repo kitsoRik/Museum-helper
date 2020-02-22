@@ -19,6 +19,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { removePictureInfo } from '../../../../../../actions/favoritesActions';
+import { tr } from '../../../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../../../hocs/withTranslate';
 
 const PictureLanguages = (props) => {
 
@@ -36,7 +39,7 @@ const PictureLanguages = (props) => {
             
             <FormControl variant="outlined" style={{flexGrow: '1'}}>
                 <InputLabel id="demo-simple-select-outlined-label">
-                Language
+                { tr('constants.language') }
                 </InputLabel>
                 <Select
                     labelId="demo-simple-select-outlined-label"
@@ -52,14 +55,14 @@ const PictureLanguages = (props) => {
                 variant="contained" 
                 color="primary"
                 onClick={() => setAddLanguageDialogVisible(true)}>
-                ADD
+                { tr('constants.add') }
             </Button>
             <Button
                 disabled={currentIndex === -1}
                 variant="contained" 
                 color="primary"
                 onClick={() => setRemoveConfirmDialogVisilbe(true)}>
-                REMOVE
+                { tr('constants.remove') }
             </Button>
             <ConfirmRemoveDialog 
                 open={removeConfirmDialogVisilbe}
@@ -78,19 +81,18 @@ const ConfirmRemoveDialog = ({ open, setOpen, onRemove }) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{ tr('picture.removeDialog.title') }</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            { tr('picture.removeDialog.description') }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => { onRemove(); setOpen(false); }} color="primary">
-            Yes, remove it;
+            { tr('picture.removeDialog.yes') }
           </Button>
           <Button onClick={() => setOpen(false)} color="primary" autoFocus>
-            Cancel
+            { tr('picture.removeDialog.cancel') }
           </Button>
         </DialogActions>
       </Dialog>
@@ -107,4 +109,7 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {changeCurrentIndex, removePictureInfo})(PictureLanguages);
+export default compose(
+  connect(mapStateToProps, {changeCurrentIndex, removePictureInfo}),
+  withTranslate
+)(PictureLanguages);

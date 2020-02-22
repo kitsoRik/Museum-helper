@@ -13,17 +13,19 @@ import PicturesPages from './PicturesPages/PicturesPages';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 import AddPictureDialog from './AddPictureDialog';
 import AddMuseumLabel from './AddMuseumLabel/AddMuseumLabel';
+import { tr } from '../../../services/i18n/i18n';
+import withTranslate from '../../hocs/withTranslate/withTranslate';
 
 
 const Pictures = (props) => {
     const { museumsSize, startLoadPictures } = props;
-    const dispatch = useDispatch();
-    const { searchParams } = props;
+    const { searchParams, language } = props;
     const [searchText, setSearchText] = useState(searchParams.searchText);
 
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(changeDrawerTitle("Pictures"));
-    }, [ ])
+        dispatch(changeDrawerTitle(tr('pictures.title')));
+    }, [ language ])
 
     if(museumsSize === 0) return (
                     <div className="pictures-page">
@@ -32,7 +34,7 @@ const Pictures = (props) => {
 
     return ( 
         <div className="pictures-page">
-            <h1>Pictures</h1>
+            <h1>{ tr('pictures.title') }</h1>
             <PictureSettingsSearch 
                 searchText={searchText}
                 setSearchText={setSearchText}/>
@@ -43,16 +45,17 @@ const Pictures = (props) => {
      );
 }
 
-const mapStateToProps = (state) => {
-    const { searchParams, limit, pageNumber } = state.pictures;
-    const { museums } = state.museums;
+const mapStateToProps = ({ language, pictures, museums: { museums } }) => {
+    const { searchParams, limit, pageNumber } = pictures;
     return {
-        searchParams, limit, pageNumber, museumsSize: museums.length
+        searchParams, limit, pageNumber, museumsSize: museums.length,
+        language
     }
 }
  
 export default compose(
     connect(mapStateToProps, { startLoadPictures }),
     withGuard,
-    withFadeIn
+    withFadeIn,
+    withTranslate
 )(Pictures);

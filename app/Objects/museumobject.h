@@ -47,6 +47,8 @@ public slots:
 	void updateMuseum();
 	void goToStart();
 
+	void removeMuseum();
+
 signals:
 	void isSavedChanged();
 	void isLoadingChanged();

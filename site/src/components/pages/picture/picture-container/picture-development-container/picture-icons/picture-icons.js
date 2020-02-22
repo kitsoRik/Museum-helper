@@ -4,32 +4,23 @@ import './picture-icons.scss';
 import PictureIcon from './picture-icon/picture-icon';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { apiHost } from '../../../../../../services/api/api';
 import { IconButton } from '@material-ui/core';
 import AddAPhotoRoundedIcon from '@material-ui/icons/AddAPhotoRounded';
 import { addIcon } from '../../../../../../actions/picturesInfoActions';
+import PictureIconsContainer from './PictureIconsContainer';
+import withTranslate from '../../../../../hocs/withTranslate';
+import { tr } from '../../../../../../services/i18n/i18n';
 
-const PictureIconsContainer = (props) => {
+const PictureIcons = (props) => {
     const { picture } = props;
     const { addIcon } = props;
-
-    const { icons } = picture;
-
-    const iconElements = icons.map((icon) => {
-        return (
-        <PictureIcon 
-            key={icon.id}
-            id={icon.id}
-            source={`${apiHost}/static/pictureIcons/${icon.iconName}`}/>
-        )
-    });
 
     return ( 
         <div 
             className="picture-icons"
         >
             <div className="picture-icons-header">   
-                <h2>Icons</h2>
+                <h2>{ tr('picture.icons') }</h2>
                 <IconButton
                         onClick={(e) => {
                             let input = document.createElement('input');
@@ -46,10 +37,7 @@ const PictureIconsContainer = (props) => {
                         color="primary"/>
                 </IconButton>
             </div>
-            <div className="picture-icons-container">  
-                { iconElements }
-               
-            </div>
+            <PictureIconsContainer />
         </div>
      );
 }
@@ -62,5 +50,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps, { addIcon })
-)(PictureIconsContainer);
+    connect(mapStateToProps, { addIcon }),
+    withTranslate
+)(PictureIcons);

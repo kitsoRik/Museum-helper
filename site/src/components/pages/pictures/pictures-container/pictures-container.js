@@ -9,6 +9,8 @@ import PictureItem from '../../../picture-item';
 import { compose } from 'redux';
 import { CircularProgress } from '@material-ui/core';
 import { addPicture } from '../../../../actions/picturesActions';
+import { tr } from '../../../../services/i18n/i18n';
+import withTranslate from '../../../hocs/withTranslate';
 
 const PicturesContainer = (props) => {
 
@@ -16,7 +18,7 @@ const PicturesContainer = (props) => {
 
     if(museumId === -1) return (
         <div className="pictures-container-label">
-            Select museum
+            { tr('pictures.selectMuseumLabel') }
         </div>
     );
 
@@ -30,7 +32,7 @@ const PicturesContainer = (props) => {
 
     if(pictures.length === 0) return (
         <div className="pictures-container-label">
-            This museum without pictures. Add picture!
+            { tr('constants.museumWithoutPictures') }
         </div>
     );
 
@@ -59,5 +61,6 @@ const mapStateToProps = (state) => {
  
 export default compose(
     connect(mapStateToProps, { addPicture }),
-    withRouter
+    withRouter,
+    withTranslate
 )(PicturesContainer);

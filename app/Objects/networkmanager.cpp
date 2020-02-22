@@ -7,9 +7,13 @@
 QNetworkAccessManager *NetworkManager::m_manager = new QNetworkAccessManager;
 // Warning: QEventLoop: Cannot be used without QApplication
 
-QNetworkReply *NetworkManager::getMuseums()
+QNetworkReply *NetworkManager::getMuseums(const QString &pattern)
 {
-	return postSend("/getMuseums");
+	QJsonObject json;
+
+	json["pattern"] = pattern;
+
+	return postSend("/getMuseums", json);
 }
 
 QNetworkReply *NetworkManager::getMuseum(const int &id)

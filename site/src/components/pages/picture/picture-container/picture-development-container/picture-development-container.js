@@ -8,6 +8,9 @@ import { AccountCircle, GetApp } from '@material-ui/icons';
 import { changePicture } from '../../../../../actions/picturesInfoActions';
 import { debounce } from 'debounce';
 import CropFreeIcon from '@material-ui/icons/CropFree';
+import { tr } from '../../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../../hocs/withTranslate';
 
 const PictureDevelopmentContainer = (props) => {
 
@@ -48,7 +51,7 @@ const PictureDevelopmentContainer = (props) => {
                                 
                                 onPictureChangedImmidiate(id, { includeRelease: v });
                             }} />}
-                    label="Include next release"
+                    label={ tr('picture.includeNextRelease') }
                     labelPlacement="start"
                 />
             </div>
@@ -64,7 +67,7 @@ const QrcodeComponent = (props) => {
     return (
         <FormControl>
             <TextField
-                label={"QR Code"}
+                label={ tr('constants.qrcode') }
                 value={qrcode}
                 variant="outlined"
                 color="primary"
@@ -103,7 +106,7 @@ const NameComponent = (props) => {
     return (
         <FormControl>
             <TextField
-                label={"Name"}
+                label={ tr('constants.name') }
                 value={name}
                 variant="outlined"
                 color="primary"
@@ -128,7 +131,7 @@ const DescriptionComponent = (props) => {
     return (
         <FormControl>
             <TextField
-                label={"Description"}
+                label={ tr('constants.description') }
                 value={description}
                 variant="outlined"
                 color="primary"
@@ -165,4 +168,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, mapDipatchToProps)(PictureDevelopmentContainer);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withTranslate
+)(PictureDevelopmentContainer);

@@ -18,8 +18,8 @@ public:
 		return m_instance;
 	}
 
-private slots:
-	void loadMuseums();
+public slots:
+	void loadMuseums(const QString &pattern = "");
 	void loadSavedMuseums();
 
 signals:

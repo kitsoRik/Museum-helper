@@ -30,6 +30,7 @@ public:
 	QList<Picture> getSavedPicturesByMuseumId(const int &museumId);
 	QList<PictureInfo> getSavedPicturesInfoByPictureQrcode(const QString &qrcode);
 	QList<PictureInfo> getSavedPicturesInfoByPictureId(const int &id);
+	QImage getIconByMuseumId (const int &id);
 	QList<QImage> getSavedPicturesIconsByPictureId(const int &id);
 	QList<PictureInfo> getSavedPicturesInfoByMuseumId(const int &museumId);
 

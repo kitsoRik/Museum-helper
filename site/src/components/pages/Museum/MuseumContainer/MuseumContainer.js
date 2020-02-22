@@ -5,6 +5,9 @@ import { TextField, Grid, CircularProgress } from '@material-ui/core';
 import './MuseumContainer.scss';
 import { AccountCircle } from '@material-ui/icons';
 import { changeMuseumData } from '../../../../actions/museumActions';
+import { tr } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../hocs/withTranslate';
 
 const MuseumContainer = (props) => {
     const { id, name, location } = props;
@@ -20,7 +23,7 @@ const MuseumContainer = (props) => {
                 <Grid item style={{display: "flex", flexGrow: "1"}}>
                     <TextField
                         style={{flexGrow: "1"}} 
-                        label="Name"
+                        label={ tr('constants.name') }
                         defaultValue={name}
                         error={notChangedField.includes("name")}
                         disabled={changingFields.includes("name")}
@@ -35,7 +38,7 @@ const MuseumContainer = (props) => {
                 <Grid item style={{display: "flex", flexGrow: "1"}}>
                     <TextField 
                         style={{flexGrow: "1"}} 
-                        label="Location"
+                        label={ tr('constants.location')}
                         error={notChangedField.includes("location")}
                         defaultValue={location}
                         disabled={changingFields.includes("location")}
@@ -57,4 +60,7 @@ const mapStateToProps = (state) => {
     }
 }
  
-export default connect(mapStateToProps, { changeMuseumData })(MuseumContainer);
+export default compose(
+    connect(mapStateToProps, { changeMuseumData }),
+    withTranslate
+)(MuseumContainer);

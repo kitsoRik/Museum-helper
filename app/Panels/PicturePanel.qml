@@ -50,7 +50,15 @@ Rectangle {
 
             Rectangle {
                 id: iconR;
-                Layout.preferredHeight: currentPicture.iconsSize === 0 ? 0 : Screen.height;
+                Layout.preferredHeight: {
+                    if(currentPicture.iconsSize === 0)
+                        return 0;
+                    let s = Screen.height;
+                    let h = mainHeader.height;
+                    let b = settings.fullScreen ? 10 : 0;
+
+                    return s - h - b;
+                }
                 Layout.fillWidth: true;
 //                visible: !currentPicture.isNull;
 

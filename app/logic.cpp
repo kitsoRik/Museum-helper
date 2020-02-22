@@ -14,9 +14,9 @@ Logic::Logic(QObject *parent)
 	loadSavedMuseums();
 }
 
-void Logic::loadMuseums()
+void Logic::loadMuseums(const QString &pattern)
 {
-	auto reply = NetworkManager::getMuseums();
+	auto reply = NetworkManager::getMuseums(pattern);
 
 	connect(reply, &QNetworkReply::finished, [reply]() {
 		auto data = reply->readAll();

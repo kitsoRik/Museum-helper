@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { tr } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../hocs/withTranslate';
 
 const RegisterVerifyContainer = (props) => {
     const { verifyLink } = props;
 
     return ( 
         <div>
-            You was registered, please vefiry your email!
-            Verify link sending to your email
+            { tr('register.verifyText') }
         </div>
      );
 }
@@ -24,4 +26,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(RegisterVerifyContainer);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withTranslate
+)(RegisterVerifyContainer);

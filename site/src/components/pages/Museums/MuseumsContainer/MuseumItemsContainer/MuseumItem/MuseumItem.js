@@ -6,6 +6,8 @@ import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentTe
 import { museumsIconsBaseUrl } from '../../../../../../services/api/api';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { tr } from '../../../../../../services/i18n/i18n';
+import withTranslate from '../../../../../hocs/withTranslate';
 
 const MuseumItem = (props) => {
 
@@ -29,7 +31,7 @@ const MuseumItem = (props) => {
             <Button 
                 variant="outlined" 
                 onClick={(e) => {e.stopPropagation(); openReleaseDialog(id)}}>
-                New release
+                { tr('museums.museumItem.newRelease') }
             </Button>
             
         </div>
@@ -50,5 +52,6 @@ const mapDipatchToProps = (dispatch, ownProps) => {
  
 export default compose(
     connect(mapStateToProps, mapDipatchToProps),
-    withRouter
+    withRouter,
+    withTranslate
 )(MuseumItem);

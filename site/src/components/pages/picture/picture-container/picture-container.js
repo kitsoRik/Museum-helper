@@ -11,6 +11,8 @@ import PictureProductionContainer from './picture-production-container/picture-p
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import qs from 'qs';
+import { tr } from '../../../../services/i18n/i18n';
+import withTranslate from '../../../hocs/withTranslate';
 
 const PictureContainer = (props) => {
 
@@ -24,8 +26,8 @@ const PictureContainer = (props) => {
                     value={prod ? 1 : 0}
                     onChange={(e, v) => props.history.push(v === 1 ? '?v=prod' : '?v=dev')} 
                     variant="fullWidth">
-                    <Tab label="Development" />
-                    <Tab label="Prodaction" />
+                    <Tab label={ tr('picture.development') } />
+                    <Tab label={ tr('picture.production') } />
                 </Tabs>
                 </AppBar> 
                 { !prod && <PictureDevelopmentContainer /> }    
@@ -43,6 +45,7 @@ const mapStateToProps = (state) => {
  
 export default compose(
     connect(mapStateToProps),
-    withRouter
+    withRouter,
+    withTranslate
 )
 (PictureContainer);

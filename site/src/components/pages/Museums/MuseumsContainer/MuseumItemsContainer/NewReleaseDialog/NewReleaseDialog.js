@@ -30,7 +30,7 @@ const NewReleaseDialog = (props) => {
                 <DialogActions>
                     <Button 
                         color="primary"
-                        onClick={() => { newReleaseMuseum(museum.id)}}    
+                        onClick={() => { setVisible(false); newReleaseMuseum(museum.id)}}    
                         
                     >
                         New release

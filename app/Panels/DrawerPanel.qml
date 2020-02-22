@@ -24,7 +24,7 @@ Drawer {
                 visible: QtMultimedia.availableCameras.length > 0;
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
-                title: "Scanner";
+                title: qsTr("Scanner");
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "ScannerPanel";
                 openPanelRef: scannerPanel;
@@ -33,7 +33,7 @@ Drawer {
             DrawerDelegate {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
-                title: "Choose";
+                title: qsTr("Choose");
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "ChoosePanel";
                 openPanelRef: choosePanel;
@@ -42,7 +42,7 @@ Drawer {
             DrawerDelegate {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 80;
-                title: "Settings";
+                title: qsTr("Settings");
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "SettingsPanel";
                 openPanelPath: "qrc:/Panels/SettingsPanel.qml";
@@ -51,7 +51,7 @@ Drawer {
             DrawerDelegate {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 70;
-                title: "About";
+                title: qsTr("About");
                 source: "qrc:/main/drawericons/SettingsIcon.png";
                 openPanelDevTitle: "AboutPanel";
                 openPanelPath: "qrc:/Panels/AboutPanel.qml";

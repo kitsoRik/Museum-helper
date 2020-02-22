@@ -48,8 +48,9 @@ exports.changePictureInfo = (id, changes) => new Promise((resolve, reject) => {
     const sqlQ = utils.parseJStoSQLQ(changes);
     
     db.run(`UPDATE pictures_info
-        SET ${sqlQ.resultKeys}
-        WHERE id=?`, sqlQ.resultValues.concat(id), (run, err) => {
+            SET ${sqlQ.resultKeys}
+            WHERE id=?`, 
+    sqlQ.resultValues.concat(id), (run, err) => {
             if(err) return reject({ error: SERVER_ERROR });
             resolve({
                 changes

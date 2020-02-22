@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import withGuard from '../../hocs/withGuard';
@@ -6,8 +6,13 @@ import MuseumsContainer from './MuseumsContainer';
 
 import './Museums.scss';
 import withFadeIn from '../../hocs/withFadeIn';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
 
-const Museums = (props) => {
+const Museums = ({ changeDrawerTitle }) => {
+    useEffect(() => {
+        changeDrawerTitle("Museums");
+    }, [ ])
+
     return ( 
         <div className="museums-page">
             <MuseumsContainer />
@@ -28,7 +33,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
 }
  
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps, { changeDrawerTitle }),
     withGuard,
     withFadeIn
 )(Museums);

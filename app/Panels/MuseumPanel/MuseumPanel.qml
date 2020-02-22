@@ -38,7 +38,7 @@ Rectangle {
             Layout.preferredHeight: 60;
             Layout.margins: 10;
 
-            text: "Update";
+            text: qsTr("Update");
 
             onClicked: currentMuseum.updateMuseum();
         }
@@ -49,7 +49,7 @@ Rectangle {
             Layout.preferredHeight: 60;
             Layout.margins: 10;
 
-            text: "Save museum";
+            text: qsTr("Save museum");
 
             onClicked: currentMuseum.saveMuseum();
         }
@@ -61,7 +61,7 @@ Rectangle {
             Layout.preferredHeight: 60;
             Layout.margins: 10;
 
-            text: "Save icons";
+            text: qsTr("Save icons");
 
             onClicked: currentMuseum.saveIcons();
         }
@@ -72,7 +72,7 @@ Rectangle {
             Layout.preferredHeight: 60;
             Layout.margins: 10;
 
-            text: "Go to start";
+            text: qsTr("Go to start");
 
             onClicked: {
                 mainStackView.pop(null);

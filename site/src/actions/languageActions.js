@@ -1,0 +1,10 @@
+export const
+    CHANGE_LANGUAGE_PENDING = "CHANGE_LANGUAGE_PENDING",
+    CHANGE_LANGUAGE_SUCCESS = "CHANGE_LANGUAGE_SUCCESS",
+    CHANGE_LANGUAGE_FAIL = "CHANGE_LANGUAGE_FAIL";
+
+export const changeLanguage = (language) => ({
+    type: CHANGE_LANGUAGE_SUCCESS,
+    language
+});
+

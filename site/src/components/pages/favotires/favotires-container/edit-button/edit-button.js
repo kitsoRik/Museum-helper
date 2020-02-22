@@ -10,6 +10,9 @@ import { Dialog, DialogTitle, Button, TextField, DialogContentText, InputLabel }
 
 import './edit-button.scss';
 import { addFavoriteGroup } from '../../../../../actions/favoritesActions';
+import withTranslate from '../../../../hocs/withTranslate';
+import { compose } from 'redux';
+import { tr } from '../../../../../services/i18n/i18n';
 
 const EditButton = (props) => {
 
@@ -34,7 +37,7 @@ const EditButton = (props) => {
                 <SpeedDialAction
                     key={2}
                     icon={<AddIcon />}
-                    tooltipTitle={"Add"}
+                    tooltipTitle={ tr('constants.add') }
                     onClick={(e) => { e.stopPropagation(); setDialogOpened(true);}}
                 />
             </SpeedDial>
@@ -42,7 +45,7 @@ const EditButton = (props) => {
                 style={{padding: "10px"}} 
                 open={dialogOpened} 
                 onClose={() => setDialogOpened(false)}>
-                <DialogTitle>Add new group</DialogTitle>
+                <DialogTitle>{ tr('favorites.addNewGroup') }</DialogTitle>
                 <div className="favorites-add-group-dialog">
                     <TextField 
                         id="name-field"
@@ -60,11 +63,14 @@ const EditButton = (props) => {
                         variant="contained" 
                         color="primary"
                         onClick={() => addFavoriteGroup(name, description)}
-                    >Add</Button>
+                    >{ tr('constants.add') }</Button>
                 </div>
             </Dialog>
         </div>
      );
 }
  
-export default connect(null, { addFavoriteGroup })(EditButton);
+export default compose(
+    connect(null, { addFavoriteGroup }),
+    withTranslate
+)(EditButton);

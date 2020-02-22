@@ -17,27 +17,35 @@ Rectangle {
         ColumnLayout {
             width: parent.parent.width;
 
-            Flow {
+            CheckBox {
                 Layout.fillWidth: true;
-                Layout.fillHeight: true;
-                Layout.margins: 4
-                spacing: 10
+                Layout.preferredHeight: 60;
+                text: qsTr("Fullscreen");
+                checked: settings.fullScreen;
+                onClicked: settings.fullScreen = checked;
+            }
 
-                CheckBox {
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    text: qsTr("Fullscreen");
-                    checked: settings.fullScreen;
-                    onClicked: settings.fullScreen = checked;
-                }
+            CheckBox {
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 60;
+                text: qsTr("Preloaded camera");
+                checked: settings.preloadedCamera;
+                onClicked: settings.preloadedCamera = checked;
+            }
 
-                CheckBox {
-                    Layout.fillWidth: true;
-                    Layout.preferredHeight: 60;
-                    text: qsTr("Preloaded camera");
-                    checked: settings.preloadedCamera;
-                    onClicked: settings.preloadedCamera = checked;
+            ComboBox {
+                Layout.fillWidth: true;
+                Layout.preferredHeight: 70;
+                currentIndex: {
+                    let arr = ['en', 'ua', 'ru'];
+
+                    for(let i = 0; i < arr.length; i++)
+                        if(arr[i] === settings.language)
+                            return i;
                 }
+                onCurrentTextChanged: settings.language = currentText;
+                model: ['en', 'ua', 'ru'];
+
             }
         }
     }

@@ -12,12 +12,12 @@ Axios.defaults.withCredentials = true;
 const AxiosPost = (url, params = {}) => 
             Axios.post(url, params)
                 .then(({ data }) => data)
-                .catch((res) => console.log);
+                .catch(console.log);
 
 const AxiosPostMultipart = (url, params = {}) => 
             Axios.post(url, params, { headers: {'Content-Type': 'multipart/form-data' }})
                 .then(({ data }) => data)
-                .catch((res) => console.log);
+                .catch(console.log);
 
 
 const getUserData = () =>

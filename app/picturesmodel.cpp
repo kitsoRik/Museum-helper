@@ -23,7 +23,6 @@ int PicturesModel::indexPictureAtQRCode(const QString &qrCode)
 
 void PicturesModel::setPictures(const QList<Picture> &pictures)
 {
-	qDebug() << pictures.size();
 	m_pictures = pictures;
 	emit layoutChanged();
 }
@@ -39,7 +38,7 @@ QVariant PicturesModel::data(const QModelIndex &index, int role) const
 
 	switch (role)
 	{
-		case NameRole: return m_pictures.at(row).name();
+		case NameRole: return m_pictures.at(row).name() + "ABRA";
 		case IconRole: return m_pictures.at(row).icon();
 		case IdRole: return m_pictures.at(row).id();
 		default: return QVariant();

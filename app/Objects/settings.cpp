@@ -31,6 +31,12 @@ void Settings::setPreloadedCamera(const bool &preloadedCamera)
 	emit preloadedCameraChanged();
 }
 
+void Settings::setLanguage(const QString &language)
+{
+	m_settigns.setValue("language", language);
+	emit languageChanged();
+}
+
 void Settings::save(const bool &savePictures)
 {
 	m_settigns.setValue("VERSION", m_version);

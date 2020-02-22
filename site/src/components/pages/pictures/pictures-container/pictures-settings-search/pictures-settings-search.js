@@ -6,6 +6,9 @@ import SortIcon from '@material-ui/icons/Sort';
 import './pictures-settings-search.scss';
 import { setSearchParams } from '../../../../../actions/picturesActions';
 import { debounce } from 'debounce';
+import { tr } from '../../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../../hocs/withTranslate/withTranslate';
 const PicturesSettingsSearch = (props) => {
     const { searchText, sortedField, sortedType, museums, museumId, updateId, 
         setSearchParam, setSearchParamImmediate } = props;
@@ -18,7 +21,7 @@ const PicturesSettingsSearch = (props) => {
                 disabled={museumId === -1}
                 type="search" 
                 variant="outlined" 
-                placeholder="Search..."
+                placeholder={ tr('pictures.searchPlaceholder')}
                 defaultValue={searchText}
                 onChange={(e) => setSearchParam({ searchText: e.target.value })}/>
                 <IconButton disabled={sortedField === 'none'} onClick={() => setSearchParamImmediate({ sortedType: ( sortedType === "DESC" ? "ASC" : "DESC" )})}>
@@ -27,18 +30,18 @@ const PicturesSettingsSearch = (props) => {
             <FormControl 
                 style={{flexGrow: "1"}} 
                 disabled={museumId === -1}>
-                <InputLabel id="sort-label">Sort field</InputLabel>
+                <InputLabel id="sort-label">{ tr('pictures.sortField') }</InputLabel>
                 <Select value={ sortedField } 
                         labelId="sort-label" 
                         style={{flexGrow: "1"}}
                         onChange={(e) => setSearchParamImmediate({ sortedField: e.target.value })}>
-                    <MenuItem value='none'>None</MenuItem>
-                    <MenuItem value='name'>Name</MenuItem>
-                    <MenuItem value='description'>Description</MenuItem>
+                    <MenuItem value='none'>{ tr('constants.none') }</MenuItem>
+                    <MenuItem value='name'>{ tr('constants.name') }</MenuItem>
+                    <MenuItem value='description'>{ tr('constants.description') }</MenuItem>
                 </Select>
             </FormControl>
             <FormControl style={{marginLeft: `10px`, flexGrow: "1"}}>
-                <InputLabel id="museums-label">Museum</InputLabel>
+                <InputLabel id="museums-label">{ tr('constants.museum') }</InputLabel>
             <Select value={ museumId } 
                         labelId={"museums-label"}
                         onChange={(e) => setSearchParamImmediate({ museumId: e.target.value, updateId: 'current' })}
@@ -46,7 +49,7 @@ const PicturesSettingsSearch = (props) => {
                     >
                     {
                         museums.map(m =>
-                            <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>
+                            <MenuItem key={m.id} value={m.id}>{m.name === 'current' ? tr('constants.current') : m.name }</MenuItem>
                         )
                     }
                 </Select>
@@ -54,15 +57,15 @@ const PicturesSettingsSearch = (props) => {
             <FormControl 
                 style={{marginLeft: `10px`, flexGrow: "1"}}
                 disabled={museumId === -1}>
-                <InputLabel id="museums-label">Museum</InputLabel>
+                <InputLabel id="update-label">{ tr('pictures.releaseId') }</InputLabel>
             <Select value={ updateId } 
-                        labelId={"museums-label"}
+                        labelId={"update-label"}
                         onChange={(e) => setSearchParamImmediate({ updateId: e.target.value })}
                         style={{flexGrow: "1"}}
                     >
                     {
                         [...Array(currentMuseumUpdatesLength).keys()].concat(['current']).map((v, index) => 
-                            <MenuItem key={v} value={v}>{v}</MenuItem>
+                            <MenuItem key={v} value={v}>{v === 'current' ? tr('constants.current') : v}</MenuItem>
                         )
                     }
                 </Select>
@@ -90,4 +93,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(PicturesSettingsSearch);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withTranslate
+)(PicturesSettingsSearch);

@@ -134,6 +134,12 @@ void MuseumObject::saveMuseum()
 
 void MuseumObject::saveIcons()
 {
+	if(m_picturesIcons.size() == 0)
+	{
+		DBC::instance()->savePicturesIcons(m_bigMuseum.id(), QList<int>(), QList<QPixmap>());
+		setIconsSaved(true);
+		return;
+	}
 	setIsLoading(true);
 	int *_index = new int(0);
 	QList<int> *l = new QList<int>();
@@ -176,4 +182,9 @@ void MuseumObject::goToStart()
 {
 	auto a = DBC::instance()->getSavedPicturesByMuseumId(m_bigMuseum.id());
 	PicturesModel::instance()->setPictures(a);
+}
+
+void MuseumObject::removeMuseum()
+{
+
 }
