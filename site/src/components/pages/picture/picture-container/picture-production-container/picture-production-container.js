@@ -11,6 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { debounce } from 'debounce';
 import AddLanguageInfo from '../add-language-info/index.js';
+import { tr } from '../../../../../services/i18n/i18n.js';
+import { compose } from 'redux';
+import withTranslate from '../../../../hocs/withTranslate/index.js';
 
 const PictureProductionContainer = (props) => {
 
@@ -34,10 +37,7 @@ const PictureProductionContainer = (props) => {
                 color="primary"
                 style={{flexGrow: "1"}}
                 onClick={() => setAddLanguageDialogVisible(true)}
-            >Add your first language info
-            
-            
-            
+            > { tr('picture.addFirstLanguage') }
             <AddLanguageInfo
                     visible={addLanguageDialogVisible}
                     setVisible={setAddLanguageDialogVisible}
@@ -81,4 +81,7 @@ const mapStateToProps = (state) => {
     }
 }
  
-export default connect(mapStateToProps, { changePictureInfo })(PictureProductionContainer);
+export default compose(
+    connect(mapStateToProps, { changePictureInfo }),
+    withTranslate
+)(PictureProductionContainer);

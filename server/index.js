@@ -246,8 +246,9 @@ app.post("/deleteFavoriteGroup", (req, res) => {
 });
 
 app.post('/app/getMuseums', (req, res) => {
-    const { name = ""} = req.body;
-    dbc.getMuseums(name)
+    const { pattern = ""} = req.body;
+    console.log(req.body);
+    dbc.getMuseums(pattern)
         .then(museums => {   
             res.send({
                 success: true,

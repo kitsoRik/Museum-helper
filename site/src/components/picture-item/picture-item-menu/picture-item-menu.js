@@ -7,6 +7,9 @@ import SendIcon from '@material-ui/icons/Send';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { tr } from '../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../hocs/withTranslate';
 
 const PictureItemMenu = (props) => {
 
@@ -34,7 +37,7 @@ const PictureItemMenu = (props) => {
         e.stopPropagation();
         deletePicture(id);
     }
-    console.log(isFavorite);
+    
     return (
         <IconButton onClick={onClick}>
             <MoreVertIcon />
@@ -51,8 +54,8 @@ const PictureItemMenu = (props) => {
                         {!isFavorite ? <FavoriteIcon /> : <CancelIcon />}
                     </ListItemIcon>
                     <ListItemText primary={!isFavorite ?
-                        "Add to favorite" :
-                        "Remove from favorite"} />
+                        tr('constants.addToFavorite') :
+                        tr('constants.removeFromFavorite')} />
 
                 </MenuItem>
                 <MenuItem 
@@ -61,14 +64,17 @@ const PictureItemMenu = (props) => {
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Delete" />
+                    <ListItemText primary={ tr('constants.remove') } />
                 </MenuItem>
             </Menu>
         </IconButton>
     );
 }
-export default connect(null, {
-    addToFavorite,
-    deleteFromFavorite,
-    deletePicture
-})(PictureItemMenu);
+export default compose(
+    connect(null, {
+        addToFavorite,
+        deleteFromFavorite,
+        deletePicture
+    }),
+    withTranslate
+)(PictureItemMenu);

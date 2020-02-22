@@ -9,6 +9,7 @@ class Settings : public QObject
 
 	Q_PROPERTY(bool fullScreen READ fullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
 	Q_PROPERTY(bool preloadedCamera READ preloadedCamera WRITE setPreloadedCamera NOTIFY preloadedCameraChanged)
+	Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
 public:
 	explicit Settings(QObject *parent = nullptr);
 
@@ -20,9 +21,13 @@ public:
 	inline bool preloadedCamera() const { return m_settigns.value("preloadedCamera", true).toBool(); }
 	void setPreloadedCamera(const bool &preloadedCamera);
 
+	inline QString language() const { return m_settigns.value("language", "ua").toString(); }
+	void setLanguage(const QString &language);
+
 signals:
 	void fullScreenChanged();
 	void preloadedCameraChanged();
+	void languageChanged();
 
 public slots:
 	void save(const bool &savePictures = false);

@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { TextField, Button, Select, InputLabel, MenuItem, FormControl, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import { addLanguageInfo } from '../../../../../actions/picturesInfoActions';
 import { LANGUAGES } from '../../../../../constants';
+import { compose } from 'redux';
+import withTranslate from '../../../../hocs/withTranslate';
+import { tr } from '../../../../../services/i18n/i18n';
 
 const AddLanguageInfo = (props) => {
 
@@ -19,11 +22,11 @@ const AddLanguageInfo = (props) => {
             open={visible} 
             onClose={() => setVisible(false)}
         >
-            <DialogTitle >Add picture</DialogTitle>
+            <DialogTitle>{ tr('picture.addLanguageInfo.title') }</DialogTitle>
             <DialogContent style={{display: "flex"}}>
             <FormControl style={{flexGrow: "1"}}>
                 <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                Age
+                    { tr('constants.language') }
                 </InputLabel>
                 <Select
                 labelId="demo-simple-select-placeholder-label-label"
@@ -33,7 +36,7 @@ const AddLanguageInfo = (props) => {
                 onChange={(e) => setLanguage(e.target.value) }
                 >
                 <MenuItem value="">
-                    None
+                    { tr('constants.none') }
                 </MenuItem>
                 {
                     LANGUAGES.filter(l => !pictureInfo.map(i => i.language).includes(l.dev)).map(l => {
@@ -49,7 +52,7 @@ const AddLanguageInfo = (props) => {
                 disabled={language === ''}
                 variant="contained"
                 onClick={() => {setVisible(false); addLanguageInfo(id, title, description, language)}}
-            >Add</Button>
+            >{ tr('constants.add') }</Button>
             </DialogActions>
         </Dialog>
      );
@@ -63,4 +66,7 @@ const mapStateToProps = (state) => {
     }
 }
  
-export default connect(mapStateToProps, { addLanguageInfo })(AddLanguageInfo);
+export default compose(
+    connect(mapStateToProps, { addLanguageInfo }),
+    withTranslate
+)(AddLanguageInfo);

@@ -7,7 +7,6 @@
         <file>Panels/Delegates/ChooseDelegate.qml</file>
         <file>Panels/PicturePanel.qml</file>
         <file>Header.qml</file>
-        <file>Panels/UpdatePanel.qml</file>
         <file>Panels/DrawerPanel.qml</file>
         <file>Items/MenuBackButton.qml</file>
         <file>Items/ButtonWithIcon.qml</file>

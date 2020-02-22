@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 
 import './MainDrawer.scss';
 import { changeVisibleDrawer } from '../../actions/drawerActions';
-import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon } from '@material-ui/core';
-import { Menu as MenuIcon, 
-        Delete as DeleteIcon, 
-        ExitToApp as ExitToAppIcon,
-        Favorite as FavotireIcon,
-        Museum as MuseumIcon } from '@material-ui/icons';
+import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon, Select, FormControl, MenuItem } from '@material-ui/core';
+import {
+    Menu as MenuIcon,
+    Delete as DeleteIcon,
+    ExitToApp as ExitToAppIcon,
+    Favorite as FavotireIcon,
+    Museum as MuseumIcon
+} from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -18,14 +20,19 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
-import { unlogin} from '../../actions/userActions';
+import { unlogin } from '../../actions/userActions';
+import { changeLanguage } from '../../actions/languageActions';
+import { languages, tr } from '../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../hocs/withTranslate';
 
 const drawerWidth = 240;
+const fillDrawerWindowWidth = 480;
 
 const MainDrawer = (props) => {
 
-    const { opened, title } = props;
-    const { changeVisibleDrawer } = props;
+    const { language, opened, title } = props;
+    const { changeLanguage, changeVisibleDrawer } = props;
 
     const classes = useStyles();
     const theme = useTheme();
@@ -34,129 +41,139 @@ const MainDrawer = (props) => {
         <ListItem
             key={-1}
             button
-            onClick={() => props.history.push("/profile")}>
+            onClick={() => { props.history.push("/profile"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
             <ListItemIcon>
                 <AccountBoxIcon />
             </ListItemIcon>
-            <ListItemText primary="Profile" />
+            <ListItemText primary={ tr('profile.title') }/>
             <ListItemSecondaryAction>
-                <IconButton onClick={() => props.unlogin()}>
-                    <ExitToAppIcon/>
+                <IconButton onClick={() => { props.unlogin(); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
+                    <ExitToAppIcon />
                 </IconButton>
             </ListItemSecondaryAction>
         </ListItem>,
         <ListItem
             key={-2}
             button
-            onClick={() => props.history.push("/")}>
+            onClick={() => { props.history.push("/"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
             <ListItemIcon>
                 <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary="Home" />
+            <ListItemText primary={ tr('home.title') } />
         </ListItem>,
         <ListItem
             key={-3}
             button
-            onClick={() => props.history.push("/documentation")}>
+            onClick={() => { props.history.push("/documentation"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
             <ListItemIcon>
                 <LibraryBooksIcon />
             </ListItemIcon>
-            <ListItemText primary="Documentation" />
+            <ListItemText primary={ tr('documentation.title') }/>
         </ListItem>,
-        <ListItem 
-        key={-4}
-        button
-        onClick={() => props.history.push("/pictures")}    
+        <ListItem
+            key={-4}
+            button
+            onClick={() => { props.history.push("/pictures"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
         >
             <ListItemIcon><MenuIcon /></ListItemIcon>
-            <ListItemText primary={"Pictures"} />
+            <ListItemText primary={ tr('pictures.title') } />
         </ListItem>,
-        <ListItem 
-        key={-5}
-        button
-        onClick={() => props.history.push("/museums")}    
+        <ListItem
+            key={-5}
+            button
+            onClick={() => { props.history.push("/museums"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
         >
             <ListItemIcon><MuseumIcon /></ListItemIcon>
-            <ListItemText primary={"Museums"} />
+            <ListItemText primary={ tr('museums.title') } />
         </ListItem>,
-        
-        <ListItem 
-        key={-6}
-        button
-        onClick={() => props.history.push("/favorites")}    
+
+        <ListItem
+            key={-6}
+            button
+            onClick={() => { props.history.push("/favorites"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
         >
             <ListItemIcon><FavotireIcon /></ListItemIcon>
-            <ListItemText primary={"Favorites"} />
+            <ListItemText primary={ tr('favorites.title') } />
         </ListItem>
     ];
 
-return (
-    <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-            position="fixed"
-            className={clsx(classes.appBar, {
-                [classes.appBarShift]: opened,
-            })}
-        >
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={() => changeVisibleDrawer()}
-                    edge="start"
-                    className={clsx(classes.menuButton, opened && classes.hide)}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" noWrap>
-                    { title }
-          </Typography>
-            </Toolbar>
-        </AppBar>
-        <main
-            className={clsx(classes.content, {
-                [classes.contentShift]: opened,
-            })}
-        >
-            {props.children}
-        </main>
-        <UIDrawer
-            className={classes.drawer}
-            variant="persistent"
-            anchor="left"
-            open={opened}
-            classes={{
-                paper: classes.drawerPaper,
-            }}
-        >
-            <div className={classes.drawerHeader}>
-                <IconButton onClick={() => changeVisibleDrawer()}>
-                    {theme.direction !== 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                </IconButton>
-            </div>
-            <Divider />
-            <List>
-                {items}
-            </List>
-            <Divider />
-            <List>
-                {items}
-            </List>
-        </UIDrawer>
-    </div>
-);
+    return (
+        <div className={classes.root}>
+            <CssBaseline />
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: opened,
+                })}
+            >
+                <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={() => changeVisibleDrawer()}
+                        edge="start"
+                        className={clsx(classes.menuButton, opened && classes.hide)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap>
+                        {title}
+                    </Typography>
+                    <FormControl color="secondary" className={clsx(classes.whiteSelect)}>
+                        <Select value={language} onChange={(e) => changeLanguage(e.target.value)}>
+                            {
+                                Object.keys(languages).map(l => 
+                                    <MenuItem key={l} value={l}>{ (() => {
+                                        switch(l) {
+                                            case 'ua': return "Українська";
+                                            case 'en': return 'English';
+                                        }
+                                    })() }</MenuItem>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                </Toolbar>
+            </AppBar>
+            <main
+                className={clsx(classes.content, {
+                    [classes.contentShift]: opened,
+                })}
+            >
+                {props.children}
+            </main>
+            <UIDrawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="left"
+                open={opened}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={() => changeVisibleDrawer()}>
+                        {theme.direction !== 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    {items}
+                </List>
+            </UIDrawer>
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
-    const { opened, title } = state.drawer;
-    return {
-        opened,
-        title
-    }
-}
+const mapStateToProps = ({ language, drawer: { opened, title } }) => ({
+    opened, title, language
+});
 
-export default connect(mapStateToProps, { changeVisibleDrawer, unlogin })(withRouter(MainDrawer));
+export default compose(
+    connect(mapStateToProps, { changeLanguage, changeVisibleDrawer, unlogin }),
+    withTranslate,
+    withRouter
+)(MainDrawer);
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -215,7 +232,11 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginRight: -drawerWidth,
-        marginTop: `64px`
+        marginTop: `64px`,
+        
+        ['@media (max-width:480px)']: {
+            padding: '2px'
+        }
     },
     contentShift: {
         maxWidth: `calc(100% - ${drawerWidth}px)`,
@@ -228,4 +249,11 @@ const useStyles = makeStyles(theme => ({
         }),
         marginLeft: drawerWidth,
     },
+
+    whiteSelect : {
+        "& *, & *:before": {
+            borderColor: "white",
+            color: 'white'
+        }
+    }
 }));

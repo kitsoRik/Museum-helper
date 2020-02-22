@@ -7,29 +7,32 @@ import { Link, withRouter } from 'react-router-dom';
 import { TextField, InputLabel, Button, CircularProgress } from '@material-ui/core';
 import { compose } from 'redux';
 import Alert from '@material-ui/lab/Alert';
+import { loginIn } from '../../../../actions/loginActions';
+import { tr } from '../../../../services/i18n/i18n';
+import withTranslate from '../../../hocs/withTranslate';
 
 const LoginContainer = (props) => {
 
     const { wait, error, success } = props;
 
-    const [login, setLogin] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { onSubmit } = props;
-
+    const { loginIn } = props;
+    
     return (
         <div className="login-container">
-            <InputLabel className="login-title">Login</InputLabel>
-            { error && error.type === 'UNKNOWN_DATA '&& 
-                <Alert severity="error">Bad user data</Alert> }
+            <InputLabel className="login-title">{ tr('login.title')}</InputLabel>
+            { error && error.type === 'UNKNOWN_DATA'&& 
+                <Alert severity="error">{ tr('login.emailPlaceholder')}</Alert> }
             <TextField
-                value={login}
-                placeholder="Login..." 
-                onChange={(e) => setLogin(e.target.value)}/>
+                value={email}
+                placeholder={ tr('login.error.badUserData')}
+                onChange={(e) => setEmail(e.target.value)}/>
             <TextField 
-            
                 value={password}
-                placeholder="Password..."
+                type="password"
+                placeholder={ tr('login.passwordPlaceholder')}
                 onChange={(e) => setPassword(e.target.value)}/>
             <Button 
                 variant="contained"
@@ -38,14 +41,14 @@ const LoginContainer = (props) => {
                 success={(success).toString()}
                 error={error ? "true" : "false"}
                 disabled={wait}
-                onClick={() => onSubmit(login, password)}
-            >Login
+                onClick={() => loginIn(email, password)}
+            >{ tr('login.enter')}
             { wait && <CircularProgress style={{position: "absolute"}}/> }
             </Button>
             <Link 
                 className="login-register-link"
                 to="/register"
-            >Register</Link>
+            >{ tr('login.register') }</Link>
         </div>
     );
 };
@@ -55,14 +58,8 @@ const mapStateToProps = ({ login: { wait, error, success }}) => {
         wait, error, success
     }
 }
-
-const mapDispatchToProps = (dispatch, { onLoginIn }) => {
-    return {
-        onSubmit: (login, password) => onLoginIn(login, password)
-    }
-}
-
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    withRouter
+    connect(mapStateToProps, {loginIn}),
+    withRouter,
+    withTranslate
 )(LoginContainer);

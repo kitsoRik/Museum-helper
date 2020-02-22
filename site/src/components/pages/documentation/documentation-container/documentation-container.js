@@ -1,56 +1,55 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 import './DocumentationContainer.scss';
+import { tr, trx } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import withTranslate from '../../../hocs/withTranslate/withTranslate';
 
 const DocumentationContainer = (props) => {
     return ( 
         <div className="documentation-container">
             <div>
-                <span className="documentation-subtitle">Що це за сервіс?</span>
+                <span className="documentation-subtitle">{ tr('documentation.what') }</span>
                 <p className="documentation-text">
-                    Це сервіс який дозволяє простим користувачам зберігати дані про картини в музеях в своєму смартфоні. 
+                     { tr('documentation.whatDescribe') }
                 </p>
             </div>
             <div>
-                <span className="documentation-subtitle">Як почати користуватися</span>
-                <p className="documentation-text">
-                    Для початку потрібно зареєструватися в сервісі, так ознайомитися з можливостями:
-
+                <span className="documentation-subtitle">{ tr('documentation.howToUse.title') }</span>
+                <br />
+                <span className="documentation-text">{ tr('documentation.howToUse.description') }
                     <ul>
-                        <li>1. Створити музей</li>  
-                        <li>2. Добавити картину</li>  
-                        <li>3. Розповсюдити в додатку</li>
+                        <li>{ tr('documentation.howToUse.list.1') }</li>  
+                        <li>{ tr('documentation.howToUse.list.2') }</li>  
+                        <li>{ tr('documentation.howToUse.list.3') }</li>
                     </ul> 
+                </span>
+            </div>
+            <div>
+                <span className="documentation-subtitle">{ tr('documentation.createMuseum.title') }</span>
+                <p className="documentation-text">
+                    { trx('documentation.createMuseum.description', {
+                        link: <Link to="/museums">{ tr('museums.title') }</Link>
+                    }) }
                 </p>
             </div>
             <div>
-                <span className="documentation-subtitle">Створення музею</span>
-                <p className="documentation-text">
-                    Для того щоб створити музей, потрібно на вкладці <Link to="/museums">Музеї</Link> клікнути
-                    на кнопку позначену плюсом (+), після чого вказати назву музею за яким він буде
-                    видаватися в пошуку та місце знаходження. 
-                </p>
+                <span className="documentation-subtitle">{ tr('documentation.addPicture.title') }</span>
+                <p className="documentation-text">{ trx('documentation.addPicture.description', {
+                    link: <Link to ="/pictures">{ tr('pictures.title') }</Link>
+                }) }</p>
             </div>
             <div>
-                <span className="documentation-subtitle">Добавлення картини</span>
-                <p className="documentation-text">
-                    Для того щоб добавити картину потрібно зайти на сторінку <Link to="/pictures">Картини</Link> (повинен бути створений принаймі один музей),
-                    нажати кнопку позначену плюсом (+) та вказати основні дані (тільки для розробника) картини (Ім'я, опис та QR код за який буде видаватися картина),
-                    далі можна приступити до додавання зображень картини та опису картини на різних мовах.
-                </p>
-            </div>
-            <div>
-                <span className="documentation-subtitle">Розповсюдження</span>
-                <p className="documentation-text">
-                    При створення та редагуванні картин їх не можливо знайти до поки не буде добавлено новий випуск, 
-                    який тільки останні картини виставить у пошук (картини які позначено не входити в випуск - не ввійдуть).
-                    Після випуску можна приступати до редагування картин, ці зміни не будуть показуватися до нового випуску.
-                </p>
+                <span className="documentation-subtitle">{ tr('documentation.release.title') }</span>
+                <p className="documentation-text">{ tr('documentation.release.description') }</p>
             </div>
         </div>
      );
 }
 
-export default DocumentationContainer;
+export default compose(
+    connect(),
+    withTranslate
+)(DocumentationContainer);

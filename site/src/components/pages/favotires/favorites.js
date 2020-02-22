@@ -6,17 +6,21 @@ import './favorites.scss';
 import { NOT_LOADED, LOADED } from '../../../constants';
 import { loadFavotires } from '../../../actions/favoritesActions';
 import { compose } from 'redux';
+import { changeDrawerTitle } from '../../../actions/drawerActions';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
+import { tr } from '../../../services/i18n/i18n';
+import withTranslate from '../../hocs/withTranslate';
 
 const Favorites = (props) => {
 
     const { loadFavotires } = props;
-    const { loading } = props;
-    const { startGetFavorites } = props;
+    const { loading, language } = props;
+    const { startGetFavorites, changeDrawerTitle } = props;
 
     useEffect(() => {
+        changeDrawerTitle(tr('favorites.title'));
         loadFavotires();
-    }, [ ]);
+    }, [ language ]);
 
     if(loading !== LOADED) return <span>WAIT</span>;
 
@@ -28,14 +32,16 @@ const Favorites = (props) => {
     );
 }
 
-const mapStateToProps = ({ favorites: { loading, groups }}) => {
+const mapStateToProps = ({ language, favorites: { loading, groups }}) => {
     return {
         loading,
-        groups
+        groups,
+        language
     }
 }
 
 export default compose(
-    connect(mapStateToProps, { loadFavotires }),
-    withFadeIn
+    connect(mapStateToProps, { loadFavotires, changeDrawerTitle }),
+    withFadeIn,
+    withTranslate
 )(Favorites);

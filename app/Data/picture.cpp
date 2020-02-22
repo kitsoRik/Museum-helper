@@ -11,9 +11,10 @@ PictureInfo::PictureInfo(const QString &title, const QString &description, const
 	m_language = language;
 }
 
-Picture::Picture(const int &id, const QString &name, const QString &qrcode)
+Picture::Picture(const int &id, const QString &name, const QString &qrcode, const QImage &icon)
 {
 	m_id = id;
 	m_name = name;
 	m_qrcode = qrcode;
+	m_icon = icon;
 }

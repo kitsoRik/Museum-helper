@@ -87,9 +87,9 @@ export const changeCurrentIndex = (index) => {
     }
 }
 
-const addIconSuccess = ({ addedIcon }) => ({
+const addIconSuccess = ({ icon }) => ({
     type: ICON_TO_PICTURE_ADDED,
-    addedIcon
+    addedIcon: icon
 });
 
 export const addIcon = actionFactory(

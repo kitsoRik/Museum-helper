@@ -29,7 +29,7 @@ Rectangle {
                     Layout.fillHeight: true;
                     Layout.fillWidth: true;
 
-                    text: "Find museum...";
+                    text: qsTr("Find museums...");
 
                     Material.foreground: {
                         if(sv.currentIndex === 0)
@@ -48,7 +48,7 @@ Rectangle {
                     Layout.fillHeight: true;
                     Layout.fillWidth: true;
 
-                    text: "Find museum...";
+                    text: qsTr("Saved museums...");
 
                     Material.foreground: {
                         if(sv.currentIndex === 1)
@@ -78,7 +78,9 @@ Rectangle {
                     Layout.fillWidth: true;
                     Layout.preferredHeight: 50;
 
-                    placeholderText: "AA";
+                    placeholderText: qsTr("Pattern...");
+
+                    onTextChanged: logic.loadMuseums(text);
 
                     Layout.margins: 10;
                 }

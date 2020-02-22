@@ -32,7 +32,8 @@ SOURCES += \
         qrcodeanalyzer.cpp
 
 RESOURCES += qml.qrc \
-    icons.qrc
+    icons.qrc \
+    trs.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -78,3 +79,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_PACKAGE_SOURCE_DIR = \
         $$PWD/android
 }
+
+TRANSLATIONS += \
+    $$PWD/translations/ru.ts \
+    $$PWD/translations/ua.ts

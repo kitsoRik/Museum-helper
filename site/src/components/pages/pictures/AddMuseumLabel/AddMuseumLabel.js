@@ -1,11 +1,13 @@
 import React from 'react';
+import { tr } from '../../../../services/i18n/i18n';
+import withTranslate from '../../../hocs/withTranslate';
 
 const AddMuseumLabel = (props) => {
     return ( 
         <div>
-            Add museum to contunie work in this page;
+            { tr('pictures.addMuseumLabel') }
         </div>
      );
 }
 
-export default AddMuseumLabel;
+export default withTranslate(AddMuseumLabel);

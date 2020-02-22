@@ -24,7 +24,7 @@ DBC::DBC() :
 	db.exec("CREATE TABLE IF NOT EXISTS 'saved_museums' ('id' INTEGER NOT NULL, 'name' TEXT NOT NULL, 'location' TEXT NOT NULL, 'update_id' INTEGER NOT NULL, 'icons_saved' INTEGER NOT NULL)");
 	db.exec("CREATE TABLE IF NOT EXISTS 'saved_pictures' ('id'	INTEGER NOT NULL, 'museum_id' INTEGER NOT NULL,'qrcode' TEXT NOT NULL);");
 	db.exec("CREATE TABLE IF NOT EXISTS 'saved_picturesInfo' ('id' INTEGER NOT NULL, 'picture_id' INTEGER NOT NULL, 'title' TEXT NOT NULL, 'description' TEXT NOT NULL, 'language'	TEXT NOT NULL );");
-	db.exec("CREATE TABLE IF NOT EXISTS 'saved_picturesIcons' ('picture_id' INTEGER NOT NULL,'icon' BLOB NOT NULL);");
+	db.exec("CREATE TABLE IF NOT EXISTS 'saved_picturesIcons' ('id'	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, 'picture_id' INTEGER NOT NULL,'icon' BLOB NOT NULL);");
 
 }
 QList<Museum> DBC::getSavedMuseums()
@@ -89,10 +89,9 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 {
 	QSqlQuery query(db);
 
-	query.prepare("SELECT * FROM saved_pictures "
-				  "WHERE museum_id=?");
+	query.prepare("SELECT p.id, p.museum_id, p.qrcode, i.icon FROM saved_pictures p LEFT JOIN saved_picturesIcons i ON ( i.id = ( SELECT min(id) FROM saved_picturesIcons WHERE picture_id = p.id) ) WHERE p.museum_id=?");
 	query.addBindValue(museumId);
-	query.exec();
+	if(!query.exec()) qDebug() << query.lastError();
 
 	QList<Picture> pictures;
 
@@ -100,9 +99,11 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 	{
 		QSqlRecord record = query.record();
 		int id = record.value(0).toInt();
-		QString name = record.value(1).toString();
+		QString name = record.value('name').toString();
 		QString qrcode = record.value(2).toString();
-		pictures.append(Picture(id, name, qrcode));
+		QPixmap pix;
+		pix.loadFromData(record.value(3).toByteArray());
+		pictures.append(Picture(id, name, qrcode, pix.toImage()));
 	}
 
 	return pictures;
@@ -158,6 +159,29 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 	return picturesInfo;
 }
 
+QImage DBC::getIconByMuseumId(const int &id)
+{
+	QSqlQuery query(db);
+
+	query.prepare("SELECT icon FROM saved_picturesIcons WHERE picture_id=? LIMIT 1");
+	query.addBindValue(id);
+	query.exec();
+
+	QImage icon;
+
+	if(query.next())
+	{
+		QSqlRecord record = query.record();
+		QByteArray icond = record.value(0).toByteArray();
+
+		QPixmap p;
+		p.loadFromData(icond);
+		icon = p.toImage();
+	}
+
+	return icon;
+}
+
 QList<QImage> DBC::getSavedPicturesIconsByPictureId(const int &id)
 {
 	QSqlQuery query(db);
@@ -177,7 +201,7 @@ QList<QImage> DBC::getSavedPicturesIconsByPictureId(const int &id)
 		p.loadFromData(icon);
 		icons.append(p.toImage());
 	}
-	qDebug() << "RET" << icons.size() << id;
+
 	return icons;
 }
 
@@ -291,7 +315,6 @@ void DBC::removeMuseumById(const int &id)
 
 	query.prepare("DELETE FROM saved_museums WHERE id=?");
 	query.addBindValue(id);
-	qDebug() << "DEL";
 	if(!query.exec()) qDebug() << query.lastError();
 
 	query.prepare("DELETE FROM saved_picturesInfo WHERE picture_id IN (SELECT id FROM saved_pictures WHERE museum_id=?)");
@@ -299,7 +322,7 @@ void DBC::removeMuseumById(const int &id)
 
 	if(!query.exec()) qDebug() << query.lastError();
 
-	query.prepare("DELETE FROM saved_picturesIcons picture_id IN (SELECT id FROM saved_pictures WHERE museum_id=?)");
+	query.prepare("DELETE FROM saved_picturesIcons WHERE picture_id IN (SELECT id FROM saved_pictures WHERE museum_id=?)");
 	query.addBindValue(id);
 
 	if(!query.exec()) qDebug() << query.lastError();

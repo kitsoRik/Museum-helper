@@ -5,6 +5,9 @@ import './ProfileMainDataContainer.scss';
 import { TextField, InputLabel, Divider, FormControl, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import { changeUserData } from '../../../../../actions/userActions';
 import { CHANGED } from '../../../../../constants';
+import { tr } from '../../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../../hocs/withTranslate';
 
 const ProfileMainDataContainer = (props) => {
 
@@ -30,17 +33,16 @@ const ProfileMainDataContainer = (props) => {
     return ( 
         <div className="profile-main-data-container">
             <div className="profile-photo">
-                <img src="https://i.pinimg.com/originals/a7/62/2e/a7622e9d64921dbe9792d5cf11fca089.png" alt="123"/>
+                { /*<img src="https://i.pinimg.com/originals/a7/62/2e/a7622e9d64921dbe9792d5cf11fca089.png" alt="123"/> */ }
             </div>
             <div className="profile-main-data-fields">
-               
-                <TextField label={"Name"} disabled value={username} />
-                <TextField label={"Name"} disabled value={email} />
+                <TextField label={tr("profile.username")} disabled value={username} />
+                <TextField label={tr("profile.email")} disabled value={email} />
                 <Divider />   
-                <TextField label="Password" type={"password"} value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <TextField label={"Password confirm"} type={"password"} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)}/>
+                <TextField label={tr('profile.password')} type={"password"} value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <TextField label={tr('profile.confirm')} type={"password"} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)}/>
                 <Button variant="contained" onClick={() => setConfirmDialogVisible(true)}>
-                    Change
+                { tr('profile.change') }
                 </Button>
                 <Divider />
             </div>
@@ -49,18 +51,18 @@ const ProfileMainDataContainer = (props) => {
                 open={confirmDialogVisible}
                 onClose={() => setConfirmDialogVisible(false)}>
                 <DialogTitle>
-                    Change user data
+                    { tr('profile.changePassword') }
                 </DialogTitle>
                 <DialogContent>
                     <TextField
                         error={error && error.type === "BAD_OLD_PASSWORD"} 
-                        label={"Old password"} 
+                        label={ tr('profile.oldPassword') }
                         value={oldPassword} 
                         onChange={(e) => setOldPassword(e.target.value)}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => changeUserData(oldPassword, { password })}>
-                        Change
+                        { tr('profile.change') }
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -77,4 +79,7 @@ const mapStateToProps = ({ user: { email, username, loading, changing, error }})
         error
     }
 }
-export default connect(mapStateToProps, { changeUserData })(ProfileMainDataContainer);
+export default compose(
+    connect(mapStateToProps, { changeUserData }),
+    withTranslate
+)(ProfileMainDataContainer);

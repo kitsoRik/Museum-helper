@@ -2,13 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { verifyLinkUrl } from '../../../../services/api/api';
 import { Link } from 'react-router-dom';
+import { tr } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../hocs/withTranslate';
 
 const VerifyPanel = (props) => {
     const { link } = props;
 
     return ( 
         <div>
-            Need to verify email, send vefiry link more?
+            { tr('login.needToVerifyText') }
             <Link to={`${verifyLinkUrl}${link}`}>Link</Link>
         </div>
      );
@@ -26,4 +29,7 @@ const mapDipatchToProps = (dispatch, ownProps) => {
     }
 }
  
-export default connect(mapStateToProps, mapDipatchToProps)(VerifyPanel);
+export default compose(
+    connect(mapStateToProps, mapDipatchToProps),
+    withTranslate
+)(VerifyPanel);

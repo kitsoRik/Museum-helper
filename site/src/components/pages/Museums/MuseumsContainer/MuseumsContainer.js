@@ -8,6 +8,9 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@material-ui/core';
 import { Edit as EditIcon } from '@material-ui/icons';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
+import { tr } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../hocs/withTranslate';
 
 const MuseumsContainer = (props) => {
     const { addMuseum } = props;
@@ -33,7 +36,7 @@ const MuseumsContainer = (props) => {
             <Dialog
                 open={addDialogVisible} 
                 onClose={() => setAddDialogVisible(false)}>
-                <DialogTitle >Add museum</DialogTitle>
+                <DialogTitle >{ tr('museums.addMuseumDialog.title') }</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -57,9 +60,7 @@ const MuseumsContainer = (props) => {
                         color="primary"
                         onClick={() => { setAddDialogVisible(false); addMuseum(name, location); }}    
                         
-                    >
-                        Add
-                    </Button>
+                    >{ tr('constants.add') }</Button>
                 </DialogActions>
             </Dialog>
         </div>
@@ -70,4 +71,7 @@ const mapStateToProps = ({ museums: { museums }}) => ({
     museums
 });
  
-export default connect(mapStateToProps, { loadMuseums, addMuseum })(MuseumsContainer);
+export default compose(
+    connect(mapStateToProps, { loadMuseums, addMuseum }),
+    withTranslate
+)(MuseumsContainer);

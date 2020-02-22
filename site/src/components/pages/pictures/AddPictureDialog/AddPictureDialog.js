@@ -6,6 +6,9 @@ import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { addPicture } from '../../../../actions/picturesActions';
+import { tr } from '../../../../services/i18n/i18n';
+import { compose } from 'redux';
+import withTranslate from '../../../hocs/withTranslate';
 
 
 const AddPictureDialog = (props) => {
@@ -63,7 +66,7 @@ const AddPictureDialog = (props) => {
                         onChange={(e) => setQrcode(e.target.value)}
                     />
                     <FormControl style={{width: `100%`}}>
-                        <InputLabel id="museums-label">Museum</InputLabel>
+                        <InputLabel id="museums-label">{ tr('constants.museum') }</InputLabel>
                         <Select value={ museumId } 
                                 labelId={"museums-label"}
                                 onChange={(e) => setMuseumId(e.target.value)}
@@ -100,4 +103,8 @@ const mapStateToProps = (state) => {
     }
 }
  
-export default connect(mapStateToProps, { addPicture })(AddPictureDialog);
+export default compose(
+    connect(mapStateToProps, { addPicture }),
+    withTranslate
+)
+(AddPictureDialog);

@@ -49,11 +49,8 @@ const App = (props) => {
      );
 }
 
-const mapStateToProps = () => {
-    return {
-
-    }
-}
+const mapStateToProps = ({ language }) => 
+    ({ language })
  
 export default compose(
     withFadeIn,

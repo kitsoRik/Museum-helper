@@ -7,6 +7,7 @@ import { changePictureInfo } from '../../../../../../actions/picturesInfoActions
 import { debounce } from 'debounce'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { tr } from '../../../../../../services/i18n/i18n';
 
 
 const PictureDescriptionContainer = (props) => {
@@ -23,7 +24,7 @@ const PictureDescriptionContainer = (props) => {
     
     if(currentIndex === -1) return (
         <span className="picture-description-unknown">
-            SELECT LANGUAGE
+            { tr('picture.selectLanguage') }
         </span>)
 
     return (

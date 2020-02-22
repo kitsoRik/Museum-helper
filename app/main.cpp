@@ -36,7 +36,17 @@ int main(int argc, char *argv[])
 
 	Logic logic;
 
+	QTranslator translator;
+	qDebug() << translator.load(QString(":/translations/%1").arg(settings.language()));
+	app.installTranslator(&translator);
+
 	QQmlApplicationEngine engine;
+
+	QObject::connect(&settings, &Settings::languageChanged, [&]() {
+		qDebug() << translator.load(QString(":/translations/%1").arg(settings.language()));
+
+		engine.retranslate();
+	});
 
 	qmlRegisterType<QZXing>("QZXing", 2, 3, "QZXing");
 	qmlRegisterType<Logic>("RostikObjects", 1, 0, "Logic");

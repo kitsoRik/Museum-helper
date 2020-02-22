@@ -25,7 +25,8 @@ class Picture
 public:
 	Picture(const int &id = 0,
 			const QString &name = "",
-			const QString &qrcode = "");
+			const QString &qrcode = "",
+			const QImage &icon = QImage());
 
 	inline int id() const { return m_id; }
 	inline QString name() const { return m_name; }

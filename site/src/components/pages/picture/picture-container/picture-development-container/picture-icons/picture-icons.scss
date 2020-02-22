@@ -1,23 +1,10 @@
 .picture-icons {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 333;
 }
 
 .picture-icons-header {
     display: flex;
     align-items: center;
-}
-
-.picture-icons-container {
-    min-height: 256px;
-    padding: 10px 5px;
-
-    display: flex;
-    flex-grow: 1;
-
-    border: 2px solid black;
-
-    overflow: auto;
-    box-sizing: content-box;
 }
