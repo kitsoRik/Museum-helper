@@ -1,6 +1,6 @@
 import Axios from "axios"
-export const host = `localhost`;   
-export const httpHost = `http://${host}:3000`;
+export const host = `5.45.118.116`;   
+export const httpHost = `http://${host}`;
 export const apiHost = `http://${host}:3006`;
 export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`; 
 export const museumsIconsBaseUrl = `${apiHost}/static/pictureIcons/`;

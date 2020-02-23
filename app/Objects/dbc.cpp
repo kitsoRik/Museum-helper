@@ -89,7 +89,8 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 {
 	QSqlQuery query(db);
 
-	query.prepare("SELECT p.id, p.museum_id, p.qrcode, i.icon FROM saved_pictures p LEFT JOIN saved_picturesIcons i ON ( i.id = ( SELECT min(id) FROM saved_picturesIcons WHERE picture_id = p.id) ) WHERE p.museum_id=?");
+	query.prepare("SELECT p.id, p.museum_id, pi.title, p.qrcode, i.icon FROM saved_pictures p LEFT JOIN saved_picturesIcons i ON ( i.id = ( SELECT min(id) FROM saved_picturesIcons WHERE picture_id = p.id ) ) LEFT JOIN saved_picturesInfo pi ON ( pi.id = ( SELECT id FROM saved_picturesInfo WHERE picture_id=p.id ORDER BY CASE WHEN language=? then 1 ELSE 2 END ) ) WHERE p.museum_id=?");
+	query.addBindValue("ukrainian");
 	query.addBindValue(museumId);
 	if(!query.exec()) qDebug() << query.lastError();
 
@@ -98,11 +99,12 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 	while(query.next())
 	{
 		QSqlRecord record = query.record();
-		int id = record.value(0).toInt();
-		QString name = record.value('name').toString();
-		QString qrcode = record.value(2).toString();
+		qDebug() << record;
+		int id = record.value("id").toInt();
+		QString name = record.value("title").toString();
+		QString qrcode = record.value("qrcode").toString();
 		QPixmap pix;
-		pix.loadFromData(record.value(3).toByteArray());
+		pix.loadFromData(record.value("icon").toByteArray());
 		pictures.append(Picture(id, name, qrcode, pix.toImage()));
 	}
 
@@ -280,6 +282,27 @@ void DBC::saveMuseum(const int &id,
 
 		if(!query.exec()) qDebug() << query.lastError();
 	}
+}
+
+void DBC::removeMuseum(const int &id)
+{
+	QSqlQuery query(db);
+
+	query.prepare("DELERE FROM saved_museums WHERE museum_id=?");
+	query.addBindValue(id);
+	if(!query.exec()) qDebug() << query.lastError();
+
+	query.prepare("DELERE FROM saved_picturesInfo WHERE picture_id ON (SELECT id FROM saved_pictures WHERE museum_id=?)");
+	query.addBindValue(id);
+	if(!query.exec()) qDebug() << query.lastError();
+
+	query.prepare("DELERE FROM saved_picturesIcons WHERE pictures_id ON (SELECT id FROM saved_pictures WHERE museum_id=?)");
+	query.addBindValue(id);
+	if(!query.exec()) qDebug() << query.lastError();
+
+	query.prepare("DELERE FROM saved_pictures WHERE museum_id=?");
+	query.addBindValue(id);
+	if(!query.exec()) qDebug() << query.lastError();
 }
 
 void DBC::savePicturesIcons(const int &museumId,
