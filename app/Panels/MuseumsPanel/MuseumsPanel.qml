@@ -86,7 +86,16 @@ Rectangle {
                 }
 
                 MuseumsList {
+                    visible: !logic.museumsIsLoading;
+                    Layout.fillWidth: true;
+                    Layout.fillHeight: true;
                     model: museums;
+                }
+
+                BusyIndicator {
+                    visible: logic.museumsIsLoading;
+                    Layout.fillWidth: true;
+                    Layout.fillHeight: true;
                 }
             }
 

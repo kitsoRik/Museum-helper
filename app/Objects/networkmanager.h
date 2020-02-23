@@ -3,10 +3,9 @@
 
 #include <QtNetwork>
 
-const QString HOST = "localhost";
-const quint16 PORT = 3006;
-const QString BASE = "http://4e04e0ef.ngrok.io";//"http://" + HOST + ":" + QString::number(PORT);
-const QString ICONS_URL = BASE + "/static/pictureIcons/";
+const QString HOST = "http://5.45.118.116";
+const QString BASE = "http://5.45.118.116:3006";//"http://" + HOST + ":" + QString::number(PORT);
+const QString ICONS_URL = HOST + "/static/pictureIcons/";
 
 class NetworkManager
 {

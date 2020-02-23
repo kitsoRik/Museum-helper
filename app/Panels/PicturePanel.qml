@@ -5,6 +5,7 @@ import RostikObjects 1.0;
 import QtQuick.Window 2.13;
 
 Rectangle {
+    id: root;
     property bool replaceblePanel: false;
     property string panelDevTitle: "PicturePanel";
     property string panelTitle: currentPicture.title;
@@ -50,15 +51,7 @@ Rectangle {
 
             Rectangle {
                 id: iconR;
-                Layout.preferredHeight: {
-                    if(currentPicture.iconsSize === 0)
-                        return 0;
-                    let s = Screen.height;
-                    let h = mainHeader.height;
-                    let b = settings.fullScreen ? 10 : 0;
-
-                    return s - h - b;
-                }
+                Layout.preferredHeight: currentPicture.iconsSize === 0 ? 0 :root.height;
                 Layout.fillWidth: true;
 //                visible: !currentPicture.isNull;
 

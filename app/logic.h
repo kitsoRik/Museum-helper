@@ -10,6 +10,8 @@
 class Logic : public QObject
 {
 	Q_OBJECT
+
+	Q_PROPERTY(bool museumsIsLoading READ museumsIsLoading NOTIFY museumsIsLoadingChanged)
 public:
 
 	explicit Logic(QObject *parent = nullptr);
@@ -18,14 +20,20 @@ public:
 		return m_instance;
 	}
 
+	inline bool museumsIsLoading() const { return m_museumsIsLoading; }
+	void setMuseumsIsLoading(const bool &museumsIsLoading);
+
 public slots:
 	void loadMuseums(const QString &pattern = "");
 	void loadSavedMuseums();
 
 signals:
+	void museumsIsLoadingChanged();
 
 private:
 	static Logic* m_instance;
+
+	bool m_museumsIsLoading;
 
 };
 

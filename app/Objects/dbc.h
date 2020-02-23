@@ -19,6 +19,7 @@ public:
 					const QString &name, const int &updateId,
 					const QJsonArray &pictures,
 					const QJsonArray &picturesInfo);
+	void removeMuseum(const int &id);
 	void savePicturesIcons(const int &museumId, const QList<int> &ids, const QList<QPixmap> &icons);
 
 	void removeMuseumById(const int &id);

@@ -43,7 +43,7 @@ Rectangle {
             elide: Text.ElideRight;
             horizontalAlignment: Qt.AlignHCenter;
             verticalAlignment: Qt.AlignVCenter;
-            text: name + "_ROS"; // NameRole
+            text: name; // NameRole
         }
     }
 

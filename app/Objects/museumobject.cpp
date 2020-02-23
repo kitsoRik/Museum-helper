@@ -1,6 +1,7 @@
 #include "museumobject.h"
 #include "dbc.h"
 #include "picturesmodel.h"
+#include "logic.h"
 
 MuseumObject* MuseumObject::m_instance = nullptr;
 
@@ -126,6 +127,7 @@ void MuseumObject::saveMuseum()
 			DBC::instance()->saveMuseum(m_bigMuseum.id(),
 										m_bigMuseum.name(),
 										m_bigMuseum.updateId(), pictures, picturesInfo);
+			Logic::instance()->loadSavedMuseums();
 			setIsSaved(true);
 			setIsLoading(false);
 		}
@@ -186,5 +188,8 @@ void MuseumObject::goToStart()
 
 void MuseumObject::removeMuseum()
 {
-
+	setIsLoading(true);
+	DBC::instance()->removeMuseumById(m_bigMuseum.id());
+	Logic::instance()->loadSavedMuseums();
+	clear();
 }

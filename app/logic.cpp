@@ -14,11 +14,18 @@ Logic::Logic(QObject *parent)
 	loadSavedMuseums();
 }
 
+void Logic::setMuseumsIsLoading(const bool &museumsIsLoading)
+{
+	m_museumsIsLoading = museumsIsLoading;
+	emit museumsIsLoadingChanged();
+}
+
 void Logic::loadMuseums(const QString &pattern)
 {
+	setMuseumsIsLoading(true);
 	auto reply = NetworkManager::getMuseums(pattern);
 
-	connect(reply, &QNetworkReply::finished, [reply]() {
+	connect(reply, &QNetworkReply::finished, [reply, this]() {
 		auto data = reply->readAll();
 
 		QJsonObject json = QJsonDocument::fromJson(data).object();
@@ -36,6 +43,7 @@ void Logic::loadMuseums(const QString &pattern)
 			}
 
 			MuseumsModel::instance()->setMuseums(museums);
+			setMuseumsIsLoading(false);
 		}
 	});
 }

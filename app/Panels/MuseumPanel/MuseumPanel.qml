@@ -55,6 +55,17 @@ Rectangle {
         }
 
         Button {
+            visible: currentMuseum.isSaved && !currentMuseum.isLoading;
+            Layout.fillWidth: true;
+            Layout.preferredHeight: 60;
+            Layout.margins: 10;
+
+            text: qsTr("Remove museum");
+
+            onClicked: currentMuseum.removeMuseum();
+        }
+
+        Button {
 
             visible: !currentMuseum.iconsSaved && currentMuseum.isSaved && !currentMuseum.isLoading;
             Layout.fillWidth: true;
