@@ -42,6 +42,27 @@ exports.getUserBySesid = (sesid) => new Promise((resolve, reject) => {
         });
 });
 
+exports.getUserById = (id) => new Promise((resolve, reject) => {
+    db.get(`SELECT * FROM users u 
+            WHERE u.id=?`,
+        [id], (err, user) => {
+            if (err) {
+                return reject({
+                    error: SERVER_ERROR
+                });
+            }
+            if (!user) {
+                return reject({
+                    error: "UNKNOWN_DATA"
+                });
+            }
+            resolve({
+                username: user.username,
+                email: user.email
+            });
+        });
+});
+
 exports.getUserByEmailAndPassword = (email, password) => new Promise((resolve, reject) => {
     db.get(`SELECT * FROM users u
             WHERE u.email=? AND u.password=? 

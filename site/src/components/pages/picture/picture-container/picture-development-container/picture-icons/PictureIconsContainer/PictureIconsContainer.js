@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { apiHost } from '../../../../../../../services/api/api';
 import PictureIcon from '../picture-icon';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Button, ButtonGroup } from '@material-ui/core';
+import { deleteIcon } from '../../../../../../../actions/picturesInfoActions';
 import Pagination from '@material-ui/lab/Pagination';
 
 const PictureIconsContainer = (props) => {
@@ -15,22 +16,17 @@ const PictureIconsContainer = (props) => {
     const [pictureIndex, setPictureIndex] = useState(0);
 
     const { picture: { icons } } = props;
+    const { deleteIcon } = props;
 
-    const iconElements = icons.map((icon) => {
-        return (
-        <img
-            className="picture-icons-current"
-            key={icon.id}
-            id={icon.id}
-            src={`${apiHost}/static/pictureIcons/${icon.iconName}`}/>
-        )
-    });
+    const currentIcon = icons[pictureIndex];
+
+    if(!currentIcon) return null;
 
     return ( 
         <div className="picture-icons-container">   
             <Pagination 
                 style={{alignSelf: "center"}}
-                count={iconElements.length} 
+                count={icons.length} 
                 showFirstButton 
                 showLastButton
                 page={pictureIndex + 1}
@@ -40,11 +36,23 @@ const PictureIconsContainer = (props) => {
             <IconButton onClick={() => setPictureIndex(pictureIndex - 1)}>
                 <ArrowBackIosIcon />
             </IconButton>
-            { iconElements.length > pictureIndex && iconElements[pictureIndex] }    
+                <img
+                className="picture-icons-current"
+                key={currentIcon.id}
+                src={`${apiHost}/static/pictureIcons/${currentIcon.iconName}`}/>
             <IconButton onClick={() => setPictureIndex(pictureIndex + 1)}>
                 <ArrowBackIosIcon style={{transform: 'rotate(180deg'}}/>
             </IconButton>
             </div>
+
+            <ButtonGroup
+                variant="contained" 
+                color="primary"
+                style={{ display: 'flex', justifyContent: 'center'}}
+            >
+                <Button>Change</Button>
+                <Button onClick={() => deleteIcon(currentIcon.id)}>Remove</Button>
+            </ButtonGroup>
         </div>
      );
 }
@@ -61,5 +69,5 @@ const mapStateToProps = (state) => {
 
 
 export default compose(
-    connect(mapStateToProps)
+    connect(mapStateToProps, { deleteIcon })
 )(PictureIconsContainer);

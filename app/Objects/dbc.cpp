@@ -99,7 +99,6 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 	while(query.next())
 	{
 		QSqlRecord record = query.record();
-		qDebug() << record;
 		int id = record.value("id").toInt();
 		QString name = record.value("title").toString();
 		QString qrcode = record.value("qrcode").toString();
@@ -321,7 +320,6 @@ void DBC::savePicturesIcons(const int &museumId,
 		QBuffer inBuffer( &inByteArray );
 		inBuffer.open( QIODevice::WriteOnly );
 		pix.save( &inBuffer, "PNG" );
-
 		query.addBindValue(id);
 		query.addBindValue(inByteArray);
 		if(!query.exec()) qDebug() << query.lastError();

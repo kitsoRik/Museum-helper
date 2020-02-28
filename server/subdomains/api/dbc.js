@@ -75,10 +75,10 @@ exports.loginIn = (email, password) => new Promise((resolve, reject) => {
         resolve(user)
     }).catch(reject);
 });
-exports.getUser = (sesid) => new Promise((resolve, reject) => {
+exports.getUser = (id) => new Promise((resolve, reject) => {
     let user;
 
-    UsersHelper.getUserBySesid(sesid)
+    UsersHelper.getUserById(id)
         .then(u => {
             if(!u) return reject(customError("UNKNOWN_SESID"))
             user = u;
@@ -206,7 +206,7 @@ exports.getPictures = (id, searchText, sortedField, sortedType, museumId, update
     .then(m => mid = m)
     .then(() => updateId === 'current' ?
          PicsHelp.getPictures(id, searchText, sortedField, sortedType, mid, limit, pageNumber)
-         : PicturesOldHelper.getOldPicturesByMuseumIdAndReleaseId(museumId, updateId))
+         : PicturesOldHelper.getOldPicturesByMuseumIdAndReleaseId(searchText, sortedField, sortedType, mid, limit, pageNumber, updateId))
     .then(ps => pictures = ps)
     .then(() => PicsHelp.getPicturesPagesDataByRequest(id, searchText, limit, pageNumber))
     .then(pagesData => resolve({ pictures, pagesData, museumId: mid }))

@@ -1,7 +1,7 @@
 import Axios from "axios"
-export const host = `5.45.118.116`;   
+export const host = `rostiktest.pw`;   
 export const httpHost = `http://${host}`;
-export const apiHost = `http://${host}:3006`;
+export const apiHost = `http://api.${host}`;
 export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`; 
 export const museumsIconsBaseUrl = `${apiHost}/static/pictureIcons/`;
 export const verifyLinkUrl = `/verifyEmail/`;

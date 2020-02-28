@@ -3,9 +3,12 @@
 
 #include <QtNetwork>
 
-const QString HOST = "http://5.45.118.116";
-const QString BASE = "http://5.45.118.116:3006";//"http://" + HOST + ":" + QString::number(PORT);
-const QString ICONS_URL = HOST + "/static/pictureIcons/";
+const QString BASE = "rostiktest.pw";
+const QString API_HOST = QString("http://api.%1").arg(BASE);
+const QString ICONS_HOST =
+		QString("http://%1%2")
+		.arg(BASE)
+		.arg("/static/pictureIcons/");
 
 class NetworkManager
 {

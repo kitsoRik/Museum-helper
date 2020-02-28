@@ -6,7 +6,7 @@ const utils = require("../utils");
 exports.getMuseums = (name ) => new Promise((resolve, reject) => {
     db.all(`SELECT id, name, location, update_id updateId
             FROM museums
-            WHERE name LIKE ?`,
+            WHERE name LIKE ? AND update_id!=0`,
     [`%${name}%`], (err, museums) => {
         if(err) return reject({ error: SERVER_ERROR });
 
