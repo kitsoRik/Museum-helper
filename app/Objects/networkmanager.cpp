@@ -32,7 +32,7 @@ QNetworkReply *NetworkManager::getPictures(const int &id)
 
 QNetworkReply *NetworkManager::getIcon(const QString &iconName)
 {
-	QUrl url(ICONS_URL + iconName);
+	QUrl url(ICONS_HOST + iconName);
 	QNetworkRequest req(url);
 
 	return m_manager->get(req);
@@ -40,9 +40,17 @@ QNetworkReply *NetworkManager::getIcon(const QString &iconName)
 
 QNetworkReply *NetworkManager::postSend(const QString &path, const QJsonObject &json)
 {
-	QUrl url(BASE + "/app" + path);
+	QUrl url(API_HOST + "/app" + path);
 	QNetworkRequest request(url);
 
+
 	request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
-	return m_manager->post(request, QJsonDocument(json).toJson());
+	auto reply = m_manager->post(request, QJsonDocument(json).toJson());
+
+	QObject::connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error),
+					 [&](QNetworkReply::NetworkError err) {
+		qDebug() << err;
+	});
+
+	return reply;
 }

@@ -22,8 +22,8 @@ exports.parseJStoSQLQ = (obj, prefix = '') => {
 
 exports.processFileToFilename = (file) => {
     return new Promise((resolve, reject) => {
-        const oldPath = path.join(__dirname, "/uploads/", file.filename);
-        const newPath = path.join(__dirname, "/../icons/", file.filename);
+        const oldPath = path.join(__dirname, "../../uploads/", file.filename);
+        const newPath = path.join(__dirname, "/../../../icons/", file.filename);
         fs.rename(oldPath, newPath, () => {
             resolve(file.filename);
         });

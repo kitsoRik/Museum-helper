@@ -14,8 +14,7 @@ exports.getPicturesPagesDataByRequest =
     });
 });
 
-exports.getPictures = (id, searchText, sortedField, sortedType, museumId, limit, pageNumber) => new Promise((resolve, reject) => {
-    
+exports.getPictures = (id, searchText, sortedField, sortedType, museumId, limit, pageNumber) => new Promise((resolve, reject) => {    
     const sortedFieldsTransform = (field) => {
         switch(field) {
             case 'created': return 'created_date';
@@ -23,7 +22,6 @@ exports.getPictures = (id, searchText, sortedField, sortedType, museumId, limit,
             default: return field;
         }
     }
-            
     const sortedQuery = sortedField === 'none' ? "" : 
         `ORDER BY p.${sortedFieldsTransform(sortedField)} ${sortedType}`;
     db.all(`SELECT p.id, p.name, p.description, p.qrcode, p.include_release includeRelease,

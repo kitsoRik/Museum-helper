@@ -38,7 +38,7 @@ QVariant PicturesModel::data(const QModelIndex &index, int role) const
 
 	switch (role)
 	{
-		case NameRole: return m_pictures.at(row).name() + "ABRA";
+		case NameRole: return m_pictures.at(row).name();
 		case IconRole: return m_pictures.at(row).icon();
 		case IdRole: return m_pictures.at(row).id();
 		default: return QVariant();

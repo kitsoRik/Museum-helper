@@ -22,9 +22,9 @@ exports.getIconFromPicturesIconsById = ({ id, filename }) => new Promise((resolv
 
 exports.deleteIconById = (id) => new Promise((resolve, reject) => {
     db.run(`DELETE FROM pictures_icons
-            WHERE id=?`
+            WHERE id=?`,
     [id], (run, err) => {
-        if(err) return reject({ error: SERVER_ERROR });
+        if(run || err) return reject({ error: SERVER_ERROR });
 
         resolve({id});
     });
