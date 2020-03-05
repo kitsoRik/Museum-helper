@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import "./home.scss";
 import { compose } from 'redux';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 import { tr } from '../../../services/i18n/i18n';
 import withTranslate from '../../hocs/withTranslate';
@@ -37,12 +37,9 @@ const Home = (props) => {
      );
 }
 
-const mapStateToProps = ({ user, language }) => {
-    return {
-        user
-    }
-}
-
+const mapStateToProps = ({ user }) => ({
+    user
+})
 export default compose(
     connect(mapStateToProps),
     withFadeIn,

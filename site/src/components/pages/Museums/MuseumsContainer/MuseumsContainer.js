@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
-import { loadMuseums, addMuseum } from '../../../../actions/museumsActions';
+import { loadMuseums, addMuseum } from '../../../../actions/museums-actions';
 import MuseumItemsContainer from './MuseumItemsContainer';
 
 import './MuseumsContainer.scss';
@@ -41,7 +41,7 @@ const MuseumsContainer = (props) => {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Name"
+                        label={ tr('constants.name') }
                         fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -49,7 +49,7 @@ const MuseumsContainer = (props) => {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Location"
+                        label={ tr('constants.location') }
                         fullWidth
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}

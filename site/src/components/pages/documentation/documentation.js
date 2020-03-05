@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
-import { useDispatch, connect } from 'react-redux';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
-import DocumentationContainer from './documentation-container/documentation-container';
+import { connect } from 'react-redux';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
+import DocumentationContainer from './DocumentationContainer';
 import { compose } from 'redux';
 import withFadeIn from '../../hocs/withFadeIn';
 import { tr } from '../../../services/i18n/i18n';
 import withTranslate from '../../hocs/withTranslate';
 
-const Documentation = ({ language }) => {
+const Documentation = ({ language, changeDrawerTitle}) => {
 
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(changeDrawerTitle(tr('documentation.title')));
+        changeDrawerTitle(tr('documentation.title'));
     }, [ language ])
 
     return ( 
@@ -25,5 +24,5 @@ const Documentation = ({ language }) => {
 export default compose(
     withFadeIn,
     withTranslate,
-    connect(({ language }) => ({ language }))
+    connect(({ language }) => ({ language, changeDrawerTitle }))
 )(Documentation);

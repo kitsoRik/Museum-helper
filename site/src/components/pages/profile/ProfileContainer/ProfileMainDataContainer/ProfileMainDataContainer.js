@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 
 import './ProfileMainDataContainer.scss';
-import { TextField, InputLabel, Divider, FormControl, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import { changeUserData } from '../../../../../actions/userActions';
+import { TextField, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { changeUserData } from '../../../../../actions/user-actions';
 import { CHANGED } from '../../../../../constants';
 import { tr } from '../../../../../services/i18n/i18n';
 import { compose } from 'redux';
@@ -14,7 +14,6 @@ const ProfileMainDataContainer = (props) => {
     const {
         email,
         username,
-        loading,
         changing,
         error
     } = props;
@@ -70,11 +69,10 @@ const ProfileMainDataContainer = (props) => {
      );
 }
 
-const mapStateToProps = ({ user: { email, username, loading, changing, error }}) => {
+const mapStateToProps = ({ user: { email, username, changing, error }}) => {
     return {
         email,
         username,
-        loading,
         changing,
         error
     }

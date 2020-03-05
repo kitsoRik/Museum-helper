@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { removeMuseum } from '../../../../../../actions/museumsActions';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { removeMuseum } from '../../../../../../actions/museums-actions';
 
 const MuseumItemContextMenu = (props) => {
     const {museum = {}, visible, setVisible, position} = props;

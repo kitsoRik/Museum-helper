@@ -1,8 +1,8 @@
-import { CHANGE_LANGUAGE_SUCCESS } from "../actions/languageActions";
+import { CHANGE_LANGUAGE_SUCCESS } from "../actions/language-actions";
 
 const initState = localStorage.getItem('language') || 'en';
 
-const languageReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type) {
         case CHANGE_LANGUAGE_SUCCESS: {
             const { language } = action;
@@ -12,5 +12,3 @@ const languageReducer = (state = initState, action) => {
         default: return state;
     }
 }
-
-export default languageReducer;

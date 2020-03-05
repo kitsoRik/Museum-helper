@@ -1,4 +1,4 @@
-import { LOGIN_IN_PENDING, LOGIN_IN_FAIL, LOGIN_IN_SUCCESS } from "../actions/loginActions"
+import { LOGIN_IN_PENDING, LOGIN_IN_FAIL, LOGIN_IN_SUCCESS } from "../actions/login-actions"
 
 const initState = {
     wait: false,
@@ -6,7 +6,7 @@ const initState = {
     error: null
 }
 
-const loginReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type) {
         case LOGIN_IN_PENDING: {
             return {
@@ -36,5 +36,3 @@ const loginReducer = (state = initState, action) => {
         default: return state;
     }
 }
-
-export default loginReducer;

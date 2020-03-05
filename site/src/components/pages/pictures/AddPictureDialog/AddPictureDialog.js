@@ -5,7 +5,7 @@ import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import { addPicture } from '../../../../actions/picturesActions';
+import { addPicture } from '../../../../actions/pictures-actions';
 import { tr } from '../../../../services/i18n/i18n';
 import { compose } from 'redux';
 import withTranslate from '../../../hocs/withTranslate';
@@ -39,12 +39,12 @@ const AddPictureDialog = (props) => {
             <Dialog 
                 open={addDialogVisible} 
                 onClose={() => setAddDialogVisible(false)}>
-                <DialogTitle >Add picture</DialogTitle>
+                <DialogTitle>{ tr("pictures.addPictures") }</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Name"
+                        label={ tr("constants.name") }
                         fullWidth
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -52,7 +52,7 @@ const AddPictureDialog = (props) => {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Description"
+                        label={ tr("constants.description") }
                         fullWidth
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -60,7 +60,7 @@ const AddPictureDialog = (props) => {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="QR Code"
+                        label={ tr("constants.qrcode") }
                         fullWidth
                         value={qrcode}
                         onChange={(e) => setQrcode(e.target.value)}
@@ -85,7 +85,7 @@ const AddPictureDialog = (props) => {
                         onClick={() => { setAddDialogVisible(false); addPicture(museumId, name, description, qrcode); }}    
                         
                     >
-                        Add
+                        { tr("constants.add") }
                     </Button>
                 </DialogActions>
             </Dialog>

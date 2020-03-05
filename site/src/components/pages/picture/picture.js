@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
-import "./picture.scss"
-import { loadPictureInfo, untriggeredAddLanguageInfo } from '../../../actions/picturesInfoActions';
+import "./Picture.scss"
+import { loadPictureInfo } from '../../../actions/pictures-info-actions';
 import { CircularProgress } from '@material-ui/core';
 import { compose } from 'redux';
-import withAlert from '../../withAlert/withAlert';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
-import PictureContainer from './picture-container/picture-container';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
+import PictureContainer from './PictureContainer';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 
 const Picture = (props) => {

@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import './MainDrawer.scss';
-import { changeVisibleDrawer } from '../../actions/drawerActions';
-import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, Button, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Icon, Select, FormControl, MenuItem } from '@material-ui/core';
+import { changeVisibleDrawer } from '../../actions/drawer-actions';
+import { Drawer as UIDrawer, List, ListItem, ListItemIcon, ListItemText, makeStyles, Typography, useTheme, CssBaseline, AppBar, Toolbar, Divider, ListItemSecondaryAction, Select, FormControl, MenuItem } from '@material-ui/core';
 import {
     Menu as MenuIcon,
-    Delete as DeleteIcon,
     ExitToApp as ExitToAppIcon,
     Favorite as FavotireIcon,
     Museum as MuseumIcon
@@ -20,8 +19,8 @@ import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import HomeIcon from '@material-ui/icons/Home';
 import { withRouter } from 'react-router-dom';
 import clsx from 'clsx';
-import { unlogin } from '../../actions/userActions';
-import { changeLanguage } from '../../actions/languageActions';
+import { unlogin } from '../../actions/user-actions';
+import { changeLanguage } from '../../actions/language-actions';
 import { languages, tr } from '../../services/i18n/i18n';
 import { compose } from 'redux';
 import withTranslate from '../hocs/withTranslate';
@@ -31,6 +30,7 @@ const fillDrawerWindowWidth = 480;
 
 const MainDrawer = (props) => {
 
+    const { loggedIn, history } = props;
     const { language, opened, title } = props;
     const { changeLanguage, changeVisibleDrawer } = props;
 
@@ -39,6 +39,7 @@ const MainDrawer = (props) => {
 
     const items = [
         <ListItem
+            disabled={!loggedIn}
             key={-1}
             button
             onClick={() => { props.history.push("/profile"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
@@ -47,9 +48,14 @@ const MainDrawer = (props) => {
             </ListItemIcon>
             <ListItemText primary={ tr('profile.title') }/>
             <ListItemSecondaryAction>
-                <IconButton onClick={() => { props.unlogin(); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
+                { loggedIn === true && <IconButton onClick={() => { props.unlogin(); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}>
                     <ExitToAppIcon />
-                </IconButton>
+                    </IconButton> 
+                }
+                { loggedIn === false && <IconButton onClick={() => { history.push("/login"); }}>
+                    <ExitToAppIcon style={{transform: `rotate(180deg)`}} />
+                    </IconButton> 
+                }
             </ListItemSecondaryAction>
         </ListItem>,
         <ListItem
@@ -71,6 +77,7 @@ const MainDrawer = (props) => {
             <ListItemText primary={ tr('documentation.title') }/>
         </ListItem>,
         <ListItem
+        disabled={!loggedIn}
             key={-4}
             button
             onClick={() => { props.history.push("/pictures"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
@@ -79,6 +86,7 @@ const MainDrawer = (props) => {
             <ListItemText primary={ tr('pictures.title') } />
         </ListItem>,
         <ListItem
+            disabled={!loggedIn}
             key={-5}
             button
             onClick={() => { props.history.push("/museums"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
@@ -88,6 +96,7 @@ const MainDrawer = (props) => {
         </ListItem>,
 
         <ListItem
+            disabled={!loggedIn}
             key={-6}
             button
             onClick={() => { props.history.push("/favorites"); if(window.innerWidth < fillDrawerWindowWidth) changeVisibleDrawer(); }}
@@ -165,8 +174,8 @@ const MainDrawer = (props) => {
     );
 }
 
-const mapStateToProps = ({ language, drawer: { opened, title } }) => ({
-    opened, title, language
+const mapStateToProps = ({ language, user: { loggedIn }, drawer: { opened, title } }) => ({
+    opened, title, language, loggedIn
 });
 
 export default compose(
@@ -179,7 +188,8 @@ const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         flexGrow: "1",
-        overflow: "hidden"
+        overflow: "hidden",
+        height: '100%'
     },
     appBar: {
         transition: theme.transitions.create(['margin', 'width'], {
@@ -224,7 +234,7 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         maxWidth: `100%`,
-        maxHeight: `calc(100% - 64px)`,
+        height: `calc(100% - 64px)`,
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('all', {

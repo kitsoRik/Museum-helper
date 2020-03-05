@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux'
 
 import './MuseumItem.scss';
-import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
-import { museumsIconsBaseUrl } from '../../../../../../services/api/api';
+import { Button } from '@material-ui/core';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { tr } from '../../../../../../services/i18n/i18n';
@@ -12,7 +10,7 @@ import withTranslate from '../../../../../hocs/withTranslate';
 const MuseumItem = (props) => {
 
     const { openReleaseDialog, openContextMenu } = props;
-    const { museum: { id, name, iconName, location, updateId } } = props;
+    const { museum: { id, name, location } } = props;
     return ( 
         <div 
             className="museum-item"
@@ -38,20 +36,7 @@ const MuseumItem = (props) => {
      );
 }
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
- 
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
     withRouter,
     withTranslate
 )(MuseumItem);

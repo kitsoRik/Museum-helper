@@ -4,7 +4,7 @@ import { TextField, Grid, CircularProgress } from '@material-ui/core';
 
 import './MuseumContainer.scss';
 import { AccountCircle } from '@material-ui/icons';
-import { changeMuseumData } from '../../../../actions/museumActions';
+import { changeMuseumData } from '../../../../actions/museum-actions';
 import { tr } from '../../../../services/i18n/i18n';
 import { compose } from 'redux';
 import withTranslate from '../../../hocs/withTranslate';

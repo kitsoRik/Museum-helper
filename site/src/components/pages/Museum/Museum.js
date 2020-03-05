@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { loadMuseum } from '../../../actions/museumActions';
-import { NOT_LOADED, IS_LOADING, LOADED_ERROR } from '../../../constants';
+import { loadMuseum } from '../../../actions/museum-actions';
+import { IS_LOADING, LOADED_ERROR } from '../../../constants';
 import { CircularProgress } from '@material-ui/core';
 import MuseumContainer from './MuseumContainer/MuseumContainer';
 

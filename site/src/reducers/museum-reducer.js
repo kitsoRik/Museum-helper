@@ -1,5 +1,5 @@
 import { NOT_LOADED, IS_LOADING, LOADED, LOADED_ERROR } from "../constants";
-import { LOAD_MUSEUM_SUCCESS, LOAD_MUSEUM_PENDING, LOAD_MUSEUM_FAIL, CHANGE_MUSEUM_DATA_PENDING, CHANGE_MUSEUM_DATA_SUCCESS, CHANGE_MUSEUM_DATA_FAIL } from "../actions/museumActions";
+import { LOAD_MUSEUM_SUCCESS, LOAD_MUSEUM_PENDING, LOAD_MUSEUM_FAIL, CHANGE_MUSEUM_DATA_PENDING, CHANGE_MUSEUM_DATA_SUCCESS, CHANGE_MUSEUM_DATA_FAIL } from "../actions/museum-actions";
 
 const initState = {
     loading: NOT_LOADED,
@@ -11,7 +11,7 @@ const initState = {
     notChangedField: ""
 }
 
-const museumReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type) {
         case LOAD_MUSEUM_PENDING: {
             return {
@@ -83,5 +83,3 @@ const museumReducer = (state = initState, action) => {
         default: return state;
     }
 }
-
-export default museumReducer;
