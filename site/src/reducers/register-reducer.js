@@ -1,5 +1,5 @@
 import { WAITING, NOT_WAITING } from '../constants';
-import { REGISTER_IN_PENDING, REGISTER_IN_SUCCESS, REGISTER_IN_ERROR } from '../actions/registerActions';
+import { REGISTER_IN_PENDING, REGISTER_IN_SUCCESS, REGISTER_IN_ERROR } from '../actions/register-actions';
 
 const initState = {
     waiting: NOT_WAITING,
@@ -8,7 +8,7 @@ const initState = {
     verifyLink: "" // FIXIT
 }
 
-const registerReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type) {
         case REGISTER_IN_PENDING: {
             return {
@@ -38,5 +38,3 @@ const registerReducer = (state = initState, action) => {
         default: return state;
     }
 };
-
-export default registerReducer;

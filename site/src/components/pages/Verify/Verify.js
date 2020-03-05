@@ -4,8 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
 import './Verify.scss';
-import { CircularProgress, Fab } from '@material-ui/core';
-import { verifyEmail } from '../../../actions/verifyActions';
+import { CircularProgress } from '@material-ui/core';
+import { verifyEmail } from '../../../actions/verify-actions';
 import { IS_VERIFYING, VERIFIED } from '../../../constants';
 
 const Verify = (props) => {

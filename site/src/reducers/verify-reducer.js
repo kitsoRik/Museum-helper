@@ -1,5 +1,5 @@
 import { NOT_VERIFIED, IS_VERIFYING, VERIFIED } from "../constants";
-import { VERIFY_EMAIL_SUCCESS, VERIFY_EMAIL_FAIL, VERIFY_EMAIL_PENDING } from "../actions/verifyActions";
+import { VERIFY_EMAIL_SUCCESS, VERIFY_EMAIL_FAIL, VERIFY_EMAIL_PENDING } from "../actions/verify-actions";
 
 const initState = {
     verifying: NOT_VERIFIED,
@@ -7,7 +7,7 @@ const initState = {
     error: null
 };
 
-const verifyReducer = (state = initState, action) => {
+export default (state = initState, action) => {
     switch(action.type) {
         case VERIFY_EMAIL_PENDING: {
             return {
@@ -42,5 +42,3 @@ const verifyReducer = (state = initState, action) => {
         default: return state;
     }
 };
-
-export default verifyReducer;

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux'
-import SpeedDial from '@material-ui/lab/SpeedDial';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
-import { newReleaseMuseum } from '../../../../../../actions/museumsActions';
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@material-ui/core';
+import { newReleaseMuseum } from '../../../../../../actions/museums-actions';
 
 const NewReleaseDialog = (props) => {
 
@@ -40,10 +38,4 @@ const NewReleaseDialog = (props) => {
      );
 }
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
- 
-export default connect(mapStateToProps, { newReleaseMuseum })(NewReleaseDialog);
+export default connect(null, { newReleaseMuseum })(NewReleaseDialog);

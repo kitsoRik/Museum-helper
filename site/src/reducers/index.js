@@ -1,16 +1,16 @@
-import updateUser from "./updateUser";
-import updatePictures from "./updatePictures";
-import updatePictureInfo from "./updatePictureInfo";
-import updateDrawer from "./updateDrawer";
-import updateAlert from "./updateAlert";
+
 import { combineReducers } from "redux";
-import { updateFavorites } from "./updateFavorites";
-import loginReducer from "./login-reducer";
-import { museumsReducer } from "./museums-reducer";
+import museumsReducer from "./museums-reducer";
 import museumReducer from "./museum-reducer";
 import registerReducer from "./register-reducer";
 import verifyReducer from "./verify-reducer";
 import languageReducer from "./language-reducer";
+import loginReducer from "./login-reducer";
+import drawerReducer from "./drawer-reducer";
+import userReducer from "./user-reducer";
+import picturesReducer from "./pictures-reducer";
+import favoritesReducer from "./favorites-reducer";
+import picturesInfoReducer from "./pictureInfo-reducer";
 
 const reducer = combineReducers({
     language: languageReducer,
@@ -21,13 +21,11 @@ const reducer = combineReducers({
 
     museum: museumReducer,
     museums: museumsReducer,
-    login: loginReducer,
-    alert: updateAlert,
-    drawer: updateDrawer,
-    user: updateUser,
-    pictures: updatePictures,
-    favorites: updateFavorites,
-    pictureInfo: updatePictureInfo
+    drawer: drawerReducer,
+    user: userReducer,
+    pictures: picturesReducer,
+    favorites: favoritesReducer,
+    pictureInfo: picturesInfoReducer
 });
 
 export default reducer;

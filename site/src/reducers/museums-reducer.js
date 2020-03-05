@@ -1,6 +1,6 @@
-import { NOT_LOADED, IS_LOADING, LOADED, ERROR_LOADING } from "../constants";
-import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL } from "../actions/museumsActions";
-import { CHANGE_MUSEUM_DATA_SUCCESS } from "../actions/museumActions";
+import { NOT_LOADED, IS_LOADING, LOADED } from "../constants";
+import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL } from "../actions/museums-actions";
+import { CHANGE_MUSEUM_DATA_SUCCESS } from "../actions/museum-actions";
 
 const initState = {
     error: null,
@@ -8,7 +8,7 @@ const initState = {
     museums: []
 };
 
-export const museumsReducer = (state = initState, action) => {
+export default (state = initState, action) => {
 
     switch(action.type) {
 

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux'
-import PicturesContainer from './pictures-container';
-import { startLoadPictures } from '../../../actions/picturesActions';
+import PicturesContainer from './PicturesContainer';
 
-import "./pictures.scss";
+import "./Pictures.scss";
 import withGuard from '../../hocs/withGuard';
 import { compose } from 'redux';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
 
-import PictureSettingsSearch from './pictures-container/pictures-settings-search';
+import PictureSettingsSearch from './PicturesContainer/PicturesSettingsSearch';
 import PicturesPages from './PicturesPages/PicturesPages';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 import AddPictureDialog from './AddPictureDialog';
@@ -18,7 +17,7 @@ import withTranslate from '../../hocs/withTranslate/withTranslate';
 
 
 const Pictures = (props) => {
-    const { museumsSize, startLoadPictures } = props;
+    const { museumsSize } = props;
     const { searchParams, language } = props;
     const [searchText, setSearchText] = useState(searchParams.searchText);
 
@@ -54,7 +53,7 @@ const mapStateToProps = ({ language, pictures, museums: { museums } }) => {
 }
  
 export default compose(
-    connect(mapStateToProps, { startLoadPictures }),
+    connect(mapStateToProps),
     withGuard,
     withFadeIn,
     withTranslate

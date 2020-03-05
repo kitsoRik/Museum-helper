@@ -1,3 +1,3 @@
-import Pictures from "./pictures";
+import Pictures from "./Pictures";
 
 export default Pictures;

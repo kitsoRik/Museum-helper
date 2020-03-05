@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import withGuard from '../../hocs/withGuard';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
 import ProfileContainer from './ProfileContainer';
 
 import './Profile.scss';

@@ -134,6 +134,7 @@ export default {
         register: 'Register',
         loginIn: 'Login in',
         error: {
+            emailIsNotValid: "Email is not valid",
             emailIsBusy: 'Email is busy',
             usernameIsBudy: "Username is busy",
             passwordLengthLess: "Password length < 8",

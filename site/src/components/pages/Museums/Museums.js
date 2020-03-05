@@ -6,12 +6,14 @@ import MuseumsContainer from './MuseumsContainer';
 
 import './Museums.scss';
 import withFadeIn from '../../hocs/withFadeIn';
-import { changeDrawerTitle } from '../../../actions/drawerActions';
+import { changeDrawerTitle } from '../../../actions/drawer-actions';
+import withTranslate from '../../hocs/withTranslate';
+import { tr } from '../../../services/i18n/i18n';
 
-const Museums = ({ changeDrawerTitle }) => {
+const Museums = ({ language, changeDrawerTitle }) => {
     useEffect(() => {
-        changeDrawerTitle("Museums");
-    }, [ ])
+        changeDrawerTitle(tr("museums.title"));
+    }, [ language ])
 
     return ( 
         <div className="museums-page">
@@ -20,20 +22,13 @@ const Museums = ({ changeDrawerTitle }) => {
      );
 }
 
-const mapStateToProps = (state) => {
-    return {
+const mapStateToProps = ({ language }) => ({
+    language
+});
 
-    }
-}
-
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
- 
 export default compose(
     connect(mapStateToProps, { changeDrawerTitle }),
     withGuard,
-    withFadeIn
+    withFadeIn,
+    withTranslate
 )(Museums);

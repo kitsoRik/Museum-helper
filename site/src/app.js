@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Home from './components/pages/home/';
+import Home from './components/pages/Home/';
 import { connect } from 'react-redux';
-import Login from './components/pages/login/login';
-import Register from './components/pages/register/register';
-import Pictures from './components/pages/pictures';
-import Picture from './components/pages/picture';
-import Documentation from './components/pages/documentation/documentation';
-import NotFound from './components/pages/not-found/not-found';
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
+import Pictures from './components/pages/Pictures';
+import Picture from './components/pages/Picture';
+import Documentation from './components/pages/Documentation';
+import NotFound from './components/pages/NotFound';
 
 import './app.scss';
-import { getData } from './actions/userActions';
+import { getData } from './actions/user-actions';
 import { compose } from 'redux';
-import withAlert from './components/withAlert/withAlert';
-import Favorites from './components/pages/favotires/favorites';
+import Favorites from './components/pages/Favorites/Favorites';
 import withFadeIn from './components/hocs/withFadeIn/withFadeIn';
 import MainDrawer from './components/MainDrawer';
 import Profile from './components/pages/Profile';
 import Museums from './components/pages/Museums';
-import { loadMuseums } from './actions/museumsActions';
+import { loadMuseums } from './actions/museums-actions';
 import Museum from './components/pages/Museum';
 import Verify from './components/pages/Verify';
 
@@ -54,6 +53,5 @@ const mapStateToProps = ({ language }) =>
  
 export default compose(
     withFadeIn,
-    connect(mapStateToProps, { getData, loadMuseums }),
-    withAlert,
+    connect(mapStateToProps, { getData, loadMuseums })
 )(App);

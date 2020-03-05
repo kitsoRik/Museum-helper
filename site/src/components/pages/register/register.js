@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RegisterContainer from './register-container/register-container';
+import RegisterContainer from './RegisterContainer';
 
-import './register.scss';
+import './Register.scss';
 import { compose } from 'redux';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
 import RegisterVerifyContainer from './RegisterVerifyContainer';
