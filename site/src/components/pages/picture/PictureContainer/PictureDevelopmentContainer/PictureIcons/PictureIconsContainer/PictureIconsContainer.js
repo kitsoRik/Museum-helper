@@ -10,6 +10,7 @@ import { IconButton, Button, ButtonGroup } from '@material-ui/core';
 import { deleteIcon } from '../../../../../../../actions/pictures-info-actions';
 import Pagination from '@material-ui/lab/Pagination';
 import { tr } from '../../../../../../../services/i18n/i18n';
+import withTranslate from '../../../../../../hocs/withTranslate';
 
 const PictureIconsContainer = (props) => {
 
@@ -55,7 +56,7 @@ const PictureIconsContainer = (props) => {
                 style={{ display: 'flex', justifyContent: 'center'}}
             >
                 {/* <Button>Change</Button> */}
-            <Button onClick={() => deleteIcon(currentIcon.id)}>{ tr("contstants.remove") }</Button>
+            <Button onClick={() => deleteIcon(currentIcon.id)}>{ tr("constants.remove") }</Button>
             </ButtonGroup>
         </div>
      );
@@ -73,5 +74,6 @@ const mapStateToProps = (state) => {
 
 
 export default compose(
-    connect(mapStateToProps, { deleteIcon })
+    connect(mapStateToProps, { deleteIcon }),
+    withTranslate
 )(PictureIconsContainer);

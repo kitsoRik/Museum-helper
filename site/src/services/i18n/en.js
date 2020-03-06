@@ -109,6 +109,7 @@ export default {
         museum: 'Museum',
         add: 'Add',
         remove: 'Remove',
+        delete: 'Delete',
         location: 'Location',
         language: 'Language',
         addToFavorite: 'Add to Favorites',
