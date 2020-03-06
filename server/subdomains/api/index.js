@@ -1,12 +1,10 @@
-const { serverError, customError, sendAllData, sendError } = require("./statics");
-const utils = require("./utils");
+const { sendError } = require("./statics");
 const express = require("express");
 const router = express.Router();
-const dbc = require('./dbc');
 
-const path = require("path");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const { getIdBySesid } = require("./routes/user/db");
 
 router.use(cookieParser());
 router.use(bodyParser.json());
@@ -32,7 +30,7 @@ router.use((req, res, next) => {
         });
         return;
     }
-    dbc.getIdBySesid(sesid)
+    getIdBySesid(sesid)
         .then(id => {
             req._payload = {
                 user: {
@@ -47,13 +45,5 @@ router.use(require("./routes/picture"));
 router.use(require("./routes/museums"));
 router.use(require("./routes/pictures"));
 router.use(require("./routes/favorites"));
-
-router.post("/newReleaseMuseum", (req, res) => {
-    const { museumId } = req.body;
-    
-    dbc.newReleaseByMuseumId(museumId)
-        .then(sendAllData(res))
-        .catch(sendError(res));
-});
 
 module.exports = router;

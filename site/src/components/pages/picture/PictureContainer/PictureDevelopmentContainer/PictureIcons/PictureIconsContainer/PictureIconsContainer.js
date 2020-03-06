@@ -9,6 +9,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Button, ButtonGroup } from '@material-ui/core';
 import { deleteIcon } from '../../../../../../../actions/pictures-info-actions';
 import Pagination from '@material-ui/lab/Pagination';
+import { tr } from '../../../../../../../services/i18n/i18n';
 
 const PictureIconsContainer = (props) => {
 
@@ -17,10 +18,13 @@ const PictureIconsContainer = (props) => {
     const { picture: { icons } } = props;
     const { deleteIcon } = props;
 
-    const currentIcon = icons[pictureIndex];
+    let currentIcon = icons[pictureIndex];
 
-    if(!currentIcon) return null;
-
+    if(icons.length === 0) return null;
+    if(!currentIcon) {
+        setPictureIndex(icons.length - 1);
+        return null;
+    }
     return ( 
         <div className="picture-icons-container">   
             <Pagination 
@@ -51,7 +55,7 @@ const PictureIconsContainer = (props) => {
                 style={{ display: 'flex', justifyContent: 'center'}}
             >
                 {/* <Button>Change</Button> */}
-                <Button onClick={() => deleteIcon(currentIcon.id)}>Remove</Button>
+            <Button onClick={() => deleteIcon(currentIcon.id)}>{ tr("contstants.remove") }</Button>
             </ButtonGroup>
         </div>
      );

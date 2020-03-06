@@ -20,13 +20,16 @@ import Museums from './components/pages/Museums';
 import { loadMuseums } from './actions/museums-actions';
 import Museum from './components/pages/Museum';
 import Verify from './components/pages/Verify';
+import { LOADED } from './constants';
 
-const App = (props) => {
+const App = ({ dataLoading, getData, loadMuseums }) => {
     
     useEffect(() => {
-        props.getData();
-        props.loadMuseums();
+        getData();
+        loadMuseums();
     }, [ ]);
+
+    if(dataLoading !== LOADED) return <span>WAIT</span>
 
     return ( 
         <MainDrawer>
@@ -48,8 +51,8 @@ const App = (props) => {
      );
 }
 
-const mapStateToProps = ({ language }) => 
-    ({ language })
+const mapStateToProps = ({ language, user: { loading }}) => 
+    ({ language, dataLoading: loading })
  
 export default compose(
     withFadeIn,

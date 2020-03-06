@@ -21,7 +21,6 @@ const PictureDevelopmentContainer = (props) => {
     const [description, setDescription] = useState(picture.description);
     const [qrcode, setQrcode] = useState(picture.qrcode);
     const [includeRelease, setIncludeRelease] = useState(picture.includeRelease);
-
     return (
         <div className="picture-development-container">
             <div className="picture-upper-panel-info">

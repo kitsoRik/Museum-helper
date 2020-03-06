@@ -1,5 +1,5 @@
 import { NOT_LOADED, IS_LOADING, LOADED } from "../constants";
-import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL } from "../actions/museums-actions";
+import { LOAD_MUSEUMS_PENDING, LOAD_MUSEUMS_SUCCESS, LOAD_MUSEUMS_FAIL, ADD_MUSEUM_SUCCESS, REMOVE_MUSEUM_SUCCESS, REMOVE_MUSEUM_FAIL, NEW_RELEASE_MUSEUM_SUCCESS } from "../actions/museums-actions";
 import { CHANGE_MUSEUM_DATA_SUCCESS } from "../actions/museum-actions";
 
 const initState = {
@@ -75,6 +75,19 @@ export default (state = initState, action) => {
             return { 
                 ...state,
                 museums: newMuseums
+            }
+        }
+
+        case NEW_RELEASE_MUSEUM_SUCCESS: {
+            const { museums } = state;
+            const { id } = action;
+
+            const newMuseums = museums.filter(() => true);
+            const m = newMuseums.find(m => m.id === id);
+            m.updateId++;
+            return {
+                ...state,
+                museum: newMuseums
             }
         }
 

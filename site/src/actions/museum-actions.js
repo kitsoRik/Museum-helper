@@ -13,7 +13,7 @@ export const
 export const loadMuseumPending = () => ({
     type: LOAD_MUSEUM_PENDING
 })
-export const loadMuseumSuccess= ({ id, name, location }) => ({
+export const loadMuseumSuccess= ({ museum: { id, name, location }}) => ({
     type: LOAD_MUSEUM_SUCCESS,
     id,
     name,

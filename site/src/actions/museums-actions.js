@@ -61,8 +61,9 @@ export const newReleaseMuseumPending = () => ({
     type: NEW_RELEASE_MUSEUM_PENDING
 });
 
-export const newReleaseMuseumSuccess = () => ({
-    type: NEW_RELEASE_MUSEUM_SUCCESS
+export const newReleaseMuseumSuccess = (d, museumId) => ({
+    type: NEW_RELEASE_MUSEUM_SUCCESS,
+    id: museumId
 });
 
 export const newReleaseMuseumFail = () => ({

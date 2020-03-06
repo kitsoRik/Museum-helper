@@ -57,9 +57,13 @@ ApplicationWindow {
         anchors.fill: parent;
         initialItem: museumsPanel;
 
-
         onCurrentItemChanged: {
-            qrcodeAnalyzer.decoding = (currentItem === scannerPanel);
+            if(currentItem === scannerPanel) {
+                qrcodeAnalyzer.startDecoding();
+            } else {
+                qrcodeAnalyzer.stopDecoding();
+            }
+
             if(currentItem && currentItem.panelTitle) mainHeader.title = currentItem.panelTitle;
         }
     }

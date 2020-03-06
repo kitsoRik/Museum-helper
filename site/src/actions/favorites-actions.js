@@ -59,9 +59,9 @@ export const changeEditable = actionFactory(
     api.saveFavotires,
     setEditable
 );
-const favoriteGroupAdded = ({ addedGroup }) => ({
+const favoriteGroupAdded = ({ group }) => ({
     type: FAVORITE_GROUP_ADDED,
-    group: addedGroup
+    group
 });
 
 export const addFavoriteGroup = actionFactory(

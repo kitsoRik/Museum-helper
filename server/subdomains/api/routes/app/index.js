@@ -1,12 +1,14 @@
 const router = require('express').Router();
-const dbc = require("../../dbc");
 const bodyParser = require("body-parser");
+const { getMuseumsByNamePattern, getMuseumById } = require('../museums/db');
+const { getReleasedPicturesByMuseumId } = require('../pictures/db');
+const { getReleasedPicturesInfoByMuseumId, getReleasedPicturesIconsByMuseumId } = require('../picture/db');
 
 router.use(bodyParser.json());
 
 router.post('/app/getMuseums', (req, res) => {
     const { pattern = ""} = req.body;
-    dbc.getMuseums(pattern)
+    getMuseumsByNamePattern(pattern)
         .then(museums => {   
             res.send({
                 success: true,
@@ -17,7 +19,7 @@ router.post('/app/getMuseums', (req, res) => {
 
 router.post('/app/getMuseum', (req, res) => {
     const { id } = req.body;
-    dbc.getMuseum(id)
+    require('../museums/db').getMuseumById(id)
         .then(museum => {   
             res.send({
                 success: true,
@@ -29,11 +31,11 @@ router.post('/app/getMuseum', (req, res) => {
 router.post('/app/getPictures', (req, res) => {
     const { museumId } = req.body;
     let pictures, picturesInfo, picturesIcons;
-    dbc.getReleasedPicturesByMuseumId(museumId)
+    getReleasedPicturesByMuseumId(museumId)
         .then(p => pictures = p)
-        .then(() => dbc.getReleasedPicturesInfoByMuseumId(museumId))
+        .then(() => getReleasedPicturesInfoByMuseumId(museumId))
         .then(p => picturesInfo = p)
-        .then(() => dbc.getReleasedPicturesIconsByMuseumId(museumId))
+        .then(() => getReleasedPicturesIconsByMuseumId(museumId))
         .then(p => picturesIcons = p)
         .then(() => {
             res.send({

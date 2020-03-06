@@ -1,4 +1,4 @@
-const { GMAIL_LOGIN, GMAIL_PASSWORD } = require("./secret");
+const { GMAIL_LOGIN, GMAIL_PASSWORD, HOST } = require("./secret");
 const nodemailer = require("nodemailer");
 
 
@@ -6,7 +6,7 @@ exports.sendEmailVerify = (email, link) => {
 	sendMail(
 		[email],
 		'Vefiry email',
-		`Hello, it your link - ${link}`
+		`Hello, it your link - http://${HOST}/verifyEmail/${link}`
 	);
 }
 
@@ -22,8 +22,6 @@ const sendMail = (to, title, text) => {
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log(error);
-		} else {
-			console.log('Email sent: ' + info.response);
 		}
 	});
 }

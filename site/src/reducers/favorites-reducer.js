@@ -38,7 +38,10 @@ export default (state = initState, action) => {
             }
         }
         case LOAD_FAVORITES_FAILED: {
-            return state;
+            return {
+                ...state,
+                loading: LOADED
+            }
         }
 
         case CHANGE_FAVORITES_GROUPS: {

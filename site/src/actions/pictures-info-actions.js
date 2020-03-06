@@ -87,9 +87,10 @@ export const changeCurrentIndex = (index) => {
     }
 }
 
-const addIconSuccess = ({ icon }) => ({
+const addIconSuccess = ({ icon }, pictureId) => ({
     type: ICON_TO_PICTURE_ADDED,
-    addedIcon: icon
+    addedIcon: icon,
+    pictureId
 });
 
 export const addIcon = actionFactory(
@@ -98,7 +99,7 @@ export const addIcon = actionFactory(
     addIconSuccess
 );
 
-const deleteIconSuccess = ({ id }) => ({
+const deleteIconSuccess = (d, id) => ({
     type: ICON_FROM_PICTURE_DELETED,
     id
 });

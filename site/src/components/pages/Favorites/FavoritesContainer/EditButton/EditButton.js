@@ -62,7 +62,7 @@ const EditButton = (props) => {
                     <Button 
                         variant="contained" 
                         color="primary"
-                        onClick={() => addFavoriteGroup(name, description)}
+                        onClick={() => { setDialogOpened(false); addFavoriteGroup(name, description);}}
                     >{ tr('constants.add') }</Button>
                 </div>
             </Dialog>
