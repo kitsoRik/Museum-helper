@@ -1,5 +1,5 @@
-import Axios from "axios"
-export const host = `localhost:80`;   
+import Axios from "axios";
+export const host = `rostiktest.pw`;   
 export const httpHost = `http://${host}`;
 export const apiHost = `http://api.${host}`;
 export const picturesIconsBaseUrl = `${apiHost}/static/pictureIcons/`; 

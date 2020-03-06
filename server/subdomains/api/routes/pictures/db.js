@@ -25,7 +25,6 @@ exports.deletePicture = (id) => new Promise((resolve, reject) => {
 });
 
 exports.getPictureById = (id) => new Promise((resolve, reject) => {
-    console.log("F");
     db.get(`SELECT p.id, p.name, p.description, p.qrcode, p.include_release includeRelease,
                 (
                     SELECT icon_name FROM pictures_icons pi WHERE pi.picture_id=p.id 
