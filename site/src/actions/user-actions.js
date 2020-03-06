@@ -8,6 +8,7 @@ export const
     UNLOGIN_SUCCESS = "UNLOGIN_SUCCESS",
     UNLOGIN_ERROR = "UNLOGIN_ERROR",
 
+    GET_DATA_PENDING = "GET_DATA_PENDING",
     SET_DATA = "SET_DATA",
     FAIL_DATA = "FAIL_DATA",
     
@@ -35,6 +36,10 @@ export const unlogin = actionFactory(
     unloginError
 );
 
+export const getDataPending = () => ({
+    type: GET_DATA_PENDING,
+})
+
 export const setData = ({ email, username }) => {
     return {
         type: SET_DATA,
@@ -52,7 +57,7 @@ export const failData = (data) => {
 
 export const getData = actionFactory(
     api.getUserData,
-    null,
+    getDataPending,
     setData,
     failData
 );

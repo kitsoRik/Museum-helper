@@ -1,5 +1,6 @@
 import { NOT_LOADED, LOADED, ERROR_LOADING, IS_LOADING } from "../constants";
 import { LOAD_PICTURES_START, LOAD_PICTURES_SUCCESS, LOAD_PICTURES_ERROR, ADD_PICTURE_SUCCESS, DELETE_PICTURE_SUCCESS, PICTURE_TO_FAVOTIRES_ADDED, PICTURE_FROM_FAVOTIRES_DELETED, SET_SEARCH_PARAMS } from "../actions/pictures-actions";
+import { ICON_TO_PICTURE_ADDED } from "../actions/pictures-info-actions";
 
 const initState = {
     loading: NOT_LOADED,
@@ -37,6 +38,22 @@ export default (state = initState, action) => {
         case PICTURE_FROM_FAVOTIRES_DELETED: return addDeletePictureInFavorites(state, action, false);
 
         case SET_SEARCH_PARAMS: return setSearchParams(state, action);
+
+        case ICON_TO_PICTURE_ADDED: {
+            const { pictures } = state;
+            const { pictureId, addedIcon } = action;
+
+            const newPictures = pictures.filter(() => true);
+            const picture = newPictures.find(p => p.id === pictureId);
+            if(picture === undefined) alert("A");
+            if(picture.iconName === null)
+                picture.iconName = addedIcon.iconName;
+
+            return {
+                ...state,
+                pictures: newPictures
+            }
+        }
 
         default: return state;
     }

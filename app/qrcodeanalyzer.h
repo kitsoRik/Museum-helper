@@ -41,6 +41,8 @@ signals:
 	void failedDecoding(const FailedDecodingType& type);
 
 public slots:
+	void startDecoding();
+	void stopDecoding();
 
 private:
 	void onDecodingStarted();

@@ -10,7 +10,7 @@ exports.customError = (type, other = {}) => ({ type, ...other });
 
 
 
-exports.sendAllData = (res, other) => data => 
+exports.sendAllData = (res, other) => data =>
     res.send({ success: true, ...other, ...data });
 exports.sendError = res => (e) => { 
     if(!e) e.text = SCRIPT_ERROR;

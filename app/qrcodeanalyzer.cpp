@@ -86,3 +86,13 @@ void QRCodeAnalyzer::setDecoding(bool decoding)
 	m_decodedS = decoding ? false : true;
 	m_decoding = decoding;
 }
+
+void QRCodeAnalyzer::startDecoding()
+{
+	setDecoding(true);
+}
+
+void QRCodeAnalyzer::stopDecoding()
+{
+	setDecoding(false);
+}

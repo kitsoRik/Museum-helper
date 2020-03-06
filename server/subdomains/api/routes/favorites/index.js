@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { sendAllData, sendError } = require("../../statics");
-const dbc = require("../../dbc");
+const { addFavoritePicture, deleteFavoritePictureByPictureId, getFavorites, changeFavorites, addFavotireGroup, deleteFavotireGroup } = require("./db");
+
 
 router.post("/getFavorites", (req, res) => {
     const { user: { id }} = req._payload;
-    dbc.getFavorites(id)
+    getFavorites(id)
+        .then(groups => ({ groups }))
         .then(sendAllData(res))
         .catch(sendError(res));
 }); 
@@ -13,21 +15,21 @@ router.post("/getFavorites", (req, res) => {
 router.post("/saveFavorites", (req, res) => {
     const { groups } = req.body;
     
-    dbc.changeFavorites(groups)
+    changeFavorites(groups)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
 
 router.post("/addPictureToFavorites", (req, res) => {
     const { id } = req.body;
-    dbc.addFavotirePicture(id)
+    addFavoritePicture(id)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
 
 router.post("/deletePictureFromFavorites", (req, res) => {
     const { id } = req.body;
-    dbc.deleteFavotirePicture(id)
+    deleteFavoritePictureByPictureId(id)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
@@ -35,7 +37,8 @@ router.post("/deletePictureFromFavorites", (req, res) => {
 router.post("/addFavoriteGroup", (req, res) => {
     const { name, description } = req.body;
     const { user: { id }} = req._payload;
-    dbc.addFavotireGroup(id, name, description)
+    addFavotireGroup(id, name, description)
+        .then(group => ({ group }))
         .then(sendAllData(res))
         .catch(sendError(res));
 });
@@ -43,7 +46,7 @@ router.post("/addFavoriteGroup", (req, res) => {
 router.post("/deleteFavoriteGroup", (req, res) => {
     const { id } = req.body;
     
-    dbc.deleteFavotireGroup(id)
+    deleteFavotireGroup(id)
         .then(sendAllData(res))
         .catch(sendError(res));
 });

@@ -18,7 +18,7 @@ const Picture = (props) => {
 
     useEffect(() => {
         loadPictureInfo(id);
-    }, [ ]);
+    }, [ id ]);
 
     useEffect(() => {
         if(!picture) return;
@@ -26,7 +26,7 @@ const Picture = (props) => {
     }, [ picture ]);
     
 
-    if(!picture) return <CircularProgress />;
+    if(!picture || picture.id != id) return <CircularProgress />;
     
     return ( 
         <div className="picture-page">

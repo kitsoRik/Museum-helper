@@ -1,16 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const utils = require("../../utils");
-const mailc = require("../../mailc");
 const { sendAllData, sendError } = require("../../statics");
-const { customError } = require("../../statics");
-const dbc = require("../../dbc");
+const { loginIn, verifyEmail } = require("../user/db");
 
 router.post("/loginIn", (req, res) => {
 
     const { email, password } = req.body;
     
-    dbc.loginIn(email, password)
+    loginIn(email, password)
     .then(({ id, username, email }) => {
         res.cookie("sesid", utils.createSesid(id));
         res.send({
@@ -24,7 +22,7 @@ router.post("/loginIn", (req, res) => {
 router.post("/verifyEmail", (req, res) => {
     const { link } = req.body;
 
-    dbc.verifyEmail(link)
+    verifyEmail(link)
         .then(sendAllData(res))
         .catch(sendError(res));
 });
