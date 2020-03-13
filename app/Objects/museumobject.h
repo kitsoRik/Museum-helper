@@ -9,6 +9,8 @@ class MuseumObject : public QObject
 {
 	Q_OBJECT
 
+	Q_PROPERTY(bool isChoosed READ isChoosed WRITE setIsChoosed NOTIFY isChoosedChanged)
+
 	Q_PROPERTY(bool isSaved READ isSaved NOTIFY isSavedChanged)
 	Q_PROPERTY(bool isLoading READ isLoading NOTIFY isLoadingChanged)
 
@@ -36,6 +38,9 @@ public:
 	inline QString name() const { return m_bigMuseum.name(); }
 	void setName(const QString &name);
 
+	bool isChoosed() const;
+	void setIsChoosed(bool isChoosed);
+
 private:
 	void clear();
 
@@ -50,6 +55,9 @@ public slots:
 	void removeMuseum();
 
 signals:
+	void museumSaved();
+	void isChoosedChanged();
+
 	void isSavedChanged();
 	void isLoadingChanged();
 
@@ -61,6 +69,8 @@ signals:
 
 private:
 	static MuseumObject *m_instance;
+
+	bool m_isChoosed;
 
 	bool m_isSaved;
 	bool m_isLoading;

@@ -49,13 +49,13 @@ const EditButton = (props) => {
                 <div className="favorites-add-group-dialog">
                     <TextField 
                         id="name-field"
-                        label="Name"
+                        label={ tr('constants.name') }
                         variant="outlined"
                         value={name} 
                         onChange={(e) => setName(e.target.value)}/>
                     <TextField 
                         id="description-field"
-                        label="Description"
+                        label={ tr('constants.description') }
                         variant="outlined"
                         value={description} 
                         onChange={(e) => setDescription(e.target.value)}/>

@@ -73,4 +73,11 @@ ApplicationWindow {
     MuseumPanel { id: museumPanel; visible: false; }
     ScannerPanel { id: scannerPanel; visible: false; }
     ChoosePanel { id: choosePanel;  visible: false; }
+
+
+    Item {
+        id: fullMainWindow;
+        anchors.fill: parent;
+    }
+
 }

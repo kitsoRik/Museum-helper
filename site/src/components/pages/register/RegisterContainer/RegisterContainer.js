@@ -53,6 +53,7 @@ const RegisterContainer = (props) => {
                 color="primary"
                 className="register-submit-btn" 
                 onClick={() => registerIn(username, email, password, passwordConfirm)}
+                style={{marginTop: '15px'}}
             >{ tr('register.register') }</Button>
             <Link
                 className="register-login-link" 

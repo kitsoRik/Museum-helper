@@ -3,7 +3,7 @@
 
 #include <QtNetwork>
 
-const QString BASE = "5.45.118.116";
+const QString BASE = "rostiktest.pw";
 const QString API_HOST = QString("http://api.%1").arg(BASE);
 const QString ICONS_HOST =
 		QString("http://%1%2")

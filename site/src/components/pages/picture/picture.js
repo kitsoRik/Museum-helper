@@ -9,6 +9,7 @@ import { compose } from 'redux';
 import { changeDrawerTitle } from '../../../actions/drawer-actions';
 import PictureContainer from './PictureContainer';
 import withFadeIn from '../../hocs/withFadeIn/withFadeIn';
+import withGuard from '../../hocs/withGuard';
 
 const Picture = (props) => {
     const { match: { params: { id }}} = props;
@@ -45,5 +46,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps, { loadPictureInfo }),
     withRouter,
-    withFadeIn
+    withFadeIn,
+    withGuard
 )(Picture)

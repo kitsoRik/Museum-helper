@@ -1,4 +1,4 @@
-import { LOGIN_IN_PENDING, LOGIN_IN_FAIL, LOGIN_IN_SUCCESS } from "../actions/login-actions"
+import { LOGIN_IN_PENDING, LOGIN_IN_FAIL, LOGIN_IN_SUCCESS, EXIT_FROM_VERIFY, VERIFY_EMAIL_AGAIN_PENDING, VERIFY_EMAIL_AGAIN_SUCCESS } from "../actions/login-actions"
 
 const initState = {
     wait: false,
@@ -32,6 +32,25 @@ export default (state = initState, action) => {
                 success: false,
                 error
             };
+        }
+        case EXIT_FROM_VERIFY: {
+            return {
+                ...state,
+                error: null
+            }
+        }
+        case VERIFY_EMAIL_AGAIN_PENDING: {
+            return {
+                ...state,
+                wait: true
+            }
+        }
+        case VERIFY_EMAIL_AGAIN_SUCCESS: {
+            return {
+                ...state,
+                wait: false,
+                error: null
+            }
         }
         default: return state;
     }

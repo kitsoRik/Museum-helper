@@ -38,6 +38,9 @@ const getRegisterIn = (username, email, password, passwordConfirm) =>
 const verifyEmail = (link) => 
     AxiosPost("/verifyEmail", { link });
 
+const verifyEmailAgain = (email) =>
+    AxiosPost("/verifyEmailAgain", { email });
+
 const getMuseum = (museumId) => 
     AxiosPost(`/getMuseum`, { museumId });
 
@@ -115,6 +118,7 @@ export default {
     changeUserData,
     unlogin,
     verifyEmail,
+    verifyEmailAgain,
     getRegisterIn,
     getMuseum,
     getMuseums,

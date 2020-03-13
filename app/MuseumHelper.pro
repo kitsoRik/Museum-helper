@@ -83,3 +83,13 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 TRANSLATIONS += \
     $$PWD/translations/ru.ts \
     $$PWD/translations/ua.ts
+
+contains(ANDROID_TARGET_ARCH,x86) {
+    ANDROID_PACKAGE_SOURCE_DIR = \
+        $$PWD/android
+}
+
+contains(ANDROID_TARGET_ARCH,arm64-v8a) {
+    ANDROID_PACKAGE_SOURCE_DIR = \
+        $$PWD/android
+}

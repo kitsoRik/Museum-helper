@@ -44,6 +44,10 @@ export default {
         },
         museumItem: {
             newRelease: 'New release'
+        },
+        newReleaseDialog: {
+            title: "New release",
+            description: "Description on changes"
         }
     },
     picture: {
@@ -124,7 +128,8 @@ export default {
         error: {
             badUserData: 'Bad user data'
         },
-        needToVerifyText: `Need to verify email, send vefiry link more?`
+        needToVerifyText: `Need to verify email, send vefiry link more?`,
+        sendLinkAgain: "Send link again"
     },
     register: {
         title: 'Register',
@@ -144,5 +149,10 @@ export default {
         },
         verifyText: `You was registered, please vefiry your email!
                     Verify link sending to your email`
+    },
+    verify: {
+        unknownLink: "Unknown verify link",
+        emailHasBeenVerified: "Email: {email} has been verified",
+        toLogin: 'to login'
     }
 };
