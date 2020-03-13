@@ -46,6 +46,11 @@ void Logic::loadMuseums(const QString &pattern)
 			setMuseumsIsLoading(false);
 		}
 	});
+
+	connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error),
+			[=](QNetworkReply::NetworkError code){
+		qDebug() << code;
+	});
 }
 
 void Logic::loadSavedMuseums()

@@ -7,7 +7,8 @@ MuseumObject* MuseumObject::m_instance = nullptr;
 
 MuseumObject::MuseumObject(QObject *parent)
 	: QObject(parent),
-	  m_isSaved(false)
+	  m_isSaved(false),
+	  m_isChoosed(false)
 {
 	if(m_instance) throw std::runtime_error("Museum object already created");
 
@@ -87,6 +88,12 @@ void MuseumObject::setMuseumId(const int &id)
 			}
 			setIsLoading(false);
 		});
+
+		connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error),
+				[=](QNetworkReply::NetworkError code) {
+			setIsLoading(true);
+			setNeedUpdate(false);
+		});
 	}
 	else
 	{
@@ -130,6 +137,7 @@ void MuseumObject::saveMuseum()
 			Logic::instance()->loadSavedMuseums();
 			setIsSaved(true);
 			setIsLoading(false);
+			emit museumSaved();
 		}
 	});
 }
@@ -184,6 +192,7 @@ void MuseumObject::goToStart()
 {
 	auto a = DBC::instance()->getSavedPicturesByMuseumId(m_bigMuseum.id());
 	PicturesModel::instance()->setPictures(a);
+	setIsChoosed(true);
 }
 
 void MuseumObject::removeMuseum()
@@ -192,4 +201,15 @@ void MuseumObject::removeMuseum()
 	DBC::instance()->removeMuseumById(m_bigMuseum.id());
 	Logic::instance()->loadSavedMuseums();
 	clear();
+}
+
+bool MuseumObject::isChoosed() const
+{
+	return m_isChoosed;
+}
+
+void MuseumObject::setIsChoosed(bool isChoosed)
+{
+	m_isChoosed = isChoosed;
+	emit isChoosedChanged();
 }

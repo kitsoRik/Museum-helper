@@ -51,6 +51,7 @@ Rectangle {
             text: "M";
 
             onClicked: {
+                currentMuseum.isChoosed = false;
                 mainStackView.pop(null);
                 mainStackView.replace(museumsPanel, {destroyOnPop: false});
             }

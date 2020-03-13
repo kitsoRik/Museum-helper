@@ -12,7 +12,7 @@ import withTranslate from '../../../hocs/withTranslate';
 
 const LoginContainer = (props) => {
 
-    const { wait, error, success } = props;
+    const { wait, error } = props;
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -37,8 +37,6 @@ const LoginContainer = (props) => {
                 variant="contained"
                 color="primary"
                 className="login-submit-btn"
-                success={(success).toString()}
-                error={error ? "true" : "false"}
                 disabled={wait}
                 onClick={() => loginIn(email, password)}
             >{ tr('login.enter')}
@@ -52,9 +50,9 @@ const LoginContainer = (props) => {
     );
 };
 
-const mapStateToProps = ({ login: { wait, error, success }}) => {
+const mapStateToProps = ({ login: { wait, error }}) => {
     return {
-        wait, error, success
+        wait, error
     }
 }
 export default compose(

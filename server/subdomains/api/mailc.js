@@ -13,7 +13,7 @@ exports.sendEmailVerify = (email, link) => {
 const sendMail = (to, title, text) => {
 	var mailOptions = {
 		from: 'Museum Helper',
-		to: to,
+		to,
 
 		subject: title,
 		text: text
@@ -22,6 +22,8 @@ const sendMail = (to, title, text) => {
 	transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			console.log(error);
+		} else {
+			console.log(info);
 		}
 	});
 }

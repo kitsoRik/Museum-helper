@@ -14,6 +14,9 @@ import { connect } from 'react-redux';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import EjectIcon from '@material-ui/icons/Eject';
 import { DIRECTION_UP, DIRECTION_DOWN } from '../../../../../constants';
+import withTranslate from '../../../../hocs/withTranslate';
+import { compose } from 'redux';
+import { tr } from '../../../../../services/i18n/i18n';
 
 const ContainerItem = (props) => {
 
@@ -54,10 +57,10 @@ const ContainerItem = (props) => {
                     onBlur={(e) => onGroupNameChanged(e.target.value)}/> 
             }
             { (!editable || id === -1) &&
-                <span className="container-item-header-name">{ name }</span> 
+                <span className="container-item-header-name">{ id === -1 ? tr("favorites.otherGroup.title") : name}</span> 
             }
             { (!editable || id === -1) &&
-                <span className="container-item-header-description">{ description }</span>
+                <span className="container-item-header-description">{ id === -1 ? tr("favorites.otherGroup.description") : name }</span>
             }
             { editable &&  id !== -1 &&
                 <IconButton>
@@ -136,4 +139,7 @@ const mapStateToProps = ({ favorites: { editable }}) => {
     }
 }
 
-export default connect(mapStateToProps, { deleteFavoriteGroup, moveGroup })(ContainerItem);
+export default compose(
+    connect(mapStateToProps, { deleteFavoriteGroup, moveGroup }),
+    withTranslate
+)(ContainerItem);

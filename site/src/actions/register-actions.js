@@ -4,7 +4,9 @@ import { actionFactory } from "./helpers";
 export const 
     REGISTER_IN_PENDING = "REGISTER_IN_PENDING",
     REGISTER_IN_SUCCESS = "REGISTER_IN_SUCCESS",
-    REGISTER_IN_ERROR = "REGISTER_IN_ERROR";
+    REGISTER_IN_ERROR = "REGISTER_IN_ERROR",
+
+    CLEAR_REGISTER = "CLEAR_REGISTER";
 
 
 export const registerInPending = () => ({
@@ -27,3 +29,7 @@ export const registerIn = actionFactory(
     registerInSuccess,
     registerInError
 );
+
+export const clearRegister = () => ({
+    type: CLEAR_REGISTER
+})

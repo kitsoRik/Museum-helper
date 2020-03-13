@@ -24,6 +24,14 @@ exports.checkVerifyLink = (link) => new Promise((resolve, reject) => {
     });
 });
 
+exports.getVerifyLink = (email) => new Promise((resolve, reject) => {
+    db.get(`SELECT link FROM email_verify_links WHERE email=?`,
+    [email], (err, row) => {
+        if(err) return reject(serverError());
+        resolve(row.link);
+    });
+});
+
 exports.checkVerifyEmail = (email) => new Promise((resolve, reject) => {
     db.get(`SELECT email, link FROM email_verify_links WHERE email=?`,
     [email], (err, row) => {
@@ -58,7 +66,7 @@ exports.loginIn = (email, password) => new Promise((resolve, reject) => {
         return this.checkVerifyEmail(email);
     })
     .then(has => {
-        if(has) reject(customError("NEED_VERIFY_EMAIL", {link: has.link}));
+        if(has) reject(customError("NEED_VERIFY_EMAIL", {link: has.link, email: has.email}));
 
         resolve(user)
     }).catch(reject);

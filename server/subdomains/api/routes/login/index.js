@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const utils = require("../../utils");
 const { sendAllData, sendError } = require("../../statics");
-const { loginIn, verifyEmail } = require("../user/db");
+const { loginIn, verifyEmail, getVerifyLink } = require("../user/db");
+const mailc = require("../../mailc");
 
 router.post("/loginIn", (req, res) => {
 
@@ -25,6 +26,14 @@ router.post("/verifyEmail", (req, res) => {
     verifyEmail(link)
         .then(sendAllData(res))
         .catch(sendError(res));
+});
+
+router.post("/verifyEmailAgain", (req, res) => {
+    const { email } = req.body;
+    getVerifyLink(email)
+        .then(link => mailc.sendEmailVerify(email, link))
+        .then(sendAllData(res))
+        .catch(sendError(res))
 });
 
 module.exports = router; 

@@ -1,5 +1,5 @@
 import { WAITING, NOT_WAITING } from '../constants';
-import { REGISTER_IN_PENDING, REGISTER_IN_SUCCESS, REGISTER_IN_ERROR } from '../actions/register-actions';
+import { REGISTER_IN_PENDING, REGISTER_IN_SUCCESS, REGISTER_IN_ERROR, CLEAR_REGISTER } from '../actions/register-actions';
 
 const initState = {
     waiting: NOT_WAITING,
@@ -33,6 +33,9 @@ export default (state = initState, action) => {
                 waiting: NOT_WAITING,
                 error
             }
+        }
+        case CLEAR_REGISTER: {
+            return initState;
         }
 
         default: return state;

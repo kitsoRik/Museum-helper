@@ -23,6 +23,7 @@ public:
 	inline bool museumsIsLoading() const { return m_museumsIsLoading; }
 	void setMuseumsIsLoading(const bool &museumsIsLoading);
 
+
 public slots:
 	void loadMuseums(const QString &pattern = "");
 	void loadSavedMuseums();

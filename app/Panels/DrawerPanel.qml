@@ -18,9 +18,11 @@ Drawer {
 
         ColumnLayout {
             width: parent.parent.width;
+            height: parent.height;
             spacing: 1;
 
             DrawerDelegate {
+                enabled: currentMuseum.isChoosed;
                 visible: QtMultimedia.availableCameras.length > 0;
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
@@ -31,6 +33,7 @@ Drawer {
             }
 
             DrawerDelegate {
+                enabled: currentMuseum.isChoosed;
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
                 title: qsTr("Choose");
@@ -38,6 +41,8 @@ Drawer {
                 openPanelDevTitle: "ChoosePanel";
                 openPanelRef: choosePanel;
             }
+
+            Item { Layout.fillHeight: true; Layout.fillWidth: true; }
 
             DrawerDelegate {
                 Layout.fillWidth: true;

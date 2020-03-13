@@ -1,5 +1,7 @@
 import { actionFactory } from "./helpers";
 import api from "../services/api/api";
+import { verifyEmailAgainSuccess } from "./login-actions";
+import { clearRegister } from "./register-actions";
 
 export const 
     VERIFY_EMAIL_PENDING = "VERIFY_EMAIL_PENDING",
@@ -23,6 +25,6 @@ export const verifyEmailFail = ({ error }) => ({
 export const verifyEmail = actionFactory(
     api.verifyEmail,
     verifyEmailPending,
-    verifyEmailSuccess,
+    [verifyEmailSuccess, verifyEmailAgainSuccess, clearRegister],
     verifyEmailFail
 );

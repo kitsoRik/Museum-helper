@@ -10,8 +10,8 @@ const RegisterVerifyContainer = (props) => {
     const { verifyLink } = props;
 
     return ( 
-        <div>
-            { tr('register.verifyText') }
+        <div className="register-verify-panel">
+            <h1>{ tr('register.verifyText') }</h1>
             <Link href={`${verifyLinkUrl}${verifyLink}`}>DEV LINK</Link>
         </div>
      );
@@ -23,13 +23,7 @@ const mapStateToProps = ({ register: { verifyLink }}) => {
     }
 }
 
-const mapDipatchToProps = (dispatch, ownProps) => {
-    return {
-
-    }
-}
- 
 export default compose(
-    connect(mapStateToProps, mapDipatchToProps),
+    connect(mapStateToProps),
     withTranslate
 )(RegisterVerifyContainer);

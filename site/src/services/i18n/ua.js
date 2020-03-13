@@ -44,6 +44,10 @@ export default {
         },
         museumItem: {
             newRelease: 'Новий випуск'
+        },
+        newReleaseDialog: {
+            title: "Новий випуск",
+            description: "Опис змін"
         }
     },
     picture: {
@@ -123,7 +127,8 @@ export default {
         error: {
             badUserData: 'Невірні дані'
         },
-        needToVerifyText: `Потрібно підтвердити e-mail, відправити лист ще раз?`
+        needToVerifyText: `Потрібно підтвердити e-mail, відправити лист ще раз?`,
+        sendLinkAgain: "Вдправити ще раз"
     },
     register: {
         title: 'Реєстрація',
@@ -141,5 +146,10 @@ export default {
             unknownError: 'Невідома помилка'
         },
         verifyText: `Ви успішно пройшли реєстрацію. Вам на e-mail було вислано лист з посиланням для підтвердження`
+    },
+    verify: {
+        unknownLink: "Невідоме посилання",
+        emailHasBeenVerified: "Email: {email} успішно підтвердженно",
+        toLogin: 'перезайти'
     }
 };
