@@ -7,5 +7,9 @@
         <file>icons/ScanningBackground.png</file>
         <file>icons/ScanningQRCode.png</file>
         <file>drawericons/SettingsIcon.png</file>
+        <file>drawericons/ChooseIcon.png</file>
+        <file>drawericons/ScanIcon.png</file>
+        <file>drawericons/SearchIconDrawer.png</file>
+        <file>drawericons/AboutIcon.png</file>
     </qresource>
 </RCC>

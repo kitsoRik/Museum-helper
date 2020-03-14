@@ -17,7 +17,7 @@ Rectangle {
         Text {
             Layout.fillWidth: true;
             Layout.preferredHeight: 30;
-            text: currentMuseum.name + (currentMuseum.isSaved ? " (SAVED)": "");
+            text: currentMuseum.name + (currentMuseum.isSaved ? " " + qsTr("(SAVED)"): "");
             horizontalAlignment: Text.AlignHCenter;
 
             font.pointSize: 300;

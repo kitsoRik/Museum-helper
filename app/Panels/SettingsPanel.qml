@@ -43,9 +43,13 @@ Rectangle {
                         if(arr[i] === settings.language)
                             return i;
                 }
-                onCurrentTextChanged: settings.language = currentText;
-                model: ['en', 'ua', 'ru'];
-
+                onCurrentIndexChanged: settings.language = ['en', 'ua', 'ru'][currentIndex];
+                textRole: "text";
+                model: ListModel {
+                    ListElement { text: "English"; value: 'en' }
+                    ListElement { text: "Українська"; value: 'ua' }
+                    ListElement { text: "Русская"; value: 'ru' }
+                }
             }
         }
     }

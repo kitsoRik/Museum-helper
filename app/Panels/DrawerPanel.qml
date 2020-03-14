@@ -27,7 +27,7 @@ Drawer {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
                 title: qsTr("Scanner");
-                source: "qrc:/main/drawericons/SettingsIcon.png";
+                source: "qrc:/main/drawericons/ScanIcon.png";
                 openPanelDevTitle: "ScannerPanel";
                 openPanelRef: scannerPanel;
             }
@@ -37,7 +37,7 @@ Drawer {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 90;
                 title: qsTr("Choose");
-                source: "qrc:/main/drawericons/SettingsIcon.png";
+                source: "qrc:/main/drawericons/SearchIconDrawer.png";
                 openPanelDevTitle: "ChoosePanel";
                 openPanelRef: choosePanel;
             }
@@ -57,7 +57,7 @@ Drawer {
                 Layout.fillWidth: true;
                 Layout.preferredHeight: 70;
                 title: qsTr("About");
-                source: "qrc:/main/drawericons/SettingsIcon.png";
+                source: "qrc:/main/drawericons/AboutIcon.png";
                 openPanelDevTitle: "AboutPanel";
                 openPanelPath: "qrc:/Panels/AboutPanel.qml";
             }
