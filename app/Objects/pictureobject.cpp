@@ -15,7 +15,18 @@ QStringList PictureObject::languagesModel() const
 {
 	QStringList list;
 
-	for(auto info : m_pictureInfo) list.append(info.language());
+	for(auto info : m_pictureInfo) {
+		if(info.language() == "english")
+		{
+			list.append("English");
+		} else if(info.language() == "russian")
+		{
+			list.append("Русский");
+		} else if(info.language() == "ukrainian")
+		{
+			list.append("Українська");
+		}
+	}
 
 	return list;
 }

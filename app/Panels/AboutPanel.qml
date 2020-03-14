@@ -14,20 +14,12 @@ Rectangle {
         delegate: ColumnLayout {
             spacing: 20
             width: parent.width;
-            Image {
-                id: aboutImage;
-                Layout.fillWidth: true;
-                Layout.preferredHeight: width; // width / (sourceWidth / sourceHeight);
-
-                fillMode: Image.PreserveAspectFit;
-                source: "qrc:/main/drawericons/SettingsIcon.png"
-            }
 
             Item { height: 30; }
 
             Text {
                 Layout.fillWidth: true;
-                text: qsTr("Create by Pidburachynskyi Rostyslav");
+                text: qsTr("Created by Pidburachynskyi Rostyslav");
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere;
                 font.pixelSize: {
                     console.log(width);

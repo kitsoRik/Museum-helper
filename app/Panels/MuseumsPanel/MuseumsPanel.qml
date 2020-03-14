@@ -75,6 +75,7 @@ Rectangle {
             ColumnLayout {
 
                 TextField {
+                    id: pattern;
                     Layout.fillWidth: true;
                     Layout.preferredHeight: 50;
 
@@ -85,15 +86,41 @@ Rectangle {
                     Layout.margins: 10;
                 }
 
+                ColumnLayout {
+                    visible: logic.noInternetConnection;
+                    Layout.fillWidth: true;
+                    Layout.fillHeight: true;
+                    Layout.alignment: Qt.AlignCenter;
+                    Item { Layout.fillWidth: true; Layout.fillHeight: true; }
+                    Label {
+                        Layout.preferredHeight: 40;
+                        Layout.preferredWidth: 120;
+                        Layout.alignment: Qt.AlignCenter;
+
+                        text: qsTr("No internet connection");
+                    }
+
+                    Button {
+                        Layout.preferredHeight: 40;
+                        Layout.preferredWidth: 120;
+                        Layout.alignment: Qt.AlignCenter;
+
+                        text: qsTr("Try more");
+
+                        onClicked: logic.loadMuseums(pattern.text);
+                    }
+                    Item { Layout.fillWidth: true; Layout.fillHeight: true; }
+                }
+
                 MuseumsList {
-                    visible: !logic.museumsIsLoading;
+                    visible: !logic.museumsIsLoading && !logic.noInternetConnection;
                     Layout.fillWidth: true;
                     Layout.fillHeight: true;
                     model: museums;
                 }
 
                 BusyIndicator {
-                    visible: logic.museumsIsLoading;
+                    visible: logic.museumsIsLoading && !logic.noInternetConnection;
                     Layout.fillWidth: true;
                     Layout.fillHeight: true;
                 }
