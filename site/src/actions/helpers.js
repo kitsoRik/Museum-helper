@@ -1,3 +1,5 @@
+import { setErrorModal } from "./modal-actions";
+
 export const actionFactory = (
     apiFunc = () => {},
     pendingAction,
@@ -29,7 +31,8 @@ export const actionFactory = (
             else dispatch(errorAction(data, ...args, stateArgs)); 
         }
     }catch(error) {
-        console.log(error);
+        dispatch(setErrorModal());
+        return;
         if(errorAction) {
             if(Array.isArray(errorAction)) 
                 errorAction.forEach(e => dispatch(e()))

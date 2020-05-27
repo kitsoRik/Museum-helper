@@ -1,12 +1,14 @@
 .pictures-container {
     width: 100%;
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    justify-content: space-between;
-    align-content: flex-start;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
+    grid-column-gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+    justify-items: center;
 
     overflow: auto;
 

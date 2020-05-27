@@ -22,12 +22,19 @@ import Museum from './components/pages/Museum';
 import Verify from './components/pages/Verify';
 import { LOADED } from './constants';
 
-const App = ({ dataLoading, getData, loadMuseums }) => {
+const App = ({ dataLoading, getData, loadMuseums, has, typeModal }) => {
     
     useEffect(() => {
         getData();
         loadMuseums();
     }, [ ]);
+
+    if(has) {
+        if(typeModal === "ERROR")
+            return (<div className="modal">
+                <span>Network error</span>
+            </div>);
+    }
 
     if(dataLoading !== LOADED) return <span>WAIT</span>
 
@@ -51,8 +58,8 @@ const App = ({ dataLoading, getData, loadMuseums }) => {
      );
 }
 
-const mapStateToProps = ({ language, user: { loading }}) => 
-    ({ language, dataLoading: loading })
+const mapStateToProps = ({ language, user: { loading }, modal: { has, typeModal }}) => 
+    ({ language, dataLoading: loading, has, typeModal })
  
 export default compose(
     withFadeIn,

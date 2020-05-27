@@ -1,7 +1,10 @@
 #ifndef DBC_H
 #define DBC_H
 
+
+#if !defined(KIT_OS_WASM)
 #include <QtSql>
+#endif
 #include "Data/picture.h"
 #include "Data/museum.h"
 #include "Data/bigmuseum.h"
@@ -39,7 +42,9 @@ public:
 private:
 	static DBC* m_instance;
 
+#if !defined(KIT_OS_WASM)
 	QSqlDatabase db;
+#endif
 };
 
 #endif // DBC_H

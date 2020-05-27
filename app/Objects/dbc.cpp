@@ -1,11 +1,16 @@
 #include "dbc.h"
 #include <QThread>
 
+
 DBC* DBC::m_instance = nullptr;
 
-DBC::DBC() :
+DBC::DBC()
+
+	:
 	db(QSqlDatabase::addDatabase("QSQLITE"))
+
 {
+
 	if(m_instance) throw new std::runtime_error("DBC already created");
 
 	m_instance = this;
@@ -13,6 +18,8 @@ DBC::DBC() :
 	QThread *t = new QThread();
 	this->moveToThread(t);
 	t->start(QThread::Priority::HighestPriority);
+
+
 
 	db.setHostName("host");
 	db.setDatabaseName("nice.db");
@@ -29,6 +36,7 @@ DBC::DBC() :
 }
 QList<Museum> DBC::getSavedMuseums()
 {
+
 	QSqlQuery query(db);
 
 	QString queryStr = QString("SELECT * FROM saved_museums");
@@ -39,6 +47,7 @@ QList<Museum> DBC::getSavedMuseums()
 
 	QList<Museum> museums;
 
+
 	while (query.next()) {
 		QSqlRecord record = query.record();
 
@@ -46,11 +55,13 @@ QList<Museum> DBC::getSavedMuseums()
 
 		museums.append(m);
 	}
+
 	return museums;
 }
 
 bool DBC::getSavedMuseumById(const int &id, BigMuseum *b)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT * FROM saved_museums WHERE id=? LIMIT 1");
@@ -73,6 +84,7 @@ bool DBC::getSavedMuseumById(const int &id, BigMuseum *b)
 
 bool DBC::checkPictureQrcode(const QString &qrcode)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT COUNT(id) FROM saved_pictures "
@@ -82,11 +94,13 @@ bool DBC::checkPictureQrcode(const QString &qrcode)
 
 	query.next();
 	int count = query.record().value(0).toInt();
+
 	return count != 0;
 }
 
 QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT p.id, p.museum_id, pi.title, p.qrcode, i.icon FROM saved_pictures p LEFT JOIN saved_picturesIcons i ON ( i.id = ( SELECT min(id) FROM saved_picturesIcons WHERE picture_id = p.id ) ) LEFT JOIN saved_picturesInfo pi ON ( pi.id = ( SELECT id FROM saved_picturesInfo WHERE picture_id=p.id ORDER BY CASE WHEN language=? then 1 ELSE 2 END ) ) WHERE p.museum_id=?");
@@ -95,6 +109,7 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 	if(!query.exec()) qDebug() << query.lastError();
 
 	QList<Picture> pictures;
+
 
 	while(query.next())
 	{
@@ -112,11 +127,13 @@ QList<Picture> DBC::getSavedPicturesByMuseumId(const int &museumId)
 
 QList<PictureInfo> DBC::getSavedPicturesInfoByPictureQrcode(const QString &qrcode)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT * FROM saved_picturesInfo WHERE picture_id IN (SELECT id FROM saved_pictures WHERE qrcode=?)");
 	query.addBindValue(qrcode);
 	query.exec();
+
 
 	QList<PictureInfo> picturesInfo;
 
@@ -137,6 +154,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureQrcode(const QString &qrcod
 
 QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT * FROM saved_picturesInfo WHERE picture_id=?");
@@ -144,6 +162,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 	query.exec();
 
 	QList<PictureInfo> picturesInfo;
+
 
 	while(query.next())
 	{
@@ -162,6 +181,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 
 QImage DBC::getIconByMuseumId(const int &id)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT icon FROM saved_picturesIcons WHERE picture_id=? LIMIT 1");
@@ -169,6 +189,7 @@ QImage DBC::getIconByMuseumId(const int &id)
 	query.exec();
 
 	QImage icon;
+
 
 	if(query.next())
 	{
@@ -185,13 +206,16 @@ QImage DBC::getIconByMuseumId(const int &id)
 
 QList<QImage> DBC::getSavedPicturesIconsByPictureId(const int &id)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT icon FROM saved_picturesIcons WHERE picture_id=?");
 	query.addBindValue(id);
 	query.exec();
 
+
 	QList<QImage> icons;
+#
 
 	while(query.next())
 	{
@@ -208,6 +232,7 @@ QList<QImage> DBC::getSavedPicturesIconsByPictureId(const int &id)
 
 QList<PictureInfo> DBC::getSavedPicturesInfoByMuseumId(const int &museumId)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("SELECT * FROM saved_picturesInfo WHERE picture_id IN (SELECT id FROM saved_pictures WHERE museum_id=?)");
@@ -215,6 +240,7 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByMuseumId(const int &museumId)
 	query.exec();
 
 	QList<PictureInfo> picturesInfo;
+
 
 	while(query.next())
 	{
@@ -237,6 +263,7 @@ void DBC::saveMuseum(const int &id,
 					 const QJsonArray &pictures,
 					 const QJsonArray &picturesInfo)
 {
+
 	QSqlQuery query(db);
 	query.prepare("INSERT INTO saved_museums (id, name, location, update_id, icons_saved) VALUES (?, ?, ?, ?, 0)");
 	query.addBindValue(id);
@@ -281,10 +308,12 @@ void DBC::saveMuseum(const int &id,
 
 		if(!query.exec()) qDebug() << query.lastError();
 	}
+
 }
 
 void DBC::removeMuseum(const int &id)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("DELERE FROM saved_museums WHERE museum_id=?");
@@ -302,12 +331,14 @@ void DBC::removeMuseum(const int &id)
 	query.prepare("DELERE FROM saved_pictures WHERE museum_id=?");
 	query.addBindValue(id);
 	if(!query.exec()) qDebug() << query.lastError();
+
 }
 
 void DBC::savePicturesIcons(const int &museumId,
 							const QList<int> &ids,
 							const QList<QPixmap> &icons)
 {
+
 	QSqlQuery query(db);
 
 	for(int i = 0; i < ids.size(); i++)
@@ -328,10 +359,12 @@ void DBC::savePicturesIcons(const int &museumId,
 	query.prepare("UPDATE saved_museums SET icons_saved = 1 WHERE id=?");
 	query.addBindValue(museumId);
 	if(!query.exec()) qDebug() << query.lastError();
+
 }
 
 void DBC::removeMuseumById(const int &id)
 {
+
 	QSqlQuery query(db);
 
 	query.prepare("DELETE FROM saved_museums WHERE id=?");
@@ -352,5 +385,6 @@ void DBC::removeMuseumById(const int &id)
 	query.addBindValue(id);
 
 	if(!query.exec()) qDebug() << query.lastError();
+
 }
 

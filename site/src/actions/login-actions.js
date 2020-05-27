@@ -27,7 +27,6 @@ export const loginInSuccess = () => ({
     type: LOGIN_IN_SUCCESS
 });
 
-
 export const loginIn = actionFactory(
     api.getLoginIn,
     loginInPending,
