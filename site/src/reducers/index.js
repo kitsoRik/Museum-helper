@@ -11,6 +11,7 @@ import userReducer from "./user-reducer";
 import picturesReducer from "./pictures-reducer";
 import favoritesReducer from "./favorites-reducer";
 import picturesInfoReducer from "./pictureInfo-reducer";
+import modalReducer from "./modal-reducer";
 
 const reducer = combineReducers({
     language: languageReducer,
@@ -25,7 +26,9 @@ const reducer = combineReducers({
     user: userReducer,
     pictures: picturesReducer,
     favorites: favoritesReducer,
-    pictureInfo: picturesInfoReducer
+    pictureInfo: picturesInfoReducer,
+
+    modal: modalReducer
 });
 
 export default reducer;

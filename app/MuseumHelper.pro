@@ -1,4 +1,7 @@
-QT += quick quickcontrols2 core multimedia network sql
+QT += quick quickcontrols2 core multimedia network
+
+android: QT += sql
+win32: QT += sql
 
 CONFIG += c++11 qzxing_qml
 
@@ -6,7 +9,7 @@ CONFIG += c++11 qzxing_qml
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Refer to the documentation for the
 # deprecated API to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS # KIT_OS_WASM
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
