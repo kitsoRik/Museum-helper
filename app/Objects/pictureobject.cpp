@@ -17,15 +17,28 @@ QStringList PictureObject::languagesModel() const
 
 	for(auto info : m_pictureInfo) {
 		if(info.language() == "english")
-		{
 			list.append("English");
-		} else if(info.language() == "russian")
-		{
+		 else if(info.language() == "russian")
 			list.append("Русский");
-		} else if(info.language() == "ukrainian")
-		{
+		else if(info.language() == "ukrainian")
 			list.append("Українська");
-		}
+		else if(info.language() == "belarus")
+			list.append("Беларуская");
+		else if(info.language() == "chinese")
+			list.append("中文");
+		else if(info.language() == "hindi")
+			list.append("हिन्दी");
+		else if(info.language() == "spanish")
+			list.append("Española");
+		else if(info.language() == "arabic")
+			list.append("عربى");
+		else if(info.language() == "bengali")
+			list.append("বাংলা");
+		else if(info.language() == "portuguese")
+			list.append("Portuguesa");
+		else if(info.language() == "french")
+			list.append("Française");
+
 	}
 
 	return list;
@@ -42,6 +55,8 @@ void PictureObject::allChanged()
 void PictureObject::setCurrentPictureQrcode(const QString &qrcode)
 {
 	m_pictureInfo = DBC::instance()->getSavedPicturesInfoByPictureQrcode(qrcode);
+	int id = DBC::instance()->getPictureIdByQrCode(qrcode);
+	m_icons = DBC::instance()->getSavedPicturesIconsByPictureId(id);
 	allChanged();
 }
 

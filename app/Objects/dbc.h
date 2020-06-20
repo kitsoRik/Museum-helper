@@ -33,6 +33,7 @@ public:
 	bool checkPictureQrcode(const QString &qrcode);
 	QList<Picture> getSavedPicturesByMuseumId(const int &museumId);
 	QList<PictureInfo> getSavedPicturesInfoByPictureQrcode(const QString &qrcode);
+	int getPictureIdByQrCode(const QString &qrcode);
 	QList<PictureInfo> getSavedPicturesInfoByPictureId(const int &id);
 	QImage getIconByMuseumId (const int &id);
 	QList<QImage> getSavedPicturesIconsByPictureId(const int &id);

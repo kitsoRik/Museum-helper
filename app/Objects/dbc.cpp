@@ -152,6 +152,23 @@ QList<PictureInfo> DBC::getSavedPicturesInfoByPictureQrcode(const QString &qrcod
 	return picturesInfo;
 }
 
+int DBC::getPictureIdByQrCode(const QString &qrcode)
+{
+	QSqlQuery query(db);
+
+	query.prepare("SELECT id FROM saved_pictures WHERE qrcode=? LIMIT 1");
+	query.addBindValue(qrcode);
+	query.exec();
+
+	QList<PictureInfo> picturesInfo;
+
+	if(query.next()) {
+		return query.record().value(0).toInt();
+	}
+
+	return -1;
+}
+
 QList<PictureInfo> DBC::getSavedPicturesInfoByPictureId(const int &id)
 {
 

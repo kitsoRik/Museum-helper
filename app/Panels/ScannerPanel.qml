@@ -65,6 +65,8 @@ Rectangle {
 
             Camera {
                 id: camera;
+                focus.focusPointMode: CameraFocus.FocusPointCenter;
+                focus.focusMode: CameraFocus.FocusInfinity;
                 captureMode: Camera.CaptureViewfinder;
                 cameraState: {
                     if(settings.preloadedCamera || mainStackView.currentItem === scannerPanel)
