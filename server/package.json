@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+   "bin": "index.js",
   "dependencies": {
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
